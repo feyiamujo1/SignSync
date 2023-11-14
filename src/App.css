@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800;900;1000&family=Rowdies:wght@300;400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.swiper-pagination-progressbar .swiper-pagination-progressbar-fill{
+  background-color: #1759da !important;
+}
+
+.swiper-horizontal > .swiper-pagination-progressbar, .swiper-pagination-progressbar.swiper-pagination-horizontal, .swiper-vertical > .swiper-pagination-progressbar.swiper-pagination-progressbar-opposite, .swiper-pagination-progressbar.swiper-pagination-vertical.swiper-pagination-progressbar-opposite{
+  background-color: #e7eefe;
+}
+
+#custom-toast-container .Toastify__toast-body svg {
+  fill: white;
+}
+
+@layer base {
+  html {
+    font-family: 'Nunito', sans-serif;
+  }
+}
