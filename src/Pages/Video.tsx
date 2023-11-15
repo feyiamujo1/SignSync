@@ -28,6 +28,7 @@ const successProgressStyle = {
 
 const Video = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [loadingNextPage, setLoadingNextPage] = useState(false);
   const [currentQuestionPosition, setCurrentQuestionPosition] = useState(0);
   const [page, setPage] = useState(0);
   const [questions, setQuestions] = useState<
@@ -38,15 +39,15 @@ const Video = () => {
   const [recordedChunks, setRecordedChunks] = useState<any[]>([]);
 
   const fetchQuestions = async () => {
-    setIsLoading(true);
     try {
       const response = await axios.get(
-        "https://sign-language-gc07.onrender.com/api/main/handleString"
+        `https://sign-language-gc07.onrender.com/api/main/handleString?page=${page}`
       );
       if (response.status === 200) {
-        setIsLoading(false);
         console.log(response);
         setQuestions(response?.data?.data);
+        setIsLoading(false);
+        setLoadingNextPage(false);
       }
     } catch (error: any) {
       console.log(error);
@@ -61,7 +62,7 @@ const Video = () => {
     setIsUploading(true);
     setIsUploadingStatus("");
     if (recordedChunks.length === 0) {
-      toast.error("Select desired style, size and quantity!", {
+      toast.error("No video recorded", {
         progressStyle: errorProgressStyle,
         style: errorToastStyle,
         position: "top-right",
@@ -70,11 +71,38 @@ const Video = () => {
       setIsUploadingStatus("");
       setIsUploading(false);
     } else {
+      const video = recordedChunks[recordedChunks.length - 1];
+      const videoFile = new File([video], "Translation Video.mp4", {
+        type: "video/mp4"
+      });
+      console.log(videoFile);
+      // const url = URL.createObjectURL(videoFile);
+      // const a = document.createElement("a");
+      // a.href = url;
+      // a.download = videoFile.name;
+
+      // // Append the anchor to the body
+      // document.body.appendChild(a);
+
+      // // Trigger a click on the anchor
+      // a.click();
+
+      // // Remove the anchor from the body
+      // document.body.removeChild(a);
+
+      // // Revoke the URL
+      // URL.revokeObjectURL(url);
       try {
         console.log(questions);
         console.log(questions[currentQuestionPosition]?.id);
         const response = await axios.post(
-          `https://sign-language-gc07.onrender.com/api/main/uploadVideo?sentence_id=${questions[currentQuestionPosition]?.id}`
+          `https://sign-language-gc07.onrender.com/api/main/uploadVideo?sentence_id=${questions[currentQuestionPosition]?.id}`,
+          { video_file: videoFile },
+          {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
+          }
         );
         if (response?.status === 200) {
           // Handle success for each updated number
@@ -84,7 +112,14 @@ const Video = () => {
             style: successToastStyle,
             autoClose: 3000
           });
+          if (currentQuestionPosition === questions.length - 1) {
+            setLoadingNextPage(true);
+            setPage((prev: number) => prev + 1);
+            fetchQuestions();
+            setCurrentQuestionPosition(0);
+          }
           console.log("here");
+          setRecordedChunks([]);
           setIsUploadingStatus("Success");
           setIsUploading(false);
         }
@@ -95,6 +130,7 @@ const Video = () => {
           position: "top-right",
           autoClose: 3000
         });
+        setIsUploading(false);
         console.error(error);
       }
     }
@@ -114,6 +150,7 @@ const Video = () => {
               isUploading={isUploading}
               isUploadingStatus={isUploadingStatus}
               setIsUploadingStatus={setIsUploadingStatus}
+              loadingNextPage={loadingNextPage}
             />
             <div className="border"></div>
             <VideoComponent
@@ -121,6 +158,7 @@ const Video = () => {
               setRecordedChunks={setRecordedChunks}
               uploadVideo={uploadVideo}
               isUploading={isUploading}
+              questions={questions}
             />
           </div>
           <div className="absolute bg-[#f5f5ff] flex justify-center items-center gap-1 animate-spin-slow w-[90px] h-[90px] rounded-full right-0 top-14 -z-10 "></div>

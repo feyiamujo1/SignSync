@@ -4,6 +4,7 @@ import Home from "./Pages/Home";
 import Navbar from "./Components/Navbar";
 import { Route, Routes } from "react-router-dom";
 import Video from "./Pages/Video";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
