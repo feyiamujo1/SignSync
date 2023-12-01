@@ -5,7 +5,7 @@ import { FaPlay } from "react-icons/fa6";
 
 const Home = () => {
   return (
-    <div className="w-full flex flex-col md:flex-row-reverse md:h-screen pt-24">
+    <div className="w-[90%] mx-auto flex flex-col md:flex-row-reverse md:h-screen pt-24">
       <div className="w-full md:w-1/2 h-fit flex flex-col md:justify-center lg:justify-end lg:px-4 ">
         <div className="w-[250px] sm:w-[70%] mx-auto md:w-full h-fit">
           <Lottie className="" animationData={animation} loop={true} />
@@ -28,8 +28,8 @@ const Home = () => {
         </p>
         <Link
           to="/contribute-video"
-          className="px-4 py-2 font-medium text-lg bg-custom-blue w-fit rounded-md text-white flex gap-2 items-center">
-          Contribute <FaPlay className="text-sm" />
+          className="px-4 py-2 font-medium text-lg bg-custom-blue w-fit rounded-md text-white flex gap-2 items-center group active:bg-[#d2d2d2] active:text-black md:hover:text-black  md:hover:bg-[#d2d2d2] transition-all duration-300">
+          Contribute <FaPlay className="text-sm group-hover:text-[#fa898e] " />
         </Link>
         <div className="absolute border border-[#b3bcca] border-dashed flex justify-center items-center gap-1 animate-spin-slow w-[90px] h-[90px] rounded-full left-[40%] md:left-[75%] bottom-10 -z-10">
           <div className="bg-[#fa898e] w-3 h-3 rounded "></div>

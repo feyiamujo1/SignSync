@@ -53,7 +53,7 @@ const VideoComponent = ({
     setTimeout(() => {
       handleStopCaptureClick();
       handleShowReplay();
-    }, 5000);
+    }, 30000);
   }, [webcamRef, setCapturing, mediaRecorderRef, recordedChunks]);
 
   const handleDataAvailable = useCallback(

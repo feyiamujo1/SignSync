@@ -41,7 +41,7 @@ const Video = () => {
   const fetchQuestions = async () => {
     try {
       const response = await axios.get(
-        `https://sign-language-gc07.onrender.com/api/main/handleString?page=${page}`
+        `https://sign-language-gc07.onrender.com/api/main/fetchStrings??page=${page}`
       );
       if (response.status === 200) {
         console.log(response);
@@ -76,22 +76,22 @@ const Video = () => {
         type: "video/mp4"
       });
       console.log(videoFile);
-      // const url = URL.createObjectURL(videoFile);
-      // const a = document.createElement("a");
-      // a.href = url;
-      // a.download = videoFile.name;
+      const url = URL.createObjectURL(videoFile);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = videoFile.name;
 
-      // // Append the anchor to the body
-      // document.body.appendChild(a);
+      // Append the anchor to the body
+      document.body.appendChild(a);
 
-      // // Trigger a click on the anchor
-      // a.click();
+      // Trigger a click on the anchor
+      a.click();
 
-      // // Remove the anchor from the body
-      // document.body.removeChild(a);
+      // Remove the anchor from the body
+      document.body.removeChild(a);
 
-      // // Revoke the URL
-      // URL.revokeObjectURL(url);
+      // Revoke the URL
+      URL.revokeObjectURL(url);
       try {
         console.log(questions);
         console.log(questions[currentQuestionPosition]?.id);
@@ -137,7 +137,7 @@ const Video = () => {
   };
 
   return (
-    <div className="relative pt-24">
+    <div className="relative w-[90%] mx-auto pt-24">
       {isLoading ? (
         <LoadingPage />
       ) : (

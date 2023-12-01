@@ -5,6 +5,8 @@ import Navbar from "./Components/Navbar";
 import { Route, Routes } from "react-router-dom";
 import Video from "./Pages/Video";
 import "react-toastify/dist/ReactToastify.css";
+import Login from "./Pages/Login";
+import Register from "./Pages/Register";
 
 function App() {
   return (
@@ -23,11 +25,12 @@ function App() {
         containerId={"custom-toast-container"}
       />
       <Navbar />
-      <div className="w-[90%] mx-auto relative">
+      <div className="relative">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/contribute-video" element={<Video />} />
-
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
         
       </div>
