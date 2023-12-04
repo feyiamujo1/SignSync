@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import LoginForm from "../Components/LoginForm";
+import ForgotPasswordForm from "../Components/ForgotPasswordForm";
 import AuthpageSideComponent from "../Components/AuthpageSideComponent";
 
-const Login = () => {
+const ForgotPassword = () => {
   return (
     <div className="mx-auto flex min-h-screen w-full flex-col md:h-screen md:flex-row">
       <AuthpageSideComponent />
@@ -11,14 +11,23 @@ const Login = () => {
           <div className="mb-10 space-y-4 md:mb-0">
             <div>
               <p className="text-center text-xl font-bold md:text-2xl">
-                Log in to your account
+                Forgot your password?
               </p>
               <p className="text-center text-sm mt-1">
-                Welcome back! Please enter your information
+                Enter your email below a password reset link will be sent to the
+                email you provide below.
               </p>
             </div>
-            <LoginForm />
+            <ForgotPasswordForm />
             <div>
+              <p className="text-center">
+                Already have an account?{" "}
+                <Link
+                  to="/login"
+                  className="cursor-pointer font-semibold text-custom-blue hover:text-[#d2d2d2]">
+                  Login
+                </Link>
+              </p>
               <p className="text-center">
                 Do not have an account?{" "}
                 <Link
@@ -27,13 +36,6 @@ const Login = () => {
                   Register
                 </Link>
               </p>
-              {/* <p className="text-center">
-                <Link
-                  to="/forgot-password"
-                  className="cursor-pointer font-semibold text-custom-blue hover:text-[#d2d2d2]">
-                  Forgot your Password?
-                </Link>
-              </p> */}
             </div>
           </div>
         </div>
@@ -42,4 +44,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ForgotPassword;

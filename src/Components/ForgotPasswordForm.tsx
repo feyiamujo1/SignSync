@@ -1,10 +1,10 @@
-import { useState } from "react";
+"use client";
+
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-import { LoginFormSchema } from "../utils/validation-schema";
+import { ForgotPasswordFormSchema } from "../utils/validation-schema";
 
 import { Button } from "./ui/button";
 import {
@@ -16,20 +16,20 @@ import {
   FormMessage
 } from "./ui/form";
 import { Input } from "./ui/input";
+import { Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import axios from "axios";
-import { FiEye, FiEyeOff } from "react-icons/fi";
 
-export default function LoginForm() {
+export default function ForgotPasswordForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-  const form = useForm<z.infer<typeof LoginFormSchema>>({
-    resolver: zodResolver(LoginFormSchema)
+  const form = useForm<z.infer<typeof ForgotPasswordFormSchema>>({
+    resolver: zodResolver(ForgotPasswordFormSchema)
   });
 
-  const onSubmit = async (value: z.infer<typeof LoginFormSchema>) => {
+  const onSubmit = async (value: z.infer<typeof ForgotPasswordFormSchema>) => {
     setLoading(true);
     setError("");
 
@@ -37,8 +37,7 @@ export default function LoginForm() {
       const response = await axios.post(
         "https://sign-language-gc07.onrender.com/api/auth/signin",
         {
-          email: value.email,
-          password: value.password
+          email: value.email
         }
       );
 
@@ -48,7 +47,7 @@ export default function LoginForm() {
     } catch (error: any) {
       // setError("Something went wrong. Please try again later.");
       if (error?.response.status === 404) {
-        setError("User not found!");
+        setError("User doesn't exist!");
       } else if (error?.response.status === 401) {
         setError("Invalid email or password!");
       } else {
@@ -70,7 +69,9 @@ export default function LoginForm() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>
+                Email
+              </FormLabel>
               <FormControl>
                 <Input
                   className="focus:ring-1 focus:ring-custom-blue"
@@ -79,46 +80,17 @@ export default function LoginForm() {
                   {...field}
                 />
               </FormControl>
-              <FormMessage className="text-red-500" />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <div className="relative w-full h-full">
-                <FormControl>
-                  <Input
-                    className="focus:ring-1 focus:ring-custom-blue"
-                    type={showPassword ? "text" : "password"}
-                    placeholder="password"
-                    {...field}
-                  />
-                </FormControl>
-                <div
-                  className="absolute bottom-0 right-0 h-fit text-xl p-2.5"
-                  onClick={() => {
-                    setShowPassword(!showPassword);
-                  }}>
-                  {showPassword ? (
-                    <FiEyeOff ye className="cursor-pointer" />
-                  ) : (
-                    <FiEye className="cursor-pointer" />
-                  )}
-                </div>
-              </div>
-              <FormMessage className="text-red-500" />
+              <FormMessage />
             </FormItem>
           )}
         />
         {error && (
           <>
-            <div className="text-sm font-medium text-red-500 py-1">{error}</div>
+            <br />
+            <div className="text-sm font-medium text-red-500">{error}</div>
           </>
         )}
+        <br />
         <div className="mt-6">
           <Button
             className="w-full bg-custom-blue text-lg font-medium text-white hover:bg-[#d2d2d2] disabled:text-black disabled:bg-[#d2d2d2] duration-300 transition-all hover:text-black "
@@ -127,7 +99,7 @@ export default function LoginForm() {
             {loading ? (
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
             ) : (
-              "Login"
+              "Send"
             )}
           </Button>
         </div>

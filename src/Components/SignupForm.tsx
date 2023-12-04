@@ -39,17 +39,26 @@ export default function SignupForm() {
       const response = await axios.post(
         "https://sign-language-gc07.onrender.com/api/auth/createAccount",
         {
-          firstname: value.firstname,
-          lastname: value.lastname,
+          fName: value.firstname,
+          lName: value.lastname,
           email: value.email,
           password: value.password
         }
       );
       if (response.status === 200) {
-        navigate("/contribute-video");
+        navigate("/email-verification");
       }
-    } catch (error) {
+    } catch (error: any) {
       setServerError("Something went wrong. Please try again later.");
+      console.log(error?.response.status);
+      if (error?.response.status === 404) {
+        setServerError("User doesn't exist!");
+      }
+      else if (error?.response.status === 401){
+        setServerError("User already exists!");
+      }else{
+        setServerError("Something went wrong. Please try again later.");
+      }
     } finally {
       setLoading(false);
     }
@@ -158,7 +167,7 @@ export default function SignupForm() {
         <div className="mt-6">
           <Button
             className={
-              "w-full bg-black text-lg font-medium text-white hover:text-black disabled:text-black hover:bg-[#d2d2d2] disabled:bg-[#d2d2d2] duration-300 transition-all"
+              "w-full bg-custom-blue text-lg font-medium text-white hover:text-black disabled:text-black hover:bg-[#d2d2d2] disabled:bg-[#d2d2d2] duration-300 transition-all"
             }
             disabled={loading}
             type="submit">

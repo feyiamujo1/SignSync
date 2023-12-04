@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import LoginForm from "../Components/LoginForm";
 import AuthpageSideComponent from "../Components/AuthpageSideComponent";
+import EmailVerficationForm from "../Components/EmailVerificationForm";
 
-const Login = () => {
+const EmailVerification = () => {
   return (
     <div className="mx-auto flex min-h-screen w-full flex-col md:h-screen md:flex-row">
       <AuthpageSideComponent />
@@ -11,29 +11,27 @@ const Login = () => {
           <div className="mb-10 space-y-4 md:mb-0">
             <div>
               <p className="text-center text-xl font-bold md:text-2xl">
-                Log in to your account
+                Email Verification
               </p>
               <p className="text-center text-sm mt-1">
-                Welcome back! Please enter your information
+                <span className=" text-green-500 font-medium">
+                  Please check your email for a verification link to complete
+                  your registration.
+                </span>{" "}
+                If you haven't received the email yet, enter your email
+                address below and we'll resend it to you.
               </p>
             </div>
-            <LoginForm />
+            <EmailVerficationForm />
             <div>
               <p className="text-center">
-                Do not have an account?{" "}
+                Already verified your account?{" "}
                 <Link
-                  to="/register"
+                  to="/login"
                   className="cursor-pointer font-semibold text-custom-blue hover:text-[#d2d2d2]">
-                  Register
+                  Login
                 </Link>
               </p>
-              {/* <p className="text-center">
-                <Link
-                  to="/forgot-password"
-                  className="cursor-pointer font-semibold text-custom-blue hover:text-[#d2d2d2]">
-                  Forgot your Password?
-                </Link>
-              </p> */}
             </div>
           </div>
         </div>
@@ -42,4 +40,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default EmailVerification;
