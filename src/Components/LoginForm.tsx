@@ -19,19 +19,20 @@ import { Input } from "./ui/input";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FiEye, FiEyeOff } from "react-icons/fi";
+// import useAuth from "../hooks/UseAuth";
 
 export default function LoginForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  // const { setAuth } = useAuth();
   const form = useForm<z.infer<typeof LoginFormSchema>>({
     resolver: zodResolver(LoginFormSchema)
   });
 
   const onSubmit = async (value: z.infer<typeof LoginFormSchema>) => {
     setLoading(true);
-    setError("");
 
     try {
       const response = await axios.post(
@@ -39,11 +40,23 @@ export default function LoginForm() {
         {
           email: value.email,
           password: value.password
+        },
+        {
+          headers: {
+            "Content-Type": "application/json"
+          }
         }
       );
 
       if (response?.status === 200) {
-        navigate("/create-video");
+        console.log(response);
+        // setAuth({ username, token });
+        // localStorage.setItem("auth", JSON.stringify({"token": token}));
+        if (response?.data?.detail?.verified === false) {
+          navigate("/email-verification");
+        } else {
+          navigate("/translate-text");
+        }
       }
     } catch (error: any) {
       // setError("Something went wrong. Please try again later.");

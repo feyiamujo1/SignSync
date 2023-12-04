@@ -32,31 +32,38 @@ export default function SignupForm() {
   });
 
   const onSubmit = async (value: z.infer<typeof SignupFormSchema>) => {
+    console.log("I am here!");
     setLoading(true);
     setServerError("");
+    console.log({
+      fName: value.firstname,
+      lName: value.lastname,
+      email: value.email,
+      password: value.password
+    });
 
     try {
       const response = await axios.post(
-        "https://sign-language-gc07.onrender.com/api/auth/createAccount",
-        {
+        `https://sign-language-gc07.onrender.com/api/auth/createAccount/user`,
+        JSON.stringify({
           fName: value.firstname,
           lName: value.lastname,
           email: value.email,
           password: value.password
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json"
+          }
         }
       );
       if (response.status === 200) {
         navigate("/email-verification");
       }
     } catch (error: any) {
-      setServerError("Something went wrong. Please try again later.");
-      console.log(error?.response.status);
-      if (error?.response.status === 404) {
-        setServerError("User doesn't exist!");
-      }
-      else if (error?.response.status === 401){
+      if (error?.response.status === 409) {
         setServerError("User already exists!");
-      }else{
+      } else {
         setServerError("Something went wrong. Please try again later.");
       }
     } finally {
@@ -157,13 +164,11 @@ export default function SignupForm() {
         />
         {serverError && (
           <>
-            <br />
-            <div className="text-sm font-medium text-red-500">
+            <div className="text-sm font-medium text-red-500 py-1">
               {serverError}
             </div>
           </>
         )}
-        <br />
         <div className="mt-6">
           <Button
             className={

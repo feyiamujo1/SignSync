@@ -10,6 +10,7 @@ import Register from "./Pages/Register";
 import EmailVerification from "./Pages/EmailVerification";
 import VerificationSuccess from "./Pages/VerificationSuccess";
 import ForgotPassword from "./Pages/ForgotPassword";
+import LinkExpiredPage from "./Pages/LinkExpiredPage";
 
 function App() {
   return (
@@ -31,14 +32,14 @@ function App() {
       <div className="relative">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/contribute-video" element={<Video />} />
+          <Route path="/translate-text" element={<Video />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/email-verification" element={<EmailVerification />} />
           <Route path="/verification-successful" element={<VerificationSuccess />} />
+          <Route path="/verification-link-expired" element={<LinkExpiredPage />} />
         </Routes>
-        
       </div>
     </div>
   );

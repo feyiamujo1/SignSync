@@ -27,7 +27,7 @@ const Home = () => {
           world—one sign at a time!
         </p>
         <Link
-          to="/contribute-video"
+          to="/translate-text"
           className="px-4 py-2 font-medium text-lg bg-custom-blue w-fit rounded-md text-white flex gap-2 items-center group active:bg-[#d2d2d2] active:text-black md:hover:text-black  md:hover:bg-[#d2d2d2] transition-all duration-300">
           Contribute <FaPlay className="text-sm group-hover:text-[#fa898e] " />
         </Link>

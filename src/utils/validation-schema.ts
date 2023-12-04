@@ -13,7 +13,6 @@ export const SignupFormSchema = z.object({
   firstname: z.string().min(2, { message: "Must be 2 or more characters long" }),
   lastname: z.string().min(2, { message: "Must be 2 or more characters long" }),
   email: z.string().email({ message: "Invalid email address" }),
-  phone: z.string().min(11, { message: "Invalid phone number" }),
   password: z.string().min(5, { message: "Must be 5 or more characters long" }),
 });
 

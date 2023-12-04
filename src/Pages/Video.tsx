@@ -41,7 +41,7 @@ const Video = () => {
   const fetchQuestions = async () => {
     try {
       const response = await axios.get(
-        `https://sign-language-gc07.onrender.com/api/main/fetchStrings??page=${page}`
+        `https://sign-language-gc07.onrender.com/api/main/fetchStrings?page=${page}`
       );
       if (response.status === 200) {
         console.log(response);
