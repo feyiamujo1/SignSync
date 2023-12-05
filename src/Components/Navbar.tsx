@@ -196,13 +196,13 @@ const Navbar = () => {
               className={`absolute w-[200px] top-7 left-0 sm:-left-2 bg-white text-sm p-2 rounded-md shadow-custom-stuff ${
                 showDropDown ? "block" : "hidden md:group-hover:block"
               }`}>
-              <Link to={"/contribute"}>
+              <Link to={"/translate-text"}>
                 <p className="py-2 px-2 rounded-md active:bg-[#d2d2d2] active:text-black md:hover:text-black  md:hover:bg-[#d2d2d2] transition-all duration-500">
                   Translate Text
                 </p>
               </Link>
               <hr className="my-1.5" />
-              <Link to={"/contribute"}>
+              <Link to={"/contribute-text"}>
                 <p className="py-2 px-2 rounded-md active:bg-[#d2d2d2] active:text-black md:hover:text-black  md:hover:bg-[#d2d2d2] transition-all duration-500">
                   Contribute Text
                 </p>

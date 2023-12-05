@@ -1,7 +1,6 @@
 import { ToastContainer } from "react-toastify";
 import "./App.css";
 import Home from "./Pages/Home";
-import Navbar from "./Components/Navbar";
 import { Route, Routes } from "react-router-dom";
 import Video from "./Pages/Video";
 import "react-toastify/dist/ReactToastify.css";
@@ -11,6 +10,7 @@ import EmailVerification from "./Pages/EmailVerification";
 import VerificationSuccess from "./Pages/VerificationSuccess";
 import ForgotPassword from "./Pages/ForgotPassword";
 import LinkExpiredPage from "./Pages/LinkExpiredPage";
+import ContributeText from "./Pages/ContributeText";
 
 function App() {
   return (
@@ -28,8 +28,7 @@ function App() {
         theme="colored"
         containerId={"custom-toast-container"}
       />
-      <Navbar />
-      <div className="relative">
+      {/* <div className="relative"> */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/translate-text" element={<Video />} />
@@ -39,8 +38,9 @@ function App() {
           <Route path="/email-verification" element={<EmailVerification />} />
           <Route path="/verification-successful" element={<VerificationSuccess />} />
           <Route path="/verification-link-expired" element={<LinkExpiredPage />} />
+          <Route path="/contribute-text" element={<ContributeText />} />
         </Routes>
-      </div>
+      {/* </div> */}
     </div>
   );
 }

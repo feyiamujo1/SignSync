@@ -1,12 +1,14 @@
 import { Link } from "react-router-dom";
 import LoginForm from "../Components/LoginForm";
 import AuthpageSideComponent from "../Components/AuthpageSideComponent";
+import Navbar from "../Components/Navbar";
 
 const Login = () => {
   return (
-    <div className="mx-auto flex min-h-screen w-full flex-col md:h-screen md:flex-row">
+    <div className="mx-auto flex min-h-screen w-full flex-col md:flex-row">
+      <Navbar />
       <AuthpageSideComponent />
-      <div className="flex w-full items-center justify-center md:overflow-y-scroll">
+      <div className="flex w-full items-center justify-center">
         <div className="mx-auto w-11/12 space-y-3 py-8 sm:w-[400px] md:mt-24 md:w-[350px] md:py-28 xl:w-[400px]">
           <div className="mb-10 space-y-4 md:mb-0">
             <div>

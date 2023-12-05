@@ -53,6 +53,7 @@ export default function LoginForm() {
         // setAuth({ username, token });
         // localStorage.setItem("auth", JSON.stringify({"token": token}));
         if (response?.data?.detail?.verified === false) {
+          sendVerificationEmail(value.email);
           navigate("/email-verification");
         } else {
           navigate("/translate-text");
@@ -71,6 +72,32 @@ export default function LoginForm() {
       setLoading(false);
     }
   };
+
+  const sendVerificationEmail = async (email: string) =>{
+    try {
+      const response = await axios.post(
+        "https://sign-language-gc07.onrender.com/api/auth/emailVerification",
+        {
+          email: email
+        }
+      );
+      if (response?.status === 200) {
+        setError("Verification email sent!");
+      }
+    } catch (error: any) {
+      // setError("Something went wrong. Please try again later.");
+      console.log(error?.response.status);
+      if (error?.response.status === 404) {
+        setError("User not found!");
+      } else if (error?.response.status === 401) {
+        setError("Invalid email or password!");
+      } else {
+        setError("Something went wrong. Please try again later.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <Form {...form}>

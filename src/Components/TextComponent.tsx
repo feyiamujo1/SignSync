@@ -105,7 +105,7 @@ const TextComponent = ({
                   key={id}
                   className=" bg-white flex justify-center items-center h-full w-full rounded-md">
                   <div className="flex justify-center items-center h-full w-full relative">
-                    <p className="text-xl md:text-2xl text-center h-fit line-clamp-4">
+                    <p className="text-xl md:text-2xl text-center h-fit line-clamp-4 p-2">
                       {question?.sentence}
                       {/* Lorem ipsum dolor, sit amet consectetur adipisicing elit. Excepturi assumenda optio mollitia cum aperiam dolore itaque, labore et qui laborum nostrum adipisci tempore, fugit numquam vel, veniam maxime eius aut. */}
                     </p>

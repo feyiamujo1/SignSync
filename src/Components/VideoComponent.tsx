@@ -4,6 +4,7 @@ import Webcam from "react-webcam";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { RiUploadCloudFill } from "react-icons/ri";
 import { MoonLoader } from "react-spinners";
+import Timer from "./Timer";
 
 const VideoComponent = ({
   recordedChunks,
@@ -19,9 +20,9 @@ const VideoComponent = ({
   questions: { id: string; sentence: string }[];
 }) => {
   const vidConstraint = {
-    width: 1920,
-    height: 1080,
-    aspectRatio: 1.777777778,
+    // width: 1920,
+    // height: 1080,
+    // aspectRatio: 1.777777778,
     frameRate: { ideal: 25, max: 25 },
     facingMode: "user"
   };
@@ -31,6 +32,11 @@ const VideoComponent = ({
   const mediaRecorderRef = useRef(null);
   const replayVideoRef = useRef<HTMLVideoElement | null>(null);
   const [capturing, setCapturing] = useState(false);
+  const [showCountDown, setShowCountDown] = useState(false);
+  const [countdown, setCountdown] = useState(5);
+  const [counterState, setCounterState] = useState("start");
+  const miniTimeoutRef = useRef<number | null>(null);
+  const mainTimeoutRef = useRef<number | null>(null);
 
   const handleStartCaptureClick = useCallback(() => {
     setCapturing(true);
@@ -50,10 +56,20 @@ const VideoComponent = ({
     // @ts-ignore
     mediaRecorderRef.current.start();
 
-    setTimeout(() => {
+    miniTimeoutRef.current = setTimeout(() => {
+      console.log("i no gree");
+      setCounterState("stop");
+      setShowCountDown(true);
+      setCountdown(5);
+    }, 5000);
+
+    mainTimeoutRef.current = setTimeout(() => {
+      console.log("I'm here too");
       handleStopCaptureClick();
       handleShowReplay();
-    }, 30000);
+      setShowCountDown(false);
+      setCounterState("start");
+    }, 10000);
   }, [webcamRef, setCapturing, mediaRecorderRef, recordedChunks]);
 
   const handleDataAvailable = useCallback(
@@ -69,6 +85,17 @@ const VideoComponent = ({
   const handleStopCaptureClick = useCallback(() => {
     // @ts-ignore
     mediaRecorderRef.current.stop();
+    // Clear the timeouts
+    if (miniTimeoutRef.current) {
+      clearTimeout(miniTimeoutRef.current);
+    }
+
+    if (mainTimeoutRef.current) {
+      clearTimeout(mainTimeoutRef.current);
+    }
+    setShowCountDown(false);
+    setCounterState("start");
+    setCountdown(0);
     setCapturing(false);
     handleShowReplay();
   }, [mediaRecorderRef, webcamRef, setCapturing, recordedChunks]);
@@ -91,13 +118,13 @@ const VideoComponent = ({
   // }, [recordedChunks]);
 
   const handleShowReplay = useCallback(() => {
-    console.log("here the chunk is - ", recordedChunks);
+    // console.log("here the chunk is - ", recordedChunks);
     if (recordedChunks.length) {
       const ToBeGenBlob = recordedChunks[recordedChunks.length - 1];
       const blob = new Blob([ToBeGenBlob], {
         type: "video/mp4"
       });
-      console.log("The blob is - ", blob);
+      // console.log("The blob is - ", blob);
       const url = URL.createObjectURL(blob);
       if (replayVideoRef.current) replayVideoRef.current.src = url;
     }
@@ -111,6 +138,16 @@ const VideoComponent = ({
 
   const handleSubmit = async () => {
     uploadVideo();
+  };
+
+  const handeStartRecording = () => {
+    // handleStartCaptureClick();
+    setShowCountDown(true);
+    setCountdown(5);
+    setTimeout(() => {
+      setShowCountDown(false);
+      handleStartCaptureClick();
+    }, 5000);
   };
 
   // const [frameRate, setFrameRate] = useState({ initial: 25 }); // using default frameRate of 25
@@ -131,6 +168,11 @@ const VideoComponent = ({
         will last for a maximum of 1 minute.
       </p>
       <div className=" aspect-video overflow-hidden bg-black relative w-full">
+        {showCountDown && countdown !== 0 && (
+          <div className="w-fit h-fit absolute bottom-0 top-0 right-0 left-0 m-auto ">
+            <Timer countdown={countdown} setCountdown={setCountdown} counterState={counterState} />
+          </div>
+        )}
         {
           // openCamera ? (
           <>
@@ -166,10 +208,11 @@ const VideoComponent = ({
                   </button>
                 ) : (
                   <button
-                    className="absolute bottom-4 left-0 right-0 mx-auto rounded-md px-2 py-1.5 bg-custom-blue w-fit text-white flex items-center gap-2 transition-all duration-500 hover:backdrop-blur-[5rem] hover:bg-[#202020] group"
+                  disabled={showCountDown}
+                    className="absolute bottom-4 left-0 right-0 mx-auto rounded-md px-2 py-1.5 bg-custom-blue w-fit text-white flex items-center gap-2 transition-all duration-500 hover:backdrop-blur-[5rem] hover:bg-[#202020] group disabled:hover:bg-custom-blue"
                     onClick={() => {
                       setRecordedChunks([]);
-                      handleStartCaptureClick();
+                      handeStartRecording();
                     }}>
                     {recordedChunks.length > 0 ? "Retake" : "Start"} Recording
                     <BsCameraVideoFill className="text-[#d30222] transition-all duration-500 group-hover:text-white" />

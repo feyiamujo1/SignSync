@@ -5,6 +5,7 @@ import axios from "axios";
 import TextComponent from "../Components/TextComponent";
 import VideoComponent from "../Components/VideoComponent";
 import { toast } from "react-toastify";
+import Navbar from "../Components/Navbar";
 
 // Custom styling for error toasts
 const errorToastStyle = {
@@ -41,7 +42,7 @@ const Video = () => {
   const fetchQuestions = async () => {
     try {
       const response = await axios.get(
-        `https://sign-language-gc07.onrender.com/api/main/fetchStrings?page=${page}`
+        `https://sign-language-gc07.onrender.com/api/main/fetchStrings/user?page=${page}`
       );
       if (response.status === 200) {
         console.log(response);
@@ -137,31 +138,34 @@ const Video = () => {
   };
 
   return (
-    <div className="relative w-[90%] mx-auto pt-24">
+    <div className="relative w-full overflow-hidden">
       {isLoading ? (
         <LoadingPage />
       ) : (
         <>
-          <div className="w-full flex flex-col md:flex-row gap-10">
-            <TextComponent
-              questions={questions}
-              currentQuestionPosition={currentQuestionPosition}
-              setCurrentQuestionPosition={setCurrentQuestionPosition}
-              isUploading={isUploading}
-              isUploadingStatus={isUploadingStatus}
-              setIsUploadingStatus={setIsUploadingStatus}
-              loadingNextPage={loadingNextPage}
-            />
-            <div className="border"></div>
-            <VideoComponent
-              recordedChunks={recordedChunks}
-              setRecordedChunks={setRecordedChunks}
-              uploadVideo={uploadVideo}
-              isUploading={isUploading}
-              questions={questions}
-            />
+          <Navbar />
+          <div className="w-[90%] mx-auto pt-24">
+            <div className="w-full flex flex-col md:flex-row gap-10">
+              <TextComponent
+                questions={questions}
+                currentQuestionPosition={currentQuestionPosition}
+                setCurrentQuestionPosition={setCurrentQuestionPosition}
+                isUploading={isUploading}
+                isUploadingStatus={isUploadingStatus}
+                setIsUploadingStatus={setIsUploadingStatus}
+                loadingNextPage={loadingNextPage}
+              />
+              <div className="border"></div>
+              <VideoComponent
+                recordedChunks={recordedChunks}
+                setRecordedChunks={setRecordedChunks}
+                uploadVideo={uploadVideo}
+                isUploading={isUploading}
+                questions={questions}
+              />
+            </div>
+            <div className="absolute bg-[#f5f5ff] flex justify-center items-center gap-1 animate-spin-slow w-[90px] h-[90px] rounded-full right-0 top-14 -z-10 "></div>
           </div>
-          <div className="absolute bg-[#f5f5ff] flex justify-center items-center gap-1 animate-spin-slow w-[90px] h-[90px] rounded-full right-0 top-14 -z-10 "></div>
         </>
       )}
     </div>
