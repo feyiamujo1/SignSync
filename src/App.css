@@ -35,6 +35,12 @@ controls {
   display: none !important;
 }
 
+@media screen and (max-width: 768px) {
+  video{
+    aspect-ratio: 1.75/1 !important;
+  }
+}
+
 @layer base {
   html {
     font-family: "Nunito", sans-serif;
