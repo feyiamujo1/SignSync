@@ -14,7 +14,7 @@ import ContributeText from "./Pages/ContributeText";
 
 function App() {
   return (
-    <div className="relative w-full p-0 m-0">
+    <div className="main_container relative w-full p-0 m-0">
       <ToastContainer
         position="top-right"
         autoClose={5000}

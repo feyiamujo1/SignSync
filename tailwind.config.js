@@ -21,6 +21,10 @@ export default {
           "linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.8), rgba(5, 18, 44, 0.5)), url('/src/assets/emmanuel-ikwuegbu-JwdHpCUmpg8-unsplash.jpg')",
       },
     },
+    fontFamily: {
+      'Nunito': ['Nunito', 'sans-serif'],
+      'Rowdies': ['Rowdies', 'sans-serif'],
+    }
   },
   plugins: [],
 }

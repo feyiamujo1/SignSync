@@ -3,9 +3,10 @@ import LoadingPage from "../Components/LoadingPage";
 import axios from "axios";
 
 import TextComponent from "../Components/TextComponent";
-import VideoComponent from "../Components/VideoComponent";
+// import VideoComponent from "../Components/VideoComponent";
 import { toast } from "react-toastify";
 import Navbar from "../Components/Navbar";
+import BackupVideoComponent from "../Components/BackupVideoComponent";
 
 // Custom styling for error toasts
 const errorToastStyle = {
@@ -59,6 +60,7 @@ const Video = () => {
     fetchQuestions();
   }, []);
 
+  // @ts-ignore
   const uploadVideo = async () => {
     setIsUploading(true);
     setIsUploadingStatus("");
@@ -156,13 +158,14 @@ const Video = () => {
                 loadingNextPage={loadingNextPage}
               />
               <div className="border"></div>
-              <VideoComponent
+              {/* <VideoComponent
                 recordedChunks={recordedChunks}
                 setRecordedChunks={setRecordedChunks}
                 uploadVideo={uploadVideo}
                 isUploading={isUploading}
                 questions={questions}
-              />
+              /> */}
+              <BackupVideoComponent questions={questions} isUploading={isUploading}  />
             </div>
             <div className="absolute bg-[#f5f5ff] flex justify-center items-center gap-1 animate-spin-slow w-[90px] h-[90px] rounded-full right-0 top-14 -z-10 "></div>
           </div>

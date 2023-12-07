@@ -19,13 +19,21 @@ const VideoComponent = ({
   isUploading: boolean;
   questions: { id: string; sentence: string }[];
 }) => {
+  // const vidConstraint = {
+  //   width: 1280,
+  //   height: 720,
+  //   // aspectRatio: 1.777777778,
+  //   frameRate: { ideal: 25, max: 25 },
+  //   facingMode: "user"
+  // };
+
   const vidConstraint = {
-    // width: 1920,
-    // height: 1080,
-    // aspectRatio: 1.777777778,
-    frameRate: { ideal: 25, max: 25 },
-    facingMode: "user"
-  };
+    width: { min: 640, ideal: 1920, max: 1920 },
+    height: { min: 400, ideal: 1080 },
+    aspectRatio: 1.777777778,
+    frameRate: { max: 30 },
+    facingMode: { exact: "user" },
+  }
 
   // const [openCamera, setOpenCamera] = useState(false);
   const webcamRef = useRef(null);
@@ -169,7 +177,7 @@ const VideoComponent = ({
       </p>
       <div className=" aspect-video overflow-hidden bg-black relative w-full">
         {showCountDown && countdown !== 0 && (
-          <div className="w-fit h-fit absolute bottom-0 top-0 right-0 left-0 m-auto ">
+          <div className="w-fit h-fit z-50 absolute bottom-0 top-0 right-0 left-0 m-auto ">
             <Timer countdown={countdown} setCountdown={setCountdown} counterState={counterState} />
           </div>
         )}
@@ -188,7 +196,7 @@ const VideoComponent = ({
             <Webcam
               audio={false}
               ref={webcamRef}
-              // videoConstraints={vidConstraint}
+              height={720}
               videoConstraints={vidConstraint}
             />
             {capturing && (
@@ -201,7 +209,7 @@ const VideoComponent = ({
               <>
                 {capturing ? (
                   <button
-                    className="absolute bottom-4 left-0 right-0 mx-auto rounded-md px-2 py-1.5 bg-[#d30222] w-fit text-white flex items-center gap-2"
+                    className="absolute bottom-4 z-50 left-0 right-0 mx-auto rounded-md px-2 py-1.5 bg-[#d30222] w-fit text-white flex items-center gap-2"
                     onClick={handleStopCaptureClick}>
                     Stop Recording
                     <BsFillStopFill className="text-custom-blue" />
@@ -209,7 +217,7 @@ const VideoComponent = ({
                 ) : (
                   <button
                   disabled={showCountDown}
-                    className="absolute bottom-4 left-0 right-0 mx-auto rounded-md px-2 py-1.5 bg-custom-blue w-fit text-white flex items-center gap-2 transition-all duration-500 hover:backdrop-blur-[5rem] hover:bg-[#202020] group disabled:hover:bg-custom-blue"
+                    className="absolute bottom-4 z-50 left-0 right-0 mx-auto rounded-md px-2 py-1.5 bg-custom-blue w-fit text-white flex items-center gap-2 transition-all duration-500 hover:backdrop-blur-[5rem] hover:bg-[#202020] group disabled:hover:bg-custom-blue"
                     onClick={() => {
                       setRecordedChunks([]);
                       handeStartRecording();
