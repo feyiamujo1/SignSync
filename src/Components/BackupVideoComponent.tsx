@@ -1,16 +1,31 @@
-// import { useRecordWebcam } from "react-record-webcam";
-// import { BsCameraVideoFill, BsFillStopFill } from "react-icons/bs";
-// import Webcam from "react-webcam";
-// import { useCallback, useEffect, useRef, useState } from "react";
 import { RiUploadCloudFill } from "react-icons/ri";
 import { MoonLoader } from "react-spinners";
-// import Timer from "./Timer";
-// import { ReactMediaRecorder } from "react-media-recorder";
 import { useReactMediaRecorder } from "react-media-recorder";
-// import Webcam from "react-webcam";
 import { BsCameraVideoFill, BsFillStopFill } from "react-icons/bs";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Timer from "./Timer";
+import { toast } from "react-toastify";
+import axios from "axios";
+
+// Custom styling for error toasts
+const errorToastStyle = {
+  backgroundColor: "#EF4444", // Red background
+  color: "white"
+};
+
+const errorProgressStyle = {
+  backgroundColor: "white"
+};
+
+// Custom styling for success toasts
+const successToastStyle = {
+  backgroundColor: "#45AF34",
+  color: "white"
+};
+
+const successProgressStyle = {
+  backgroundColor: "white"
+};
 
 const VideoPreview = ({ stream }: { stream: MediaStream | null }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -36,24 +51,32 @@ const VideoPreview = ({ stream }: { stream: MediaStream | null }) => {
 };
 
 const BackupVideoComponent = ({
-  // recordedChunks,
-  // setRecordedChunks,
-  // uploadVideo,
   isUploading,
-  questions
+  questions,
+  setIsUploading,
+  setIsUploadingStatus,
+  currentQuestionPosition,
+  setLoadingNextPage,
+  setPage,
+  fetchQuestions,
+  setCurrentQuestionPosition
 }: {
-  // recordedChunks: any[];
-  // setRecordedChunks: Function;
-  // uploadVideo: Function;
   isUploading: boolean;
-  questions: { id: string; sentence: string }[];
+  questions: { _id: string; sentence: string }[];
+  setIsUploading: Function;
+  setIsUploadingStatus: Function;
+  currentQuestionPosition: number;
+  setLoadingNextPage: Function;
+  setPage: Function;
+  fetchQuestions: Function;
+  setCurrentQuestionPosition: Function;
 }) => {
   const [showCountDown, setShowCountDown] = useState(false);
   const [countdown, setCountdown] = useState(5);
   const [counterState, setCounterState] = useState("start");
   const miniTimeoutRef = useRef<number | null>(null);
   const mainTimeoutRef = useRef<number | null>(null);
-  // const [videoBlob, setVideoBlob] = useState("");
+  const [generatedVideoFile, setGeneratedVideoFile] = useState<File | null>();
 
   const {
     status,
@@ -61,7 +84,7 @@ const BackupVideoComponent = ({
     stopRecording,
     mediaBlobUrl,
     previewStream,
-    // clearBlobUrl
+    clearBlobUrl
   } = useReactMediaRecorder({
     video: {
       width: { min: 640, ideal: 1920, max: 1920 },
@@ -71,19 +94,28 @@ const BackupVideoComponent = ({
       facingMode: { exact: "user" }
     },
     audio: false,
-    // askPermissionOnMount: true,
-    onStop(blobUrl, blob) {
-      console.log("Recording stopped. Blob URL:", blobUrl);
-      // setVideoBlob(blobUrl);
-      console.log("Available Now");
-      console.log("Blob is - ", blob);
-      console.log("Blob url is - ", blobUrl);
-    }
+    askPermissionOnMount: true,
+    onStop(blobUrl) {
+      generateVideoFile(blobUrl);
+    },
+    onStart() {
+      setGeneratedVideoFile(null);
+    },
+    stopStreamsOnStop: false
   });
 
+  const generateVideoFile = async (videoBlobUrl: string) => {
+    console.log();
+    const videoBlob = await fetch(videoBlobUrl).then(r => r.blob());
+    const videoFile = new File([videoBlob], "Translation Video.mp4", {
+      type: "video/mp4"
+    });
+    console.log(videoFile);
+    setGeneratedVideoFile(videoFile);
+  };
+
   const handeStartRecording = () => {
-    // handleStartCaptureClick();
-    // clearBlobUrl();
+    clearBlobUrl();
     setShowCountDown(true);
     setCountdown(5);
     setTimeout(() => {
@@ -96,6 +128,7 @@ const BackupVideoComponent = ({
     startRecording();
     miniTimeoutRef.current = setTimeout(() => {
       setShowCountDown(true);
+      setCounterState("stop");
       setCountdown(5);
     }, 5000);
 
@@ -106,44 +139,101 @@ const BackupVideoComponent = ({
       setCounterState("start");
     }, 10000);
   };
-  // const handleStopCaptureClick = () => {
-  //   stopRecording();
-  //   console.log(mediaBlobUrl);
-  //   console.log(typeof mediaBlobUrl);
-  // };
-  const handleStopCaptureClick = useCallback(() => {
-    stopRecording();
-    if (mediaBlobUrl) {
-      // // const blob = new Blob(mediaBlobUrl, {
-      // //   type: "video/mp4"
-      // // });
-      // // const url = URL.createObjectURL(blob);
-      // // const a = document.createElement("a");
-      // // document.body.appendChild(a);
-      // // //   a.style = "display: none";
-      // // a.href = url;
-      // // a.download = "translation.mp4";
-      // // a.click();
-      // // window.URL.revokeObjectURL(url);
-      // // fetch(mediaBlobUrl)
-      // //   .then(response => response.blob())
-      // //   .then(blob => {
-      // //     const blobUrl = URL.createObjectURL(blob);
-      // //     // Now you can use blobUrl as needed
-      // //     console.log(blobUrl);
-      // //     // Don't forget to revoke the object URL when you're done to free up resources
-      // //     URL.revokeObjectURL(blobUrl);
-      // //   })
-      // //   .catch(error => {
-      // //     console.error("Error fetching the Blob:", error);
-      // //   });
-      // // setRecordedChunks([]);
-      // const anchor = document.createElement("a");
-      // anchor.href = mediaBlobUrl;
-      // anchor.download = "recorded-video.mp4"; // Set the desired file name
-      // anchor.click();
+
+  const handleStopCaptureClick = () => {
+    if (miniTimeoutRef.current) {
+      clearTimeout(miniTimeoutRef.current);
     }
-  }, [mediaBlobUrl]);
+
+    if (mainTimeoutRef.current) {
+      clearTimeout(mainTimeoutRef.current);
+    }
+    setShowCountDown(false);
+    setCounterState("start");
+    setCountdown(0);
+    stopRecording();
+  };
+
+  // const handleSubmit = async () => {
+  //   uploadVideo();
+  //   clearBlobUrl();
+  // };
+  const uploadVideo = async () => {
+    setIsUploading(true);
+    setIsUploadingStatus("");
+    console.log("The generated Video is - ", generatedVideoFile);
+    if (!generatedVideoFile) {
+      toast.error("No video recorded", {
+        progressStyle: errorProgressStyle,
+        style: errorToastStyle,
+        position: "top-right",
+        autoClose: 3000
+      });
+      setIsUploadingStatus("");
+      setIsUploading(false);
+    } else {
+      // console.log(generatedVideoFile);
+      // const url = URL.createObjectURL(generatedVideoFile);
+      // const a = document.createElement("a");
+      // a.href = url;
+      // a.download = generatedVideoFile.name;
+
+      // // Append the anchor to the body
+      // document.body.appendChild(a);
+
+      // // Trigger a click on the anchor
+      // a.click();
+
+      // // Remove the anchor from the body
+      // document.body.removeChild(a);
+
+      // // Revoke the URL
+      // URL.revokeObjectURL(url);
+      try {
+        console.log(questions);
+        console.log(questions[currentQuestionPosition]?._id);
+        const response = await axios.post(
+          `https://sign-language-gc07.onrender.com/api/main/uploadVideo?sentence_id=${questions[currentQuestionPosition]?._id}`,
+          { video_file: generatedVideoFile },
+          {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
+          }
+        );
+        if (response?.status === 200) {
+          // Handle success for each updated number
+          toast.success("Video uploaded Successfully", {
+            position: "top-right",
+            progressStyle: successProgressStyle,
+            style: successToastStyle,
+            autoClose: 3000
+          });
+          if (currentQuestionPosition === questions.length - 1) {
+            setLoadingNextPage(true);
+            setPage((prev: number) => prev + 1);
+            fetchQuestions();
+            setCurrentQuestionPosition(0);
+          }
+          console.log("here");
+          // setRecordedChunks([]);
+          setGeneratedVideoFile(null);
+          setIsUploadingStatus("Success");
+          setIsUploading(false);
+          clearBlobUrl();
+        }
+      } catch (error) {
+        toast.error("Error, please try again later", {
+          progressStyle: errorProgressStyle,
+          style: errorToastStyle,
+          position: "top-right",
+          autoClose: 3000
+        });
+        setIsUploading(false);
+        console.error(error);
+      }
+    }
+  };
 
   return (
     <div className="md:w-1/2 mb-24 md:mb-0">
@@ -156,7 +246,7 @@ const BackupVideoComponent = ({
       </p>
       <div className="aspect-video bg-black overflow-hidden relative ">
         {showCountDown && countdown !== 0 && (
-          <div className="w-full h-full  flex justify-center items-center z-30 absolute bottom-0 top-0 right-0 left-0 m-auto ">
+          <div className="absolute bottom-0 top-0 right-0 left-0 w-full h-full flex justify-center items-center z-30  ">
             <Timer
               countdown={countdown}
               setCountdown={setCountdown}
@@ -167,7 +257,7 @@ const BackupVideoComponent = ({
         <div>
           {status === "recording" ? (
             <button
-              disabled={showCountDown}
+              disabled={showCountDown || isUploading}
               className="absolute bottom-4 z-50 left-0 right-0 mx-auto rounded-md px-2 py-1.5 bg-[#d30222] w-fit text-white flex items-center gap-2"
               onClick={handleStopCaptureClick}>
               Stop Recording
@@ -175,12 +265,9 @@ const BackupVideoComponent = ({
             </button>
           ) : (
             <button
-              disabled={showCountDown}
+              disabled={showCountDown || isUploading}
               className="absolute bottom-4 z-50 left-0 right-0 mx-auto rounded-md px-2 py-1.5 bg-custom-blue w-fit text-white flex items-center gap-2 transition-all duration-500 hover:backdrop-blur-[5rem] hover:bg-[#202020] group disabled:hover:bg-custom-blue"
-              onClick={() => {
-                // setRecordedChunks();
-                handeStartRecording();
-              }}>
+              onClick={handeStartRecording}>
               {mediaBlobUrl ? "Retake" : "Start"} Recording
               <BsCameraVideoFill className="text-[#d30222] transition-all duration-500 group-hover:text-white" />
             </button>
@@ -197,7 +284,6 @@ const BackupVideoComponent = ({
           ) : (
             <VideoPreview stream={previewStream} />
           )}
-          {/* )} */}
         </div>
       </div>
       <div className="text-center mt-3">
@@ -207,7 +293,7 @@ const BackupVideoComponent = ({
         <button
           type="button"
           disabled={isUploading || questions?.length === 0}
-          // onClick={handleSubmit}
+          onClick={uploadVideo}
           className={`shadow-custom-stuff flex gap-2 items-center justify-center px-3 py-1.5 rounded-md font-semibold text-lg bg-custom-blue text-white active:bg-[#d2d2d2] active:text-black md:hover:text-black  md:hover:bg-[#d2d2d2] transition-all duration-300 w-[109px] h-[40px] disabled:bg-[#d2d2d2]`}>
           {isUploading ? (
             <MoonLoader color="#000" size={20} />
@@ -218,9 +304,6 @@ const BackupVideoComponent = ({
           )}
         </button>
       </div>
-      {/* {recordedChunks.length > 0 && (
-        <button onClick={handleShowReplay}>Replay</button>
-      )} */}
     </div>
   );
 };

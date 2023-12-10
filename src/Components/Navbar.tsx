@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
 import { MdArrowDropDown, MdArrowDropUp } from "react-icons/md";
 import { useEffect, useRef, useState } from "react";
+import { FaUserCircle } from "react-icons/fa";
 
 const Navbar = () => {
+  const auth = JSON.parse(sessionStorage.getItem("auth") || "");
+  const userName = auth?.fName || "";
   const [showDropDown, setShowDropDown] = useState(false);
   const contributionDropDownRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
@@ -207,37 +210,37 @@ const Navbar = () => {
                   Contribute Text
                 </p>
               </Link>
+              {auth?.role === "admin" && (
+                <>
+                  <hr className="my-1.5" />
+                  <Link to={"/contribute-text"}>
+                    <p className="py-2 px-2 rounded-md active:bg-[#d2d2d2] active:text-black md:hover:text-black  md:hover:bg-[#d2d2d2] transition-all duration-500">
+                      Admin Dashboard
+                    </p>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
-          {/* <div className="flex items-center gap-2 relative">
-            <FaUserCircle className="text-3xl text-[#999999]" />
-            <div className="flex items-center ">
-              <p>Guest </p>
-              <MdArrowDropDown />
+          {userName !== "" ? (
+            <div className="flex items-center gap-2">
+              <FaUserCircle className="text-3xl text-[#999999]" />
+              <p>Hi, {userName}</p>
             </div>
-            <div className="absolute w-[200px] border right-1.5 top-7 bg-white rounded-md font-medium">
-              <p className="px-4 py-2 border-b">
-                <Link
-                  to={"/login"}
-                  className="w-full font-medium text-lg text-black flex gap-2 items-center group active:bg-[#d2d2d2] active:custom-blue md:hover:text-custom-blue  md:hover:bg-[#d2d2d2] transition-all duration-300">
-                  Login
-                </Link>
-              </p>
-              <p className="px-4 py-2">
-                <Link to={"/sign-up"}>Sign Up</Link>
-              </p>
-            </div>
-          </div> */}
-          <Link
-            to="/login"
-            className=" font-medium sm:text-lg text-black w-fit flex gap-2 items-center group active:custom-blue  md:hover:text-custom-blue transition-all duration-300">
-            Login
-          </Link>
-          <Link
-            to="/register"
-            className="px-2 md:px-4 py-1 font-medium sm:text-lg bg-[#fe4646] w-fit rounded-md text-white flex gap-2 items-center group active:bg-[#d2d2d2] active:text-black md:hover:text-black  md:hover:bg-[#d2d2d2] transition-all duration-500">
-            Register
-          </Link>
+          ) : (
+            <>
+              <Link
+                to="/login"
+                className=" font-medium sm:text-lg text-black w-fit flex gap-2 items-center group active:custom-blue  md:hover:text-custom-blue transition-all duration-300">
+                Login
+              </Link>
+              <Link
+                to="/register"
+                className="px-2 md:px-4 py-1 font-medium sm:text-lg bg-[#fe4646] w-fit rounded-md text-white flex gap-2 items-center group active:bg-[#d2d2d2] active:text-black md:hover:text-black  md:hover:bg-[#d2d2d2] transition-all duration-500">
+                Register
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </nav>

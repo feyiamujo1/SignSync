@@ -24,7 +24,7 @@ const TextComponent = ({
 }: {
   currentQuestionPosition: number;
   setCurrentQuestionPosition: Function;
-  questions: { id: string; sentence: string }[];
+  questions: { _id: string; sentence: string }[];
   isUploading: boolean;
   isUploadingStatus: string;
   setIsUploadingStatus: Function;

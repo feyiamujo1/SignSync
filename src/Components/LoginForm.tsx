@@ -19,14 +19,14 @@ import { Input } from "./ui/input";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-// import useAuth from "../hooks/UseAuth";
+import useAuth from "../hooks/UseAuth";
 
 export default function LoginForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-  // const { setAuth } = useAuth();
+  const { setAuth } = useAuth();
   const form = useForm<z.infer<typeof LoginFormSchema>>({
     resolver: zodResolver(LoginFormSchema)
   });
@@ -49,13 +49,17 @@ export default function LoginForm() {
       );
 
       if (response?.status === 200) {
-        console.log(response);
-        // setAuth({ username, token });
-        // localStorage.setItem("auth", JSON.stringify({"token": token}));
+        console.log(response.data.detail);
+        const fName = response?.data?.detail?.fName;
+        const role = response?.data?.detail?.role;
+        const token = response?.data?.detail?.token;
+
         if (response?.data?.detail?.verified === false) {
           sendVerificationEmail(value.email);
           navigate("/email-verification");
         } else {
+          setAuth({ fName, role, token });
+          sessionStorage.setItem("auth", JSON.stringify({ fName, role, token }));
           navigate("/translate-text");
         }
       }
@@ -73,7 +77,7 @@ export default function LoginForm() {
     }
   };
 
-  const sendVerificationEmail = async (email: string) =>{
+  const sendVerificationEmail = async (email: string) => {
     try {
       const response = await axios.post(
         "https://sign-language-gc07.onrender.com/api/auth/emailVerification",
@@ -97,7 +101,7 @@ export default function LoginForm() {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   return (
     <Form {...form}>

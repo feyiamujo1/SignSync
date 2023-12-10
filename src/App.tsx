@@ -11,6 +11,8 @@ import VerificationSuccess from "./Pages/VerificationSuccess";
 import ForgotPassword from "./Pages/ForgotPassword";
 import LinkExpiredPage from "./Pages/LinkExpiredPage";
 import ContributeText from "./Pages/ContributeText";
+// import ProtectedRoutes from "./ProtectedRoutes/ProtectedRoutes";
+import Dashboard from "./Pages/Dashboard";
 
 function App() {
   return (
@@ -29,17 +31,26 @@ function App() {
         containerId={"custom-toast-container"}
       />
       {/* <div className="relative"> */}
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/translate-text" element={<Video />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/email-verification" element={<EmailVerification />} />
-          <Route path="/verification-successful" element={<VerificationSuccess />} />
-          <Route path="/verification-link-expired" element={<LinkExpiredPage />} />
-          <Route path="/contribute-text" element={<ContributeText />} />
-        </Routes>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/translate-text" element={<Video />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/email-verification" element={<EmailVerification />} />
+        <Route
+          path="/verification-successful"
+          element={<VerificationSuccess />}
+        />
+        <Route
+          path="/verification-link-expired"
+          element={<LinkExpiredPage />}
+        />
+        <Route path="/contribute-text" element={<ContributeText />} />
+        {/* <Route element={<ProtectedRoutes />}> */}
+          <Route path="/admin/*" element={<Dashboard />} />
+        {/* </Route> */}
+      </Routes>
       {/* </div> */}
     </div>
   );
