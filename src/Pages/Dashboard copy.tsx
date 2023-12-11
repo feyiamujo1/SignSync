@@ -1,17 +1,17 @@
 import { useState } from "react";
 import { Squash as Hamburger } from "hamburger-react";
-import { Route, Routes, Link, useNavigate } from "react-router-dom";
+import { Route, Routes, Link } from "react-router-dom";
 // import useAuth from "../hooks/UseAuth";
 import SideBar from "../Components/SideBar";
 import DashboardHome from "./AdminPages/DashboardHome";
-import DashboardViewAllText from "./AdminPages/DashboardViewAllText";
+import DashboardViewAllText from "./AdminPages/DashboardViewTextVideos";
 import { FaUserCircle } from "react-icons/fa";
 // const endpoint = "https://hmsbackend-c36l.onrender.com/students/fetchDetails";
 
 const Dashboard = () => {
   // const { auth } = useAuth();
   // const navigate = useNavigate();
-  const auth = JSON.parse(localStorage.getItem("auth") || "");
+  // const auth = JSON.parse(sessionStorage.getItem("auth") || "");
   // const [isLoading, setIsLoading] = useState(true);
   // const [userDetails, setUserDetails] = useState({});
   const [showSideBar, setShowSideBar] = useState(false);

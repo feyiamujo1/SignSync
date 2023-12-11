@@ -174,7 +174,8 @@ const Navbar = () => {
             </div>
           </Link>
         </div>
-        <div className="flex gap-3 md:gap-5 items-center font-medium">
+        <div
+          className={`flex gap-3 md:gap-5 items-center font-medium `}>
           <div ref={contributionDropDownRef} className="relative group">
             <span
               onClick={() => {
@@ -223,9 +224,11 @@ const Navbar = () => {
             </div>
           </div>
           {userName !== "" ? (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 font-medium sm:text-lg ">
               <FaUserCircle className="text-3xl text-[#999999]" />
-              <p>Hi, {userName}</p>
+              <p>
+                {userName.length > 10 ? userName?.slice(0, 10) + "..." : userName}
+              </p>
             </div>
           ) : (
             <>

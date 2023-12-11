@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Route, Routes, Link } from "react-router-dom";
 import DashboardHome from "./AdminPages/DashboardHome";
-import DashboardViewAllText from "./AdminPages/DashboardViewAllText";
+import DashboardViewTextVideos from "./AdminPages/DashboardViewTextVideos";
 import { MdArrowDropDown, MdArrowDropUp } from "react-icons/md";
 import { FaUserCircle } from "react-icons/fa";
 
@@ -191,7 +191,7 @@ const Dashboard = () => {
               }`}>
               <FaUserCircle className="text-3xl text-[#999999]" />
               <div className="flex items-center ">
-                <p className="font-medium">Hi, {userName} </p>
+                <p className="font-medium sm:text-lg">{userName}</p>
                 <MdArrowDropUp
                   className={`hidden md:group-hover:block ${
                     showDropDown && "!block"
@@ -216,7 +216,7 @@ const Dashboard = () => {
               <hr className="my-1.5" />
               <Link to={"/admin/contribute-text"}>
                 <p className="py-2 px-2 rounded-md active:bg-[#d2d2d2] active:text-black md:hover:text-black  md:hover:bg-[#d2d2d2] transition-all duration-500">
-                  Add New Text
+                  Verify New Text
                 </p>
               </Link>
             </div>
@@ -230,8 +230,8 @@ const Dashboard = () => {
             <Routes>
               <Route path="/" element={<DashboardHome />} />
               <Route
-                path="/admin/add-new-text"
-                element={<DashboardViewAllText />}
+                path="/view-video/:sentenceId/:videoCount"
+                element={<DashboardViewTextVideos />}
               />
             </Routes>
           </div>

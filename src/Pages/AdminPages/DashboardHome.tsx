@@ -1,5 +1,4 @@
 import { AiFillEdit } from "react-icons/ai";
-// import useAuth from "../../hooks/UseAuth";
 import { useCallback, useRef, useState } from "react";
 import TextContainer from "../../Components/TextContainer";
 import TextContainerSkeleton from "../../Components/TextContainerSkeleton";
@@ -32,11 +31,6 @@ const successProgressStyle = {
 };
 
 const DashboardHome = () => {
-  // const auth = JSON.parse(sessionStorage.getItem("auth") || "");
-  // const { auth } = useAuth();
-  // const token = auth.token || "";
-
-  // const [isLoading, setIsLoading] = useState(false);
   const [sentenceId, setSentenceId] = useState("");
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [showEditTextDialog, setShowEditTextDialog] = useState(false);

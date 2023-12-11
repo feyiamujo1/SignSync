@@ -48,7 +48,7 @@ function App() {
         />
         <Route path="/contribute-text" element={<ContributeText />} />
         {/* <Route element={<ProtectedRoutes />}> */}
-          <Route path="/admin/*" element={<Dashboard />} />
+        <Route path="/admin/*" element={<Dashboard />} />
         {/* </Route> */}
       </Routes>
       {/* </div> */}
