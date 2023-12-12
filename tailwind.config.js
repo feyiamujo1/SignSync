@@ -8,7 +8,8 @@ export default {
     extend: {
       colors: {
         "custom-blue": "#1759da",
-        "transparent-black": "rgba(0,0,0,0.8)"
+        "transparent-black": "rgba(0,0,0,0.8)",
+        "transparent-mini-black": "rgba(0,0,0,0.2)"
       },
       animation: {
         'spin-slow': 'spin 3s linear infinite',

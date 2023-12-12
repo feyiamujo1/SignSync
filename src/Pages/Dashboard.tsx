@@ -6,7 +6,8 @@ import { MdArrowDropDown, MdArrowDropUp } from "react-icons/md";
 import { FaUserCircle } from "react-icons/fa";
 
 const Dashboard = () => {
-  const auth = JSON.parse(localStorage.getItem("auth") || "");
+  const authString = sessionStorage.getItem("auth") || "";
+  const auth = authString ? JSON.parse(authString) : null;
   const [showDropDown, setShowDropDown] = useState(false);
 
   const userName = auth.fName || "Admin";
@@ -208,7 +209,7 @@ const Dashboard = () => {
               className={`absolute w-[200px] top-7 left-0 sm:-left-2 bg-white text-sm p-2 rounded-md shadow-custom-stuff ${
                 showDropDown ? "block" : "hidden md:group-hover:block"
               }`}>
-              <Link to={"/view-all-text"}>
+              <Link to={"/admin/"}>
                 <p className="py-2 px-2 rounded-md active:bg-[#d2d2d2] active:text-black md:hover:text-black  md:hover:bg-[#d2d2d2] transition-all duration-500">
                   View All Text
                 </p>
@@ -230,7 +231,7 @@ const Dashboard = () => {
             <Routes>
               <Route path="/" element={<DashboardHome />} />
               <Route
-                path="/view-video/:sentenceId/:videoCount"
+                path="/view-video/:sentenceId/"
                 element={<DashboardViewTextVideos />}
               />
             </Routes>

@@ -28,10 +28,10 @@ const successProgressStyle = {
 const ContributeText = () => {
   const [newSentence, setNewSentence] = useState("");
   const [isUploading, setIsUploading] = useState(false);
-  const auth = JSON.parse(sessionStorage.getItem("auth") || "");
-  // const { auth } = useAuth();
+
+  const authString = sessionStorage.getItem("auth") || "";
+  const auth = authString ? JSON.parse(authString) : null;
   const token = auth.token || "";
-  console.log(auth);
 
   const handleTextChange = (event: any) => {
     const inputText = event.target.value;

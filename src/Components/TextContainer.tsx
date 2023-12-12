@@ -37,7 +37,7 @@ const TextContainer = React.forwardRef<
               setSentenceId(datum?._id);
               setShowDeleteDialog(true);
             }}
-            className="absolute top-2 right-2 bg-white rounded-full p-1.5 md:hover:bg-[#d2d2d2] md:hover:text-black active:bg-[#d2d2d2] active:text-black transition-all duration-300">
+            className="absolute top-2 right-2 bg-white rounded-full p-1.5 md:hover:text-red-500 active:bg-[#d2d2d2] active:text-red-500 transition-all duration-300">
             <RiDeleteBin6Line className="text-xl" />
           </button>
         </div>
@@ -52,7 +52,7 @@ const TextContainer = React.forwardRef<
               <FaUserCircle className="ml-[1px] mr-[5px]" /> {datum?.editor}
             </p>
           </div>
-          <div className="flex justify-between items-center font-medium">
+          <div className="flex justify-between items-center font-medium text-sm sm:text-base">
             <button
               onClick={() => {
                 setSentenceId(datum?._id);
@@ -63,7 +63,7 @@ const TextContainer = React.forwardRef<
               Edit Text <AiFillEdit className="text-base mb-0.5" />
             </button>
             <Link
-              to={`/admin/view-video/${datum?._id}/${datum.video_count || "0"}`}
+              to={`/admin/view-video/${datum?._id}/`}
               className="p-2 flex items-center gap-0.5 rounded-md text-white bg-custom-blue md:hover:bg-[#d2d2d2] md:hover:text-black active:bg-[#d2d2d2] active:text-black transition-all duration-300 ">
               View Videos <FaChevronRight className="text-sm" />
             </Link>

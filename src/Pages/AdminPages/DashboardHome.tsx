@@ -55,33 +55,10 @@ const DashboardHome = () => {
     });
   };
 
-  //   const fetchTextSet = async () => {
-  //     try {
-  //       const response = await axios.get(endpoint, {
-  //         headers: {
-  //           Authorization: `${token}`,
-  //           "Content-Type": "application/json"
-  //         }
-  //       });
-  //       if (response.status === 200) {
-  //         setUserDetails(response.data.data);
-  //         setIsLoading(false);
-  //       }
-  //     } catch (error: any) {
-  //       console.error(error);
-  //       if (error?.response && error?.response?.status === 403) {
-  //         localStorage.setItem("auth", JSON.stringify({}));
-  //         const state = { title: "Home", url: "/" };
-  //         window.history.replaceState(state, state.title, state.url);
-  //         navigate("/login", { replace: true });
-  //       }
-  //     }
-  //   };
-
   const fetchQuestions = async (pageParam: number) => {
     const pageNumb = pageParam - 1;
     const response = await axios.get(
-      `${baseUrl}/api/main/fetchStrings/admin?page=${pageNumb}`
+      `${baseUrl}/api/main/fetchStrings/admin?page=${pageNumb}&verified=1`
     );
     console.log(response);
     return response.data.data;
@@ -154,11 +131,16 @@ const DashboardHome = () => {
           onClick={() => {
             setShowEditTextDialog(true);
           }}
-          className="px-4 py-2 font-medium text-sm md:text-base bg-custom-blue w-fit rounded-md text-white flex gap-2 items-center group active:bg-[#d2d2d2] active:text-black md:hover:text-black  md:hover:bg-[#d2d2d2] transition-all duration-300 flex-nowrap whitespace-nowrap">
+          className="px-4 py-2 font-medium text-sm sm:text-base bg-custom-blue w-fit rounded-md text-white flex gap-2 items-center group active:bg-[#d2d2d2] active:text-black md:hover:text-black  md:hover:bg-[#d2d2d2] transition-all duration-300 flex-nowrap whitespace-nowrap">
           Add Text <AiFillEdit className="text-lg" />
         </button>
       </div>
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  gap-4">
+        {status !== "loading" && !data && (
+          <div className=" md:col-span-3 h-[300px] flex justify-center items-center text-center text-[#959595]">
+            <p>Items not found</p>
+          </div>
+        )}
         {status === "loading" &&
           [1, 2, 3, 4, 5, 6, 7, 8].map(item => (
             <TextContainerSkeleton key={item} />

@@ -4,7 +4,9 @@ import { useEffect, useRef, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 
 const Navbar = () => {
-  const auth = JSON.parse(sessionStorage.getItem("auth") || "");
+  const authString = sessionStorage.getItem("auth") || "";
+  const auth = authString ? JSON.parse(authString) : null;
+
   const userName = auth?.fName || "";
   const [showDropDown, setShowDropDown] = useState(false);
   const contributionDropDownRef = useRef<HTMLDivElement | null>(null);
@@ -174,8 +176,7 @@ const Navbar = () => {
             </div>
           </Link>
         </div>
-        <div
-          className={`flex gap-3 md:gap-5 items-center font-medium `}>
+        <div className={`flex gap-3 md:gap-5 items-center font-medium `}>
           <div ref={contributionDropDownRef} className="relative group">
             <span
               onClick={() => {
@@ -214,7 +215,7 @@ const Navbar = () => {
               {auth?.role === "admin" && (
                 <>
                   <hr className="my-1.5" />
-                  <Link to={"/contribute-text"}>
+                  <Link to={"/admin"}>
                     <p className="py-2 px-2 rounded-md active:bg-[#d2d2d2] active:text-black md:hover:text-black  md:hover:bg-[#d2d2d2] transition-all duration-500">
                       Admin Dashboard
                     </p>
@@ -227,7 +228,9 @@ const Navbar = () => {
             <div className="flex items-center gap-2 font-medium sm:text-lg ">
               <FaUserCircle className="text-3xl text-[#999999]" />
               <p>
-                {userName.length > 10 ? userName?.slice(0, 10) + "..." : userName}
+                {userName.length > 10
+                  ? userName?.slice(0, 10) + "..."
+                  : userName}
               </p>
             </div>
           ) : (
