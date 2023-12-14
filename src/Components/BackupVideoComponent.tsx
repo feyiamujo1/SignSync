@@ -39,14 +39,15 @@ const VideoPreview = ({ stream }: { stream: MediaStream | null }) => {
     return null;
   }
   return (
-    <video
-      ref={videoRef}
-      style={{ width: "100%", height: "auto" }}
-      className="relative aspect-[1.85/1] md:aspect-auto"
-      autoPlay
-      controls={false}
-      playsInline
-    />
+    <div className="relative w-full h-full aspect-[1.75/1] md:aspect-video overflow-hidden">
+      <video
+        ref={videoRef}
+        style={{ width: "100%", height: "auto" }}
+        autoPlay
+        controls={false}
+        playsInline
+      />
+    </div>
   );
 };
 
@@ -59,7 +60,12 @@ const BackupVideoComponent = ({
   setLoadingNextPage,
   setPage,
   fetchQuestions,
-  setCurrentQuestionPosition
+  setCurrentQuestionPosition,
+  showCameraError,
+  setShowCameraError,
+  setCameraErrorMessage,
+  // cameraPermission,
+  setCameraPermission
 }: {
   isUploading: boolean;
   questions: { _id: string; sentence: string }[];
@@ -70,6 +76,11 @@ const BackupVideoComponent = ({
   setPage: Function;
   fetchQuestions: Function;
   setCurrentQuestionPosition: Function;
+  showCameraError: boolean;
+  setShowCameraError: Function;
+  setCameraErrorMessage: Function;
+  cameraPermission: string;
+  setCameraPermission: Function;
 }) => {
   const [showCountDown, setShowCountDown] = useState(false);
   const [countdown, setCountdown] = useState(5);
@@ -77,32 +88,37 @@ const BackupVideoComponent = ({
   const miniTimeoutRef = useRef<number | null>(null);
   const mainTimeoutRef = useRef<number | null>(null);
   const [generatedVideoFile, setGeneratedVideoFile] = useState<File | null>();
+  const [videoPreviewStream, setVideoPreviewStream] =
+    useState<MediaStream | null>();
 
-  const {
-    status,
-    startRecording,
-    stopRecording,
-    mediaBlobUrl,
-    previewStream,
-    clearBlobUrl
-  } = useReactMediaRecorder({
+  const { status, startRecording, stopRecording, mediaBlobUrl, clearBlobUrl } =
+    useReactMediaRecorder({
+      video: {
+        width: { min: 640, ideal: 1920, max: 1920 },
+        height: { min: 400, ideal: 1080 },
+        // aspectRatio: 1.777777778,
+        frameRate: 25,
+        facingMode: { exact: "user" }
+      },
+      audio: false,
+      askPermissionOnMount: true,
+      onStop(blobUrl) {
+        generateVideoFile(blobUrl);
+      },
+      onStart() {
+        setGeneratedVideoFile(null);
+      },
+      stopStreamsOnStop: false
+    });
+
+  const constraint = {
     video: {
       width: { min: 640, ideal: 1920, max: 1920 },
       height: { min: 400, ideal: 1080 },
-      aspectRatio: 1.777777778,
       frameRate: 25,
       facingMode: { exact: "user" }
-    },
-    audio: false,
-    askPermissionOnMount: true,
-    onStop(blobUrl) {
-      generateVideoFile(blobUrl);
-    },
-    onStart() {
-      setGeneratedVideoFile(null);
-    },
-    stopStreamsOnStop: false
-  });
+    }
+  };
 
   const generateVideoFile = async (videoBlobUrl: string) => {
     console.log();
@@ -235,9 +251,62 @@ const BackupVideoComponent = ({
     }
   };
 
+  const openCamera = async () => {
+    if (
+      "mediaDevices" in navigator &&
+      navigator.mediaDevices &&
+      "getUserMedia" in navigator.mediaDevices
+    ) {
+      // console.log("Let's get this party started");
+      // console.log(
+      //   "The nav answer is - ",
+      //   await navigator.mediaDevices.getUserMedia({ video: true })
+      // );
+      // navigator.mediaDevices.getUserMedia({ video: true });
+      await navigator.mediaDevices
+        .getUserMedia(constraint)
+        .then(stream => {
+          console.log("success!");
+          setCameraErrorMessage("");
+          setVideoPreviewStream(stream);
+        })
+        .catch(e => {
+          console.log("e: ", e);
+          if (e.name === "NotAllowedError") {
+            // Permission denied by the user
+            setCameraPermission("Camera Access Denied");
+          } else if (
+            e.name === "NotFoundError" ||
+            e.name === "SourceUnavailableError"
+          ) {
+            // Camera not found or not available
+            setCameraPermission("Camera Unavailable");
+          } else {
+            // Other errors
+            setCameraPermission("Camera Error");
+          }
+          console.log("error is here");
+          setCameraErrorMessage(
+            "It seems there are problems with your camera. Please inspect your camera settings and refresh the page."
+          );
+          setShowCameraError(true);
+        });
+    } else {
+      setCameraErrorMessage(
+        "It seems there are problems with your camera. Please inspect your camera settings and refresh the page."
+      );
+      setShowCameraError(true);
+      console.log("Here instead!");
+    }
+  };
+
+  useEffect(() => {
+    openCamera();
+  }, []);
+
   return (
-    <div className="md:w-1/2 mb-24 md:mb-0">
-      <h1 className="font-medium text-2xl mb-1 font-[Rowdies] ">
+    <div className="md:w-1/2 md:mb-0">
+      <h1 className="font-medium text-lg md:text-2xl mb-1 font-[Rowdies] ">
         Record Sign Language
       </h1>
       <p className="text-[#959595] mb-8">
@@ -265,24 +334,31 @@ const BackupVideoComponent = ({
             </button>
           ) : (
             <button
-              disabled={showCountDown || isUploading}
-              className="absolute bottom-4 z-50 left-0 right-0 mx-auto rounded-md px-2 py-1.5 bg-custom-blue w-fit text-white flex items-center gap-2 transition-all duration-500 hover:backdrop-blur-[5rem] hover:bg-[#202020] group disabled:hover:bg-custom-blue"
+              disabled={
+                showCountDown ||
+                isUploading ||
+                showCameraError ||
+                status === "acquiring_media"
+              }
+              className="absolute bottom-4 z-50 left-0 right-0 mx-auto rounded-md px-2 py-1.5 bg-custom-blue w-fit text-white flex items-center gap-2 transition-all duration-500 hover:backdrop-blur-[5rem] hover:bg-[#202020] group disabled:hover:bg-[#d2d2d2] disabled:hover:!text-white disabled:bg-[#d2d2d2] disabled:!text-white"
               onClick={handeStartRecording}>
               {mediaBlobUrl ? "Retake" : "Start"} Recording
-              <BsCameraVideoFill className="text-[#d30222] transition-all duration-500 group-hover:text-white" />
+              <BsCameraVideoFill className="text-[#d30222] transition-all duration-500 group-hover:text-white group-disabled:text-white" />
             </button>
           )}
           {status === "stopped" ? (
-            <video
-              src={mediaBlobUrl}
-              style={{ width: "100%", height: "auto" }}
-              className="relative aspect-[1.85/1] md:aspect-auto"
-              autoPlay
-              loop
-              playsInline
-            />
+            <div className="relative aspect-[1.75/1] md:aspect-video overflow-hidden">
+              <video
+                src={mediaBlobUrl}
+                style={{ width: "100%", height: "auto" }}
+                // className="relative aspect-[1.85/1] md:aspect-auto"
+                autoPlay
+                loop
+                playsInline
+              />
+            </div>
           ) : (
-            <VideoPreview stream={previewStream} />
+            videoPreviewStream && <VideoPreview stream={videoPreviewStream} />
           )}
         </div>
       </div>
@@ -292,7 +368,7 @@ const BackupVideoComponent = ({
       <div className="flex justify-center mt-4">
         <button
           type="button"
-          disabled={isUploading || questions?.length === 0}
+          disabled={isUploading || questions?.length === 0 || showCameraError}
           onClick={uploadVideo}
           className={`shadow-custom-stuff flex gap-2 items-center justify-center px-3 py-1.5 rounded-md font-semibold text-lg bg-custom-blue text-white active:bg-[#d2d2d2] active:text-black md:hover:text-black  md:hover:bg-[#d2d2d2] transition-all duration-300 w-[109px] h-[40px] disabled:bg-[#d2d2d2]`}>
           {isUploading ? (

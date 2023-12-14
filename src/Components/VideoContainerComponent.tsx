@@ -1,3 +1,4 @@
+// @ts-ignore
 import { FaPlay } from "react-icons/fa6";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -19,7 +20,9 @@ const VideoContainerComponent = React.forwardRef<
       datum,
       setVideoId,
       setShowDeleteDialog,
+      // @ts-ignore
       setShowVideoPlayer,
+      // @ts-ignore
       setVideoLink
     },
     ref

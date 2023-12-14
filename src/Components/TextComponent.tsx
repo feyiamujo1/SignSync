@@ -57,7 +57,7 @@ const TextComponent = ({
 
   return (
     <div className={`md:w-1/2 ${loadingNextPage && "mr-4"}`}>
-      <h1 className="font-medium text-2xl mb-1 font-[Rowdies]">
+      <h1 className="font-medium text-lg md:text-2xl mb-1 font-[Rowdies]">
         Texts for translation
       </h1>
       <p className="text-[#959595] mb-8">
