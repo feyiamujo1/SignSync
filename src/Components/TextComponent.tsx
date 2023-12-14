@@ -56,7 +56,7 @@ const TextComponent = ({
   }, [isUploadingStatus]);
 
   return (
-    <div className={`md:w-1/2 ${loadingNextPage && "mr-4"}`}>
+    <div className={` portrait:w-full w-1/2 ${loadingNextPage && "mr-4"}`}>
       <h1 className="font-medium text-lg md:text-2xl mb-1 font-[Rowdies]">
         Texts for translation
       </h1>

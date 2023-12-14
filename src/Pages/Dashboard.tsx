@@ -4,6 +4,7 @@ import DashboardHome from "./AdminPages/DashboardHome";
 import DashboardViewTextVideos from "./AdminPages/DashboardViewTextVideos";
 import { MdArrowDropDown, MdArrowDropUp } from "react-icons/md";
 import { FaUserCircle } from "react-icons/fa";
+import DashboardReviewText from "./AdminPages/DashboardReviewText";
 
 const Dashboard = () => {
   const authString = sessionStorage.getItem("auth") || "";
@@ -206,7 +207,7 @@ const Dashboard = () => {
               </div>
             </span>
             <div
-              className={`absolute w-[200px] top-7 left-0 sm:-left-2 bg-white text-sm p-2 rounded-md shadow-custom-stuff ${
+              className={`absolute w-[200px] top-7 right-2 sm:right-0 sm:-left-6 bg-white text-sm p-2 rounded-md shadow-custom-stuff ${
                 showDropDown ? "block" : "hidden md:group-hover:block"
               }`}>
               <Link to={"/admin/"}>
@@ -215,7 +216,7 @@ const Dashboard = () => {
                 </p>
               </Link>
               <hr className="my-1.5" />
-              <Link to={"/admin/contribute-text"}>
+              <Link to={"/admin/review-new-text"}>
                 <p className="py-2 px-2 rounded-md active:bg-[#d2d2d2] active:text-black md:hover:text-black  md:hover:bg-[#d2d2d2] transition-all duration-500">
                   Verify New Text
                 </p>
@@ -230,6 +231,7 @@ const Dashboard = () => {
           <div className="w-[90%] mx-auto bg-white pt-24">
             <Routes>
               <Route path="/" element={<DashboardHome />} />
+              <Route path="/review-new-text" element={<DashboardReviewText />} />
               <Route
                 path="/view-video/:sentenceId/"
                 element={<DashboardViewTextVideos />}

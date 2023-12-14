@@ -15,7 +15,7 @@ const Home = () => {
           </div>
         </div>
         <div className="w-full md:w-1/2 flex flex-col justify-center lg:pr-4 relative pb-32 md:pb-0">
-          <h1 className="font-medium text-2xl sm:text-3xl md:text-4xl mb-3 font-[Rowdies] relative z-10">
+          <h1 className="font-medium text-2xl sm:text-3xl md:text-4xl mb-3 font-Rowdies relative z-10">
             Welcome to <span className="text-custom-blue">SignSync</span>{" "}
             <span className="w-[70px] h-[70px] sm:w-[90px] sm:h-[90px] animate-bounce rounded-full  bg-[#f5f5ff] absolute left-0 -z-10 bottom-0 flex justify-center items-center ">
               <FaPlay className="text-sm -rotate-3" />

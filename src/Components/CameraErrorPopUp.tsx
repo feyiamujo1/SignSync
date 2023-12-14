@@ -64,10 +64,9 @@ const CameraErrorPopUp = ({
         <hr />
         <div className="px-6 space-y-6">
           <div>
-            <p className="text-[#959595]">{CameraErrorMessage}</p>
+            <p className="text-[#959595]">{cameraPermission !== "Camera Access Denied"  ? CameraErrorMessage: "It seems access to your camera is blocked. Please inspect your camera settings and refresh the page."}</p>
             {/* <p className="text-sm text-[#959595]">Click button bellow to request Permission</p> */}
           </div>
-          {cameraPermission !== "Camera Access Denied" && (
             <div className="flex justify-end items-center font-medium">
               <button
                 onClick={getCameraPermission}
@@ -75,7 +74,6 @@ const CameraErrorPopUp = ({
                 Request
               </button>
             </div>
-          )}
         </div>
       </div>
       <div>

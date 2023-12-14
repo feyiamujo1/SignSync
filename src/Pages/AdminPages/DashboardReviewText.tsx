@@ -31,12 +31,14 @@ const successProgressStyle = {
   backgroundColor: "white"
 };
 
-const DashboardHome = () => {
+const DashboardReviewText = () => {
   const [sentenceId, setSentenceId] = useState("");
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [showEditTextDialog, setShowEditTextDialog] = useState(false);
   const [toggleRefetchItemsNow, setToggleRefetchItemsNow] = useState(false);
   const [newSentence, setNewSentence] = useState("");
+
+  const location = useLocation();
 
   const showSuccessToast = (message: string) => {
     toast.success(message, {
@@ -59,7 +61,7 @@ const DashboardHome = () => {
   const fetchQuestions = async (pageParam: number) => {
     const pageNumb = pageParam - 1;
     const response = await axios.get(
-      `${baseUrl}/api/main/fetchStrings/admin?page=${pageNumb}&verified=1`
+      `${baseUrl}/api/main/fetchStrings/admin?page=${pageNumb}&verified=0`
     );
     console.log(response);
     return response.data.data;
@@ -125,16 +127,9 @@ const DashboardHome = () => {
             Incoming Text
           </h1>
           <p className="text-xs md:text-base text-[#959595]">
-            View all approved text and their uploaded videos.
+            Review the user-uploaded text to ensure it can be added to the text database.
           </p>
         </div>
-        <button
-          onClick={() => {
-            setShowEditTextDialog(true);
-          }}
-          className="px-4 py-2 font-medium text-sm sm:text-base bg-custom-blue w-fit rounded-md text-white flex gap-2 items-center group active:bg-[#d2d2d2] active:text-black md:hover:text-black  md:hover:bg-[#d2d2d2] transition-all duration-300 flex-nowrap whitespace-nowrap">
-          Add Text <AiFillEdit className="text-lg" />
-        </button>
       </div>
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  gap-4">
         {status !== "loading" && !data && (
@@ -181,4 +176,4 @@ const DashboardHome = () => {
   );
 };
 
-export default DashboardHome;
+export default DashboardReviewText;

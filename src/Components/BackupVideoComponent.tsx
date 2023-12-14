@@ -305,7 +305,7 @@ const BackupVideoComponent = ({
   }, []);
 
   return (
-    <div className="md:w-1/2 md:mb-0">
+    <div className="portrait:w-full w-1/2">
       <h1 className="font-medium text-lg md:text-2xl mb-1 font-[Rowdies] ">
         Record Sign Language
       </h1>

@@ -2,9 +2,10 @@ import { AiFillEdit } from "react-icons/ai";
 import { FaChevronRight } from "react-icons/fa6";
 import { MdOutlineOndemandVideo } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { Link } from "react-router-dom";
-import React from "react";
+import { Link, useLocation } from "react-router-dom";
+import React, { useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
+import { BsCloudCheckFill } from "react-icons/bs";
 
 const TextContainer = React.forwardRef<
   HTMLDivElement,
@@ -26,6 +27,12 @@ const TextContainer = React.forwardRef<
     },
     ref
   ) => {
+    const location = useLocation();
+    const [isVerifying, setIsVerifying] = useState(true)
+    const approveText = async () => {
+      setIsVerifying(true);
+      
+    }
     const content = (
       <div
         ref={ref}
@@ -52,22 +59,36 @@ const TextContainer = React.forwardRef<
               <FaUserCircle className="ml-[1px] mr-[5px]" /> {datum?.editor}
             </p>
           </div>
-          <div className="flex justify-between items-center font-medium text-sm sm:text-base">
-            <button
-              onClick={() => {
-                setSentenceId(datum?._id);
-                setNewSentence(datum?.sentence);
-                setShowEditTextDialog(true);
-              }}
-              className="p-2 flex items-center gap-1 rounded-md bg-[#f4f4f4] md:hover:bg-[#d2d2d2] transition-all duration-300 ">
-              Edit Text <AiFillEdit className="text-base mb-0.5" />
-            </button>
-            <Link
-              to={`/admin/view-video/${datum?._id}/`}
-              className="p-2 flex items-center gap-0.5 rounded-md text-white bg-custom-blue md:hover:bg-[#d2d2d2] md:hover:text-black active:bg-[#d2d2d2] active:text-black transition-all duration-300 ">
-              View Videos <FaChevronRight className="text-sm" />
-            </Link>
-          </div>
+          {location.pathname === "/" ? (
+            <div className="flex justify-between items-center font-medium text-sm sm:text-base">
+              <button
+                onClick={() => {
+                  setSentenceId(datum?._id);
+                  setNewSentence(datum?.sentence);
+                  setShowEditTextDialog(true);
+                }}
+                className="p-2 flex items-center gap-1 rounded-md bg-[#f4f4f4] md:hover:bg-[#d2d2d2] transition-all duration-300 ">
+                Edit Text <AiFillEdit className="text-base mb-0.5" />
+              </button>
+              <Link
+                to={`/admin/view-video/${datum?._id}/`}
+                className="p-2 flex items-center gap-0.5 rounded-md text-white bg-custom-blue md:hover:bg-[#d2d2d2] md:hover:text-black active:bg-[#d2d2d2] active:text-black transition-all duration-300 ">
+                View Videos <FaChevronRight className="text-sm" />
+              </Link>
+            </div>
+          ) : (
+            <div className="flex justify-end items-center font-medium text-sm sm:text-base">
+              <button
+
+                onClick={() => {
+                  setSentenceId(datum?._id);
+                }}
+                className="p-2 flex items-center gap-1 rounded-md text-white bg-custom-blue md:hover:bg-[#d2d2d2] md:hover:text-black active:bg-[#d2d2d2] active:text-black transition-all duration-300 ">
+                Approve Text <BsCloudCheckFill className="text-lg -mb-0.5" />
+              </button>
+              
+            </div>
+          )}
         </div>
       </div>
     );
