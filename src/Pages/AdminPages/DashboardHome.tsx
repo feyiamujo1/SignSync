@@ -8,7 +8,6 @@ import axios from "axios";
 import { MoonLoader } from "react-spinners";
 import ConfirmDeleteDialog from "../../Components/ConfirmDeleteDialog";
 import EditTextContainer from "../../Components/EditTextContainer";
-import { useLocation } from "react-router-dom";
 const baseUrl = "https://sign-language-gc07.onrender.com";
 
 // Custom styling for error toasts
@@ -37,6 +36,8 @@ const DashboardHome = () => {
   const [showEditTextDialog, setShowEditTextDialog] = useState(false);
   const [toggleRefetchItemsNow, setToggleRefetchItemsNow] = useState(false);
   const [newSentence, setNewSentence] = useState("");
+  // @ts-ignore
+  const [approveText, setApprovedText] = useState(false);
 
   const showSuccessToast = (message: string) => {
     toast.success(message, {
@@ -67,7 +68,7 @@ const DashboardHome = () => {
 
   const { fetchNextPage, hasNextPage, isFetchingNextPage, data, status } =
     useInfiniteQuery(
-      [toggleRefetchItemsNow],
+      ["old-setences", toggleRefetchItemsNow],
       ({ pageParam = 1 }) => fetchQuestions(pageParam),
       {
         getNextPageParam: (lastPage, allPages) => {
@@ -119,6 +120,7 @@ const DashboardHome = () => {
           setNewSentence={setNewSentence}
         />
       )}
+
       <div className="flex justify-between items-center mb-4 md:mb-6">
         <div>
           <h1 className="font-medium text-2xl font-[Rowdies] ">
@@ -158,6 +160,7 @@ const DashboardHome = () => {
                   setShowDeleteDialog={setShowDeleteDialog}
                   setNewSentence={setNewSentence}
                   setShowEditTextDialog={setShowEditTextDialog}
+                  setApprovedText={setApprovedText}
                 />
               ) : (
                 <TextContainer
@@ -167,6 +170,7 @@ const DashboardHome = () => {
                   setShowDeleteDialog={setShowDeleteDialog}
                   setNewSentence={setNewSentence}
                   setShowEditTextDialog={setShowEditTextDialog}
+                  setApprovedText={setApprovedText}
                 />
               )
             )

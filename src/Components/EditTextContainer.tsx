@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
 
 const baseUrl = "https://sign-language-gc07.onrender.com";
@@ -25,6 +26,7 @@ const EditTextContainer = ({
   newSentence: string;
   setNewSentence: Function;
 }) => {
+  const navigate = useNavigate();
   const auth = JSON.parse(sessionStorage.getItem("auth") || "");
   const token = auth.token || "";
 
@@ -64,9 +66,15 @@ const EditTextContainer = ({
           showSuccessToast("Sentence uploaded Successfully");
           setToggleRefetchItemsNow(!toggleRefetchItemsNow);
         }
-      } catch (error) {
+      } catch (error: any) {
         setIsUploading(false);
-        showErrorToast("Error, please try again later");
+        if (error?.status === 401){
+          showErrorToast("Session Expired!");
+          navigate("/login");
+          sessionStorage.setItem('auth', JSON.stringify({}));
+        }else{
+          showErrorToast("Error, Try again later");
+        }
         console.error(error);
       }
     }
@@ -103,7 +111,13 @@ const EditTextContainer = ({
         }
       } catch (error: any) {
         setIsUploading(false);
-        showErrorToast("Error, Try again later");
+        if (error.status === 401){
+          showErrorToast("Session Expired!");
+          sessionStorage.setItem('auth', JSON.stringify({}));
+          navigate("/login");
+        }else{
+          showErrorToast("Error, Try again later");
+        }
       }
     }
   };

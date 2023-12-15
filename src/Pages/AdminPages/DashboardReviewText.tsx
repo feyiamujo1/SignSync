@@ -1,4 +1,3 @@
-import { AiFillEdit } from "react-icons/ai";
 import { useCallback, useRef, useState } from "react";
 import TextContainer from "../../Components/TextContainer";
 import TextContainerSkeleton from "../../Components/TextContainerSkeleton";
@@ -8,7 +7,7 @@ import axios from "axios";
 import { MoonLoader } from "react-spinners";
 import ConfirmDeleteDialog from "../../Components/ConfirmDeleteDialog";
 import EditTextContainer from "../../Components/EditTextContainer";
-import { useLocation } from "react-router-dom";
+import ApproveTextDialog from "../../Components/ApproveTextDialog";
 const baseUrl = "https://sign-language-gc07.onrender.com";
 
 // Custom styling for error toasts
@@ -37,8 +36,7 @@ const DashboardReviewText = () => {
   const [showEditTextDialog, setShowEditTextDialog] = useState(false);
   const [toggleRefetchItemsNow, setToggleRefetchItemsNow] = useState(false);
   const [newSentence, setNewSentence] = useState("");
-
-  const location = useLocation();
+  const [approvedText, setApprovedText] = useState(false);
 
   const showSuccessToast = (message: string) => {
     toast.success(message, {
@@ -69,7 +67,7 @@ const DashboardReviewText = () => {
 
   const { fetchNextPage, hasNextPage, isFetchingNextPage, data, status } =
     useInfiniteQuery(
-      [toggleRefetchItemsNow],
+      ["new-setences", toggleRefetchItemsNow],
       ({ pageParam = 1 }) => fetchQuestions(pageParam),
       {
         getNextPageParam: (lastPage, allPages) => {
@@ -121,13 +119,25 @@ const DashboardReviewText = () => {
           setNewSentence={setNewSentence}
         />
       )}
+      {approvedText && (
+        <ApproveTextDialog
+          setApprovedText={setApprovedText}
+          sentenceId={sentenceId}
+          setSentenceId={setSentenceId}
+          showSuccessToast={showSuccessToast}
+          showErrorToast={showErrorToast}
+          setToggleRefetchItemsNow={setToggleRefetchItemsNow}
+          toggleRefetchItemsNow={toggleRefetchItemsNow}
+        />
+      )}
       <div className="flex justify-between items-center mb-4 md:mb-6">
         <div>
           <h1 className="font-medium text-2xl font-[Rowdies] ">
             Incoming Text
           </h1>
           <p className="text-xs md:text-base text-[#959595]">
-            Review the user-uploaded text to ensure it can be added to the text database.
+            Review the user-uploaded text to ensure it can be added to the text
+            database.
           </p>
         </div>
       </div>
@@ -153,6 +163,7 @@ const DashboardReviewText = () => {
                   setShowDeleteDialog={setShowDeleteDialog}
                   setNewSentence={setNewSentence}
                   setShowEditTextDialog={setShowEditTextDialog}
+                  setApprovedText={setApprovedText}
                 />
               ) : (
                 <TextContainer
@@ -162,6 +173,7 @@ const DashboardReviewText = () => {
                   setShowDeleteDialog={setShowDeleteDialog}
                   setNewSentence={setNewSentence}
                   setShowEditTextDialog={setShowEditTextDialog}
+                  setApprovedText={setApprovedText}
                 />
               )
             )

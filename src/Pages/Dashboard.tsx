@@ -207,7 +207,7 @@ const Dashboard = () => {
               </div>
             </span>
             <div
-              className={`absolute w-[200px] top-7 right-2 sm:right-0 sm:-left-6 bg-white text-sm p-2 rounded-md shadow-custom-stuff ${
+              className={`absolute w-[200px] top-7 right-1 sm:right-0 sm:-left-6 bg-white text-sm p-2 rounded-md shadow-custom-stuff ${
                 showDropDown ? "block" : "hidden md:group-hover:block"
               }`}>
               <Link to={"/admin/"}>
