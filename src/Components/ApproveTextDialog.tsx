@@ -52,7 +52,7 @@ const ApproveTextDialog = ({
       setIsUploading(false);
       console.log(error);
       
-      if (error.status === 401){
+      if (error.response.status === 401){
         showErrorToast("Session Expired!");
         sessionStorage.setItem('auth', JSON.stringify({}));
         navigate("/login");

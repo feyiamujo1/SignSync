@@ -51,7 +51,7 @@ const ConfirmDeleteDialog = ({
       console.log(error);
       setIsDeleting(false);
       setSentenceId("");
-      if (error.status === 401){
+      if (error.response.status === 401){
         showErrorToast("Session Expired!");
         sessionStorage.setItem('auth', JSON.stringify({}));
         navigate("/login");

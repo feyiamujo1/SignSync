@@ -68,7 +68,7 @@ const EditTextContainer = ({
         }
       } catch (error: any) {
         setIsUploading(false);
-        if (error?.status === 401){
+        if (error.response.status === 401){
           showErrorToast("Session Expired!");
           navigate("/login");
           sessionStorage.setItem('auth', JSON.stringify({}));
@@ -111,7 +111,7 @@ const EditTextContainer = ({
         }
       } catch (error: any) {
         setIsUploading(false);
-        if (error.status === 401){
+        if (error.response.status === 401){
           showErrorToast("Session Expired!");
           sessionStorage.setItem('auth', JSON.stringify({}));
           navigate("/login");
