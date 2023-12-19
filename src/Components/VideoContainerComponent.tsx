@@ -9,7 +9,6 @@ const VideoContainerComponent = React.forwardRef<
   HTMLDivElement,
   {
     datum: any;
-    setVideoId: Function;
     setShowDeleteDialog: Function;
     setShowVideoPlayer: Function;
     setVideoLink: Function;
@@ -18,11 +17,8 @@ const VideoContainerComponent = React.forwardRef<
   (
     {
       datum,
-      setVideoId,
       setShowDeleteDialog,
-      // @ts-ignore
       setShowVideoPlayer,
-      // @ts-ignore
       setVideoLink
     },
     ref
@@ -30,7 +26,7 @@ const VideoContainerComponent = React.forwardRef<
     const content = (
       <div
         ref={ref}
-        className={`rounded-md shadow-custom-stuff p-3.5 relative space-y-4 `}>
+        className={`rounded-md shadow-custom-stuff p-3.5 relative space-y-4 videoDialog`}>
         <div className="w-full bg-black h-[170px] flex items-center justify-center text-center rounded-sm relative overflow-hidden">
           <video
             src={datum?.url}
@@ -39,7 +35,7 @@ const VideoContainerComponent = React.forwardRef<
             playsInline></video>
           <button
             onClick={() => {
-              setVideoId(datum?._id);
+              setVideoLink(datum?.url);
               setShowDeleteDialog(true);
             }}
             className="absolute top-2 right-2 bg-white z-20 rounded-full p-1.5 md:hover:text-red-500 active:bg-[#d2d2d2] active:text-red-500 transition-all duration-300">

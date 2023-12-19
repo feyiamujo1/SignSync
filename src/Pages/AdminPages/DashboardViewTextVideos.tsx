@@ -45,7 +45,6 @@ const DashboardViewTextVideos = () => {
   } | null>();
   const [isFetching, setIsFetching] = useState(true);
 
-  const [videoId, setVideoId] = useState("");
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [toggleRefetchItemsNow, setToggleRefetchItemsNow] = useState(false);
   const [videoLink, setVideoLink] = useState("");
@@ -120,7 +119,7 @@ const DashboardViewTextVideos = () => {
 
   const { fetchNextPage, hasNextPage, isFetchingNextPage, data, status } =
     useInfiniteQuery(
-      ["/videos", toggleRefetchItemsNow],
+      [toggleRefetchItemsNow],
       ({ pageParam = 1 }) => fetchVideos(pageParam),
       {
         getNextPageParam: (lastPage, allPages) => {
@@ -149,8 +148,8 @@ const DashboardViewTextVideos = () => {
     <div>
       {showDeleteDialog && (
         <ConfirmDeleteDialog
-          mediaId={videoId}
-          setMediaId={setVideoId}
+          mediaId={videoLink}
+          setMediaId={setVideoLink}
           setShowDeleteDialog={setShowDeleteDialog}
           showSuccessToast={showSuccessToast}
           showErrorToast={showErrorToast}
@@ -204,7 +203,6 @@ const DashboardViewTextVideos = () => {
                       ref={lastCollectionRef}
                       key={id}
                       datum={datum}
-                      setVideoId={setVideoId}
                       setShowDeleteDialog={setShowDeleteDialog}
                       setShowVideoPlayer={setShowVideoPlayer}
                       setVideoLink={setVideoLink}
@@ -213,7 +211,6 @@ const DashboardViewTextVideos = () => {
                     <VideoContainerComponent
                       key={id}
                       datum={datum}
-                      setVideoId={setVideoId}
                       setShowDeleteDialog={setShowDeleteDialog}
                       setShowVideoPlayer={setShowVideoPlayer}
                       setVideoLink={setVideoLink}

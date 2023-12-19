@@ -10,7 +10,8 @@ const VideoPlayerDialog = ({
   return (
     <div className="w-screen h-screen top-0 bottom-0 left-0 right-0 m-auto fixed z-50 bg-transparent-black flex justify-center items-center">
       <div className=" rounded-lg bg-white py-4 w-11/12 sm:w-1/2 space-y-2">
-        <div className="flex items-center justify-end px-6">
+        <div className="flex items-center justify-between px-6">
+        <p className=" font-semibold text-xl">Video Player</p>
           <button
             onClick={() => {
               setShowVideoPlayer(false);
@@ -21,7 +22,7 @@ const VideoPlayerDialog = ({
           </button>
         </div>
         <hr />
-        <video src={videoLink} controls playsInline autoPlay className="bg-black w-full "></video>
+        <video src={videoLink} controls={true} playsInline className="bg-black w-full "></video>
       </div>
     </div>
   );

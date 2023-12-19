@@ -28,7 +28,7 @@ export default function LoginForm() {
   const navigate = useNavigate();
   const { setAuth } = useAuth();
   const location = useLocation();
-  const from = location?.state?.from?.pathname || "/translate-text";
+  const from = location.state?.from?.pathname || "/translate-text";
   const form = useForm<z.infer<typeof LoginFormSchema>>({
     resolver: zodResolver(LoginFormSchema)
   });

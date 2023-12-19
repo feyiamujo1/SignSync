@@ -20,20 +20,36 @@
   fill: white;
 }
 
-video::-webkit-media-controls {
+.videoRecorder video::-webkit-media-controls {
   display: none !important;
 }
 
-video::-webkit-media-controls-overlay-play-button {
+.videoRecorder video::-webkit-media-controls-overlay-play-button {
   display: none !important;
 }
 
-.sqs-video-icon {
+.videoRecorder .sqs-video-icon {
   display: none !important;
 }
-controls {
+.videoRecorder controls {
   display: none !important;
 }
+
+.videoDialog video::-webkit-media-controls {
+  display: block !important;
+}
+
+.videoDialog video::-webkit-media-controls-overlay-play-button {
+  display: block !important;
+}
+
+.videoDialog .sqs-video-icon {
+  display: block !important;
+}
+.videoDialog controls {
+  display: block !important;
+}
+
 
 @media screen and (max-width: 768px) {
   video{

@@ -67,7 +67,7 @@ const ConfirmDeleteDialog = ({
     setIsDeleting(true);
     try {
       const response = await axios.delete(
-        `${baseUrl}/api/main/deleteVideo?id=${mediaId}`,
+        `${baseUrl}/api/main/deleteFile?video_url=${mediaId}`,
         {
           headers: {
             Authorization: `${token}`,
