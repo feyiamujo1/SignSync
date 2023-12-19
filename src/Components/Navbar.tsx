@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { MdArrowDropDown, MdArrowDropUp } from "react-icons/md";
 import { useEffect, useRef, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
@@ -8,6 +8,9 @@ const Navbar = () => {
   const auth = authString ? JSON.parse(authString) : null;
 
   const userName = auth?.fName || "";
+
+  const navigate = useNavigate();
+
   const [showDropDown, setShowDropDown] = useState(false);
   const contributionDropDownRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
@@ -29,6 +32,33 @@ const Navbar = () => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
+
+  const userDropDownRef = useRef<HTMLDivElement | null>(null);
+  const [showUserDropDown, setShowUserDropDown] = useState(false);
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        userDropDownRef.current &&
+        !userDropDownRef.current.contains(event.target as Node)
+      ) {
+        setShowUserDropDown(false);
+        // setOptionsToShow("");
+      }
+    };
+
+    // Add a click event listener to the document body
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      // Remove the event listener when the component unmounts
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
+  const logout = () => {
+    sessionStorage.setItem("auth", JSON.stringify({}));
+    navigate("/login");
+  };
 
   return (
     <nav className="absolute w-full top-0 right-0 left-0 z-50 py-4 shadow-md bg-white">
@@ -212,26 +242,59 @@ const Navbar = () => {
                   Contribute Text
                 </p>
               </Link>
-              {auth?.role === "admin" && (
-                <>
-                  <hr className="my-1.5" />
-                  <Link to={"/admin"}>
-                    <p className="py-2 px-2 rounded-md active:bg-[#d2d2d2] active:text-black md:hover:text-black  md:hover:bg-[#d2d2d2] transition-all duration-500">
-                      Admin Dashboard
-                    </p>
-                  </Link>
-                </>
-              )}
             </div>
           </div>
           {userName !== "" ? (
-            <div className="flex items-center gap-2 font-medium sm:text-lg ">
-              <FaUserCircle className="text-3xl text-[#999999]" />
-              <p>
-                {userName.length > 10
-                  ? userName?.slice(0, 10) + "..."
-                  : userName}
-              </p>
+            <div ref={userDropDownRef} className="relative group">
+              <span
+                onClick={() => {
+                  window.innerWidth < 768 &&
+                    setShowUserDropDown(!showUserDropDown);
+                }}
+                className={`flex items-center gap-1.5 cursor-pointer relative md:hover:text-custom-blue md:group-hover:text-custom-blue  ${
+                  showUserDropDown && "text-custom-blue"
+                }`}>
+                <FaUserCircle className="text-3xl text-[#999999]" />
+                <div className="flex items-center ">
+                  <p className="font-medium sm:text-lg">{userName}</p>
+                  <MdArrowDropUp
+                    className={`hidden md:group-hover:block ${
+                      showUserDropDown && "!block"
+                    }`}
+                  />
+                  <MdArrowDropDown
+                    className={`block md:group-hover:hidden ${
+                      showUserDropDown && "!hidden"
+                    }`}
+                  />
+                </div>
+              </span>
+              <div
+                className={`absolute w-[200px] top-7 right-1 sm:right-0 sm:-left-6 bg-white text-sm p-2 rounded-md shadow-custom-stuff ${
+                  showUserDropDown ? "block" : "hidden md:group-hover:block"
+                }`}>
+                {auth?.role === "admin" && (
+                  <>
+                    <Link to={"/admin/"}>
+                      <p className="py-2 px-2 rounded-md active:bg-[#d2d2d2] active:text-black md:hover:text-black  md:hover:bg-[#d2d2d2] transition-all duration-500">
+                        View All Text
+                      </p>
+                    </Link>
+                    <hr className="my-1.5" />
+                    <Link to={"/admin/review-new-text"}>
+                      <p className="py-2 px-2 rounded-md active:bg-[#d2d2d2] active:text-black md:hover:text-black  md:hover:bg-[#d2d2d2] transition-all duration-500">
+                        Verify New Text
+                      </p>
+                    </Link>
+                  </>
+                )}
+                <hr className="my-1.5" />
+                <button
+                  onClick={logout}
+                  className="w-full text-left cursor-pointer py-2 px-2 rounded-md active:bg-[#d2d2d2] active:text-black md:hover:text-black  md:hover:bg-[#d2d2d2] transition-all duration-500">
+                  Logout
+                </button>
+              </div>
             </div>
           ) : (
             <>

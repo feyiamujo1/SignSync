@@ -33,7 +33,7 @@ const ApproveTextDialog = ({
       const response = await axios.put(
         `${baseUrl}/api/main/updateString?id=${sentenceId}`,
         {
-          verified: true
+          "verified": true,
         },
         {
           headers: {

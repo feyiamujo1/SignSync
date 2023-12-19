@@ -60,7 +60,7 @@ const ContributeText = () => {
     } else {
       try {
         const response = await axios.post(
-          `https://sign-language-gc07.onrender.com//api/main/addString`,
+          `https://sign-language-gc07.onrender.com/api/main/addString`,
           { sentence: newSentence },
           {
             headers: {

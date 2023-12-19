@@ -7,21 +7,23 @@ import { MoonLoader } from "react-spinners";
 const baseUrl = "https://sign-language-gc07.onrender.com";
 
 const ConfirmDeleteDialog = ({
-  sentenceId,
-  setSentenceId,
+  mediaId,
+  setMediaId,
   setShowDeleteDialog,
   showErrorToast,
   showSuccessToast,
   setToggleRefetchItemsNow,
-  toggleRefetchItemsNow
+  toggleRefetchItemsNow,
+  mediaType
 }: {
-  sentenceId: string;
-  setSentenceId: Function;
+  mediaId: string;
+  setMediaId: Function;
   setShowDeleteDialog: Function;
   showErrorToast: Function;
   showSuccessToast: Function;
   setToggleRefetchItemsNow: Function;
   toggleRefetchItemsNow: boolean;
+  mediaType: string;
 }) => {
   const navigate = useNavigate();
   const [isDeleting, setIsDeleting] = useState(false);
@@ -31,7 +33,7 @@ const ConfirmDeleteDialog = ({
     setIsDeleting(true);
     try {
       const response = await axios.delete(
-        `${baseUrl}/api/main/updateString?id=${sentenceId}`,
+        `${baseUrl}/api/main/updateString?id=${mediaId}`,
         {
           headers: {
             Authorization: `${token}`,
@@ -42,7 +44,7 @@ const ConfirmDeleteDialog = ({
       if (response.status === 200) {
         setShowDeleteDialog(false);
         setIsDeleting(false);
-        setSentenceId("");
+        setMediaId("");
         setToggleRefetchItemsNow(!toggleRefetchItemsNow);
         showSuccessToast("Sentence deleted successfully");
       }
@@ -50,12 +52,46 @@ const ConfirmDeleteDialog = ({
       //   setShowDeleteDialog(false);
       console.log(error);
       setIsDeleting(false);
-      setSentenceId("");
-      if (error.response.status === 401){
+      setMediaId("");
+      if (error.response.status === 401) {
         showErrorToast("Session Expired!");
-        sessionStorage.setItem('auth', JSON.stringify({}));
+        sessionStorage.setItem("auth", JSON.stringify({}));
         navigate("/login");
-      }else{
+      } else {
+        showErrorToast("Error, Try again later");
+      }
+    }
+  };
+
+  const deleteVideo = async () => {
+    setIsDeleting(true);
+    try {
+      const response = await axios.delete(
+        `${baseUrl}/api/main/deleteVideo?id=${mediaId}`,
+        {
+          headers: {
+            Authorization: `${token}`,
+            "Content-Type": "application/json"
+          }
+        }
+      );
+      if (response.status === 200) {
+        setShowDeleteDialog(false);
+        setIsDeleting(false);
+        setMediaId("");
+        setToggleRefetchItemsNow(!toggleRefetchItemsNow);
+        showSuccessToast(`${mediaType} deleted successfully`);
+      }
+    } catch (error: any) {
+      //   setShowDeleteDialog(false);
+      console.log(error);
+      setIsDeleting(false);
+      setMediaId("");
+      if (error.response.status === 401) {
+        showErrorToast("Session Expired!");
+        sessionStorage.setItem("auth", JSON.stringify({}));
+        navigate("/login");
+      } else {
         showErrorToast("Error, Try again later");
       }
     }
@@ -65,11 +101,11 @@ const ConfirmDeleteDialog = ({
       {!isDeleting ? (
         <div className=" rounded-lg bg-white py-4 w-11/12 sm:w-[400px] space-y-2">
           <div className="flex items-center justify-between px-6">
-            <p className=" font-semibold text-xl">Delete Sentence</p>
+            <p className=" font-semibold text-xl">Delete {mediaType}</p>
             <button
               onClick={() => {
                 setShowDeleteDialog(false);
-                setSentenceId("");
+                setMediaId("");
               }}
               className="font-semibold text-2xl hover:text-custom-blue active:text-custom-blue">
               x
@@ -78,19 +114,21 @@ const ConfirmDeleteDialog = ({
           <hr />
           <div className="px-6 space-y-6">
             <p className="text-[#959595]">
-              Are you sure you want to delete this sentence?
+              Are you sure you want to delete this {mediaType}?
             </p>
             <div className="flex justify-between items-center font-medium">
               <button
                 onClick={() => {
                   setShowDeleteDialog(false);
-                  setSentenceId("");
+                  setMediaId("");
                 }}
                 className="px-4 md:px-6 py-2 flex items-center gap-1 rounded-md bg-[#f4f4f4] md:hover:bg-[#d2d2d2] transition-all duration-300 ">
                 Cancel
               </button>
               <button
-                onClick={deleteSentence}
+                onClick={() => {
+                  mediaType === "video" ? deleteVideo() : deleteSentence();
+                }}
                 className="px-4 md:px-6 py-2 flex items-center gap-0.5 rounded-md text-white bg-red-500 md:hover:bg-[#d2d2d2] md:hover:text-black active:bg-[#d2d2d2] active:text-black transition-all duration-300 ">
                 Delete
               </button>

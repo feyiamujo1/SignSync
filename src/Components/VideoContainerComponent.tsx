@@ -45,7 +45,7 @@ const VideoContainerComponent = React.forwardRef<
             className="absolute top-2 right-2 bg-white z-20 rounded-full p-1.5 md:hover:text-red-500 active:bg-[#d2d2d2] active:text-red-500 transition-all duration-300">
             <RiDeleteBin6Line className="text-xl" />
           </button>
-          {/* <div className="w-full h-full bg-transparent-mini-black absolute top-0 bottom-0 right-0 left-0 z-10 flex justify-center items-center">
+          <div className="w-full h-full bg-transparent-mini-black absolute top-0 bottom-0 right-0 left-0 z-10 flex justify-center items-center">
             <button
               onClick={() => {
                 setShowVideoPlayer(true);
@@ -54,11 +54,11 @@ const VideoContainerComponent = React.forwardRef<
               className="text-2xl text-custom-blue bg-white rounded-full p-1.5 flex justify-center items-center ">
               <FaPlay className=" ml-1" />
             </button>
-          </div> */}
+          </div>
         </div>
         <hr />
         <div className="space-y-3">
-          <div className="capitalize">
+          <div className="">
             <p className="text-sm text-[#959595] flex items-center capitalize">
               <FaUserCircle className="ml-[1px] mr-[5px] " />
               {datum?.author?.name}

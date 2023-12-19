@@ -56,7 +56,7 @@ const TextContainer = React.forwardRef<
               <FaUserCircle className="ml-[1px] mr-[5px]" /> {datum?.editor}
             </p>
           </div>
-          {location.pathname === "/" ? (
+          {location.pathname === "/admin/" ? (
             <div className="flex justify-between items-center font-medium text-sm sm:text-base">
               <button
                 onClick={() => {

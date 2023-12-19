@@ -33,8 +33,14 @@ const VideoPreview = ({ stream }: { stream: MediaStream | null }) => {
   useEffect(() => {
     if (videoRef.current && stream) {
       videoRef.current.srcObject = stream;
+      videoRef.current.srcObject = stream;
+      // @ts-ignore
+      videoRef.current.onloadedmetadata = function (e: any) {
+        videoRef?.current?.play();
+      };
     }
   }, [stream]);
+
   if (!stream) {
     return null;
   }
@@ -90,6 +96,8 @@ const BackupVideoComponent = ({
   const [generatedVideoFile, setGeneratedVideoFile] = useState<File | null>();
   const [videoPreviewStream, setVideoPreviewStream] =
     useState<MediaStream | null>();
+  const auth = JSON.parse(sessionStorage.getItem("auth") || "");
+  const token = auth.token || "";
 
   const { status, startRecording, stopRecording, mediaBlobUrl, clearBlobUrl } =
     useReactMediaRecorder({
@@ -111,14 +119,14 @@ const BackupVideoComponent = ({
       stopStreamsOnStop: false
     });
 
-  const constraint = {
-    video: {
-      width: { min: 640, ideal: 1920, max: 1920 },
-      height: { min: 400, ideal: 1080 },
-      frameRate: 25,
-      facingMode: { exact: "user" }
-    }
-  };
+  // const constraint = {
+  //   video: {
+  //     width: { min: 640, ideal: 1920, max: 1920 },
+  //     height: { min: 400, ideal: 1080 },
+  //     frameRate: 25,
+  //     facingMode: { exact: "user" }
+  //   }
+  // };
 
   const generateVideoFile = async (videoBlobUrl: string) => {
     console.log();
@@ -213,7 +221,8 @@ const BackupVideoComponent = ({
           { video_file: generatedVideoFile },
           {
             headers: {
-              "Content-Type": "multipart/form-data"
+              "Content-Type": "multipart/form-data",
+              Authorization: `${token || ""}`
             }
           }
         );
@@ -252,19 +261,18 @@ const BackupVideoComponent = ({
   };
 
   const openCamera = async () => {
-    if (
-      "mediaDevices" in navigator &&
-      navigator.mediaDevices &&
-      "getUserMedia" in navigator.mediaDevices
-    ) {
-      // console.log("Let's get this party started");
-      // console.log(
-      //   "The nav answer is - ",
-      //   await navigator.mediaDevices.getUserMedia({ video: true })
-      // );
-      // navigator.mediaDevices.getUserMedia({ video: true });
+    const options = {
+      audio: false,
+      video: {
+        facingMode: "user",
+        // width:  400,
+        // height: 640,
+        frameRate: 25
+      }
+    };
+    if (navigator && navigator.mediaDevices) {
       await navigator.mediaDevices
-        .getUserMedia(constraint)
+        .getUserMedia(options)
         .then(stream => {
           console.log("success!");
           setCameraErrorMessage("");
@@ -292,6 +300,7 @@ const BackupVideoComponent = ({
           setShowCameraError(true);
         });
     } else {
+      setCameraPermission("Camera Error");
       setCameraErrorMessage(
         "It seems there are problems with your camera. Please inspect your camera settings and refresh the page."
       );

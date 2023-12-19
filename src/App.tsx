@@ -11,7 +11,7 @@ import VerificationSuccess from "./Pages/VerificationSuccess";
 import ForgotPassword from "./Pages/ForgotPassword";
 import LinkExpiredPage from "./Pages/LinkExpiredPage";
 import ContributeText from "./Pages/ContributeText";
-// import ProtectedRoutes from "./ProtectedRoutes/ProtectedRoutes";
+import ProtectedRoutes from "./ProtectedRoutes/ProtectedRoutes";
 import Dashboard from "./Pages/Dashboard";
 
 function App() {
@@ -47,9 +47,9 @@ function App() {
           element={<LinkExpiredPage />}
         />
         <Route path="/contribute-text" element={<ContributeText />} />
-        {/* <Route element={<ProtectedRoutes />}> */}
-        <Route path="/admin/*" element={<Dashboard />} />
-        {/* </Route> */}
+        <Route element={<ProtectedRoutes />}>
+          <Route path="/admin/*" element={<Dashboard />} />
+        </Route>
       </Routes>
       {/* </div> */}
     </div>

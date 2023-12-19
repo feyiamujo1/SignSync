@@ -16,7 +16,7 @@ import {
   FormMessage
 } from "./ui/form";
 import { Input } from "./ui/input";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import useAuth from "../hooks/UseAuth";
@@ -27,6 +27,8 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const { setAuth } = useAuth();
+  const location = useLocation();
+  const from = location?.state?.from?.pathname || "/translate-text";
   const form = useForm<z.infer<typeof LoginFormSchema>>({
     resolver: zodResolver(LoginFormSchema)
   });
@@ -61,6 +63,7 @@ export default function LoginForm() {
           setAuth({ fName, role, token });
           sessionStorage.setItem("auth", JSON.stringify({ fName, role, token }));
           navigate("/translate-text");
+          navigate(from, { replace: true });
         }
       }
     } catch (error: any) {

@@ -1,10 +1,13 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useInfiniteQuery } from "react-query";
 import { toast } from "react-toastify";
 import VideoContainerSkeleton from "../../Components/VideoContainerSkeleton";
 import VideoContainerComponent from "../../Components/VideoContainerComponent";
+import LoadingPage from "../../Components/LoadingPage";
+import ConfirmDeleteDialog from "../../Components/ConfirmDeleteDialog";
+import VideoPlayerDialog from "../../Components/VideoPlayerDialog";
 const baseUrl = "https://sign-language-gc07.onrender.com";
 
 // Custom styling for error toasts
@@ -29,24 +32,25 @@ const successProgressStyle = {
 
 const DashboardViewTextVideos = () => {
   const { sentenceId } = useParams();
+  const navigate = useNavigate();
 
   const authString = sessionStorage.getItem("auth") || "";
   const auth = authString ? JSON.parse(authString) : null;
   const token = auth.token || "";
 
-  // @ts-ignore
-  const [videoId, setVideoId] = useState("");
+  const [textInfo, setTextInfo] = useState<{
+    editor: string;
+    video_count: number;
+    sentence: string;
+  } | null>();
+  const [isFetching, setIsFetching] = useState(true);
 
-// @ts-ignore
+  const [videoId, setVideoId] = useState("");
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-  // @ts-ignore
   const [toggleRefetchItemsNow, setToggleRefetchItemsNow] = useState(false);
-  // @ts-ignore
   const [videoLink, setVideoLink] = useState("");
-  // @ts-ignore
   const [showVideoPlayer, setShowVideoPlayer] = useState(false);
 
-  // @ts-ignore
   const showSuccessToast = (message: string) => {
     toast.success(message, {
       position: "top-right",
@@ -56,7 +60,6 @@ const DashboardViewTextVideos = () => {
     });
   };
 
-  // @ts-ignore
   const showErrorToast = (message: string) => {
     toast.error(message, {
       position: "top-right",
@@ -66,7 +69,41 @@ const DashboardViewTextVideos = () => {
     });
   };
 
-  const fetchQuestions = async (pageParam: number) => {
+  const fetchTextInfo = async () => {
+    try {
+      const response = await axios.get(
+        `https://sign-language-gc07.onrender.com/api/main/getSpecificString?id=${sentenceId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${token}`
+          }
+        }
+      );
+      if (response.status === 200) {
+        console.log(response);
+        setTextInfo(response?.data?.data);
+      }
+      setIsFetching(false);
+    } catch (error: any) {
+      console.log(error);
+
+      if (error.response.status === 401) {
+        showErrorToast("Session Expired!");
+        navigate("/login");
+        sessionStorage.setItem("auth", JSON.stringify({}));
+      } else {
+        showErrorToast("Error, Try again later");
+      }
+      setIsFetching(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchTextInfo();
+  }, []);
+
+  const fetchVideos = async (pageParam: number) => {
     const pageNumb = pageParam - 1;
     const response = await axios.get(
       `${baseUrl}/api/main/fetchVideos?id=${sentenceId}&page=${pageNumb}`,
@@ -84,7 +121,7 @@ const DashboardViewTextVideos = () => {
   const { fetchNextPage, hasNextPage, isFetchingNextPage, data, status } =
     useInfiniteQuery(
       ["/videos", toggleRefetchItemsNow],
-      ({ pageParam = 1 }) => fetchQuestions(pageParam),
+      ({ pageParam = 1 }) => fetchVideos(pageParam),
       {
         getNextPageParam: (lastPage, allPages) => {
           return lastPage.length ? allPages.length + 1 : undefined;
@@ -110,55 +147,83 @@ const DashboardViewTextVideos = () => {
   );
   return (
     <div>
-      <div className="flex justify-between items-center mb-4 md:mb-6">
-        <div>
-          <h1 className="font-medium text-2xl font-[Rowdies] ">
-            Video Directory
-          </h1>
-          <p className="text-xs md:text-base text-[#959595]">
-            View all videos for selected text -
-          </p>
-        </div>
-        <div className="px-4 py-2 font-medium text-sm sm:text-base bg-custom-blue w-fit rounded-md text-white flex gap-2 items-center transition-all duration-300 flex-nowrap whitespace-nowrap">
-          {data?.pages.length} Videos
-        </div>
-      </div>
-      <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  gap-4">
-        {status !== "loading" && !data && (
-          <div className=" md:col-span-3 h-[300px] flex justify-center items-center text-center text-[#959595]">
-            <p>Items not found</p>
+      {showDeleteDialog && (
+        <ConfirmDeleteDialog
+          mediaId={videoId}
+          setMediaId={setVideoId}
+          setShowDeleteDialog={setShowDeleteDialog}
+          showSuccessToast={showSuccessToast}
+          showErrorToast={showErrorToast}
+          setToggleRefetchItemsNow={setToggleRefetchItemsNow}
+          toggleRefetchItemsNow={toggleRefetchItemsNow}
+          mediaType="video"
+        />
+      )}
+      {showVideoPlayer && (
+        <VideoPlayerDialog
+          videoLink={videoLink}
+          setVideoLink={setVideoLink}
+          setShowVideoPlayer={setShowVideoPlayer}
+        />
+      )}
+      {isFetching ? (
+        <LoadingPage />
+      ) : (
+        <>
+          <div className="mb-4 md:mb-6 space-y-4 md:flex md:justify-between items-start">
+            <div className="space-y-1 ">
+              <h1 className="font-medium text-2xl font-[Rowdies] ">
+                Text Information
+              </h1>
+              <p className="text-base text-[#959595]">
+                Author: {textInfo?.editor}
+              </p>
+              <p className="text-base text-[#959595]">
+                Text: {textInfo?.sentence!}
+              </p>
+            </div>
+            <div className=" float-left px-4 py-2 font-medium text-sm sm:text-base bg-custom-blue w-fit rounded-md text-white flex gap-2 items-center transition-all duration-300 flex-nowrap whitespace-nowrap h-fit mb-2 md:mb-0">
+              {textInfo?.video_count!} Videos
+            </div>
           </div>
-        )}
-        {status === "loading" &&
-          [1, 2, 3, 4, 5, 6, 7, 8].map(item => (
-            <VideoContainerSkeleton key={item} />
-          ))}
-        {status === "success" &&
-          data?.pages?.map(page =>
-            page.map((datum: any, id: number) =>
-              page.length === id + 1 ? (
-                <VideoContainerComponent
-                  ref={lastCollectionRef}
-                  key={id}
-                  datum={datum}
-                  setVideoId={setVideoId}
-                  setShowDeleteDialog={setShowDeleteDialog}
-                  setShowVideoPlayer={setShowVideoPlayer}
-                  setVideoLink={setVideoLink}
-                />
-              ) : (
-                <VideoContainerComponent
-                  key={id}
-                  datum={datum}
-                  setVideoId={setVideoId}
-                  setShowDeleteDialog={setShowDeleteDialog}
-                  setShowVideoPlayer={setShowVideoPlayer}
-                  setVideoLink={setVideoLink}
-                />
-              )
-            )
-          )}
-      </div>
+          <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  gap-4">
+            {status !== "loading" && !data && (
+              <div className=" md:col-span-3 h-[300px] flex justify-center items-center text-center text-[#959595]">
+                <p>Items not found</p>
+              </div>
+            )}
+            {status === "loading" &&
+              [1, 2, 3, 4, 5, 6, 7, 8].map(item => (
+                <VideoContainerSkeleton key={item} />
+              ))}
+            {status === "success" &&
+              data?.pages?.map(page =>
+                page.map((datum: any, id: number) =>
+                  page.length === id + 1 ? (
+                    <VideoContainerComponent
+                      ref={lastCollectionRef}
+                      key={id}
+                      datum={datum}
+                      setVideoId={setVideoId}
+                      setShowDeleteDialog={setShowDeleteDialog}
+                      setShowVideoPlayer={setShowVideoPlayer}
+                      setVideoLink={setVideoLink}
+                    />
+                  ) : (
+                    <VideoContainerComponent
+                      key={id}
+                      datum={datum}
+                      setVideoId={setVideoId}
+                      setShowDeleteDialog={setShowDeleteDialog}
+                      setShowVideoPlayer={setShowVideoPlayer}
+                      setVideoLink={setVideoLink}
+                    />
+                  )
+                )
+              )}
+          </div>
+        </>
+      )}
     </div>
   );
 };

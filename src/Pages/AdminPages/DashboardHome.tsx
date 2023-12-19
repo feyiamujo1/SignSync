@@ -98,13 +98,14 @@ const DashboardHome = () => {
     <div className="">
       {showDeleteDialog && (
         <ConfirmDeleteDialog
-          sentenceId={sentenceId}
-          setSentenceId={setSentenceId}
+          mediaId={sentenceId}
+          setMediaId={setSentenceId}
           setShowDeleteDialog={setShowDeleteDialog}
           showSuccessToast={showSuccessToast}
           showErrorToast={showErrorToast}
           setToggleRefetchItemsNow={setToggleRefetchItemsNow}
           toggleRefetchItemsNow={toggleRefetchItemsNow}
+          mediaType="sentence"
         />
       )}
       {showEditTextDialog && (
@@ -124,7 +125,7 @@ const DashboardHome = () => {
       <div className="flex justify-between items-center mb-4 md:mb-6">
         <div>
           <h1 className="font-medium text-2xl font-[Rowdies] ">
-            Incoming Text
+            Text Repository
           </h1>
           <p className="text-xs md:text-base text-[#959595]">
             View all approved text and their uploaded videos.

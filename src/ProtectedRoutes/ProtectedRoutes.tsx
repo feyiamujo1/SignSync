@@ -6,7 +6,8 @@ const ProtectedRoutes = () => {
   // const { auth } = useAuth();
   const auth = JSON.parse(sessionStorage.getItem("auth") || '{}');
 
-  return auth?.token ? (
+
+  return auth?.role === "admin" ? (
     <Outlet />
   ) : (
     <Navigate to="/login" state={{ from: location }} replace />
