@@ -97,13 +97,14 @@ const DashboardReviewText = () => {
     <div className="">
       {showDeleteDialog && (
         <ConfirmDeleteDialog
-          sentenceId={sentenceId}
-          setSentenceId={setSentenceId}
+          mediaId={sentenceId}
+          setMediaId={setSentenceId}
           setShowDeleteDialog={setShowDeleteDialog}
           showSuccessToast={showSuccessToast}
           showErrorToast={showErrorToast}
           setToggleRefetchItemsNow={setToggleRefetchItemsNow}
           toggleRefetchItemsNow={toggleRefetchItemsNow}
+          mediaType="sentence"
         />
       )}
       {showEditTextDialog && (
