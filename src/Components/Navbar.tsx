@@ -315,45 +315,6 @@ const Navbar = () => {
               </Link>
             </>
           )}
-          {/* <div ref={showLanguageTogglerRef} className="relative group">
-            <button
-              onClick={() => {
-                window.innerWidth < 768 &&
-                  setShowLanguageToggler(!showLanguageToggler);
-              }}
-              className="flex items-center gap-0.5 group hover:text-custom-blue transition-all duration-300 bg-none">
-              <MdLanguage className="text-3xl text-[#999999] group-hover:text-custom-blue transition-all duration-300" />
-              <p className=" font-medium uppercase group-hover:text-custom-blue">
-                <span translate="no">{language}</span>
-              </p>
-            </button>
-            <div
-              className={`absolute w-[200px] top-7 right-0 sm:-right-2 bg-white text-sm p-2 rounded-md shadow-custom-stuff ${
-                showLanguageToggler ? "block" : "hidden md:group-hover:block"
-              }`}>
-              <p className="py-2 px-2 rounded-md">Change Language</p>
-              <hr className="my-1.5" />
-              <button
-                onClick={() => {
-                  toggleLanguage("en");
-                }}
-                className="py-2 px-2 w-full rounded-md text-left flex gap-2 items-center active:bg-[#f2f2f2] active:text-black md:hover:text-black  md:hover:bg-[#f2f2f2] transition-all duration-300">
-                <p>
-                  <span translate="no">English</span>
-                </p>
-              </button>
-              <hr className="my-1.5" />
-              <button
-                onClick={() => {
-                  toggleLanguage("fr");
-                }}
-                className="py-2 px-2 w-full rounded-md text-left flex gap-2 items-center active:bg-[#f2f2f2] active:text-black md:hover:text-black  md:hover:bg-[#f2f2f2] transition-all duration-300">
-                <p>
-                  <span translate="no">French</span>
-                </p>
-              </button>
-            </div>
-          </div> */}
           <GoogleTranslate />
         </div>
       </div>

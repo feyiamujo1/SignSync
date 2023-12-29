@@ -26,8 +26,7 @@ const GoogleTranslate = () => {
   }
 
   const initialLanguage =
-    getCookie("googtrans") !== "" ? getCookie("googtrans").slice(-2) : "";
-  console.log(initialLanguage);
+    getCookie("googtrans") !== "" ? getCookie("googtrans").slice(-2) : "en";
 
   const [language, setLanguage] = useState(initialLanguage);
 
