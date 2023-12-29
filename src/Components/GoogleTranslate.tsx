@@ -98,7 +98,7 @@ const GoogleTranslate = () => {
         }}
         className="flex items-center gap-0.5 group hover:text-custom-blue transition-all duration-300 bg-none">
         <MdLanguage className="text-3xl text-[#999999] group-hover:text-custom-blue" />
-        <p className=" font-medium uppercase group-hover:text-custom-blue">
+        <p className=" font-semibold uppercase group-hover:text-custom-blue">
           <span translate="no">{language}</span>
         </p>
         <MdArrowDropUp
@@ -124,7 +124,7 @@ const GoogleTranslate = () => {
           }}
           className="py-2 px-2 w-full rounded-md text-left flex gap-2 items-center active:bg-[#f2f2f2] active:text-black md:hover:text-black  md:hover:bg-[#f2f2f2] transition-all duration-300 hover:text-custom-blue">
           {/* <p> */}
-            <span translate="no">English</span>
+          <span translate="no">English</span>
           {/* </p> */}
           {language === "en" && <MdCheck className="-mt-0.5" />}
         </button>
@@ -135,7 +135,7 @@ const GoogleTranslate = () => {
           }}
           className="py-2 px-2 w-full rounded-md text-left flex gap-2 items-center active:bg-[#f2f2f2] active:text-black md:hover:text-black  md:hover:bg-[#f2f2f2] transition-all duration-300 hover:text-custom-blue">
           {/* <p className=""> */}
-            <span translate="no">French</span>
+          <span translate="no">French</span>
           {/* </p> */}
           {language === "fr" && <MdCheck className="-mt-0.5" />}
         </button>
