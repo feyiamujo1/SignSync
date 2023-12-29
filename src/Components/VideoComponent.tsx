@@ -64,6 +64,7 @@ const VideoComponent = ({
     // @ts-ignore
     mediaRecorderRef.current.start();
 
+    // @ts-ignore
     miniTimeoutRef.current = setTimeout(() => {
       console.log("i no gree");
       setCounterState("stop");
@@ -71,6 +72,7 @@ const VideoComponent = ({
       setCountdown(5);
     }, 5000);
 
+    // @ts-ignore
     mainTimeoutRef.current = setTimeout(() => {
       console.log("I'm here too");
       handleStopCaptureClick();

@@ -150,12 +150,14 @@ const BackupVideoComponent = ({
 
   const handleStartCaptureClick = () => {
     startRecording();
+    // @ts-ignore
     miniTimeoutRef.current = setTimeout(() => {
       setShowCountDown(true);
       setCounterState("stop");
       setCountdown(5);
     }, 5000);
 
+    // @ts-ignore
     mainTimeoutRef.current = setTimeout(() => {
       console.log("I'm here too");
       handleStopCaptureClick();
