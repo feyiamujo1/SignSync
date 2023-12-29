@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { MdArrowDropDown, MdArrowDropUp } from "react-icons/md";
 import { useEffect, useRef, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
+import GoogleTranslate from "./GoogleTranslate";
 
 const Navbar = () => {
   const authString = sessionStorage.getItem("auth") || "";
@@ -60,8 +61,10 @@ const Navbar = () => {
     navigate("/login");
   };
 
+  
+
   return (
-    <nav className="absolute w-full top-0 right-0 left-0 z-50 py-4 shadow-md bg-white">
+    <nav className="absolute w-full top-0 right-0 left-0  py-4 shadow-md bg-white z-50">
       <div className="w-[90%] mx-auto flex justify-between items-center">
         <div className="flex gap-5 items-center">
           <Link to={"/"}>
@@ -208,11 +211,11 @@ const Navbar = () => {
         </div>
         <div className={`flex gap-3 md:gap-5 items-center font-medium `}>
           <div ref={contributionDropDownRef} className="relative group">
-            <span
+            <button
               onClick={() => {
                 window.innerWidth < 768 && setShowDropDown(!showDropDown);
               }}
-              className={`flex items-center gap-1.5 cursor-pointer relative md:hover:text-custom-blue md:group-hover:text-custom-blue sm:text-lg ${
+              className={`flex items-center gap-1.5 cursor-pointer relative md:hover:text-custom-blue md:group-hover:text-custom-blue sm:text-lg transition-all duration-300 ${
                 showDropDown && "text-custom-blue"
               }`}>
               <p>Contribute</p>
@@ -226,19 +229,19 @@ const Navbar = () => {
                   showDropDown && "!hidden"
                 }`}
               />
-            </span>
+            </button>
             <div
               className={`absolute w-[200px] top-7 left-0 sm:-left-2 bg-white text-sm p-2 rounded-md shadow-custom-stuff ${
                 showDropDown ? "block" : "hidden md:group-hover:block"
               }`}>
               <Link to={"/translate-text"}>
-                <p className="py-2 px-2 rounded-md active:bg-[#d2d2d2] active:text-black md:hover:text-black  md:hover:bg-[#d2d2d2] transition-all duration-500">
+                <p className="py-2 px-2 rounded-md active:bg-[#f2f2f2] active:text-black md:hover:text-black  md:hover:bg-[#f2f2f2] transition-all duration-500">
                   Translate Text
                 </p>
               </Link>
               <hr className="my-1.5" />
               <Link to={"/contribute-text"}>
-                <p className="py-2 px-2 rounded-md active:bg-[#d2d2d2] active:text-black md:hover:text-black  md:hover:bg-[#d2d2d2] transition-all duration-500">
+                <p className="py-2 px-2 rounded-md active:bg-[#f2f2f2] active:text-black md:hover:text-black  md:hover:bg-[#f2f2f2] transition-all duration-500">
                   Contribute Text
                 </p>
               </Link>
@@ -246,17 +249,19 @@ const Navbar = () => {
           </div>
           {userName !== "" ? (
             <div ref={userDropDownRef} className="relative group">
-              <span
+              <button
                 onClick={() => {
                   window.innerWidth < 768 &&
                     setShowUserDropDown(!showUserDropDown);
                 }}
-                className={`flex items-center gap-1.5 cursor-pointer relative md:hover:text-custom-blue md:group-hover:text-custom-blue  ${
+                className={`flex items-center gap-1.5 cursor-pointer relative md:hover:text-custom-blue md:group-hover:text-custom-blue  transition-all duration-300 ${
                   showUserDropDown && "text-custom-blue"
                 }`}>
-                <FaUserCircle className="text-3xl text-[#999999]" />
+                <FaUserCircle className="text-3xl text-[#999999] group-hover:text-custom-blue transition-all duration-200" />
                 <div className="flex items-center ">
-                  <p className="font-medium sm:text-lg">{userName}</p>
+                  <p className="font-medium sm:text-lg">
+                    <span translate="no">{userName}</span>
+                  </p>
                   <MdArrowDropUp
                     className={`hidden md:group-hover:block ${
                       showUserDropDown && "!block"
@@ -268,7 +273,7 @@ const Navbar = () => {
                     }`}
                   />
                 </div>
-              </span>
+              </button>
               <div
                 className={`absolute w-[200px] top-7 right-1 sm:right-0 sm:-left-6 bg-white text-sm p-2 rounded-md shadow-custom-stuff ${
                   showUserDropDown ? "block" : "hidden md:group-hover:block"
@@ -276,13 +281,13 @@ const Navbar = () => {
                 {auth?.role === "admin" && (
                   <>
                     <Link to={"/admin/"}>
-                      <p className="py-2 px-2 rounded-md active:bg-[#d2d2d2] active:text-black md:hover:text-black  md:hover:bg-[#d2d2d2] transition-all duration-500">
+                      <p className="py-2 px-2 rounded-md active:bg-[#f2f2f2] active:text-black md:hover:text-black  md:hover:bg-[#f2f2f2] transition-all duration-500">
                         View All Text
                       </p>
                     </Link>
                     <hr className="my-1.5" />
                     <Link to={"/admin/review-new-text"}>
-                      <p className="py-2 px-2 rounded-md active:bg-[#d2d2d2] active:text-black md:hover:text-black  md:hover:bg-[#d2d2d2] transition-all duration-500">
+                      <p className="py-2 px-2 rounded-md active:bg-[#f2f2f2] active:text-black md:hover:text-black  md:hover:bg-[#f2f2f2] transition-all duration-500">
                         Verify New Text
                       </p>
                     </Link>
@@ -291,7 +296,7 @@ const Navbar = () => {
                 <hr className="my-1.5" />
                 <button
                   onClick={logout}
-                  className="w-full text-left cursor-pointer py-2 px-2 rounded-md active:bg-[#d2d2d2] active:text-black md:hover:text-black  md:hover:bg-[#d2d2d2] transition-all duration-500">
+                  className="w-full text-left cursor-pointer py-2 px-2 rounded-md active:bg-[#f2f2f2] active:text-black md:hover:text-black  md:hover:bg-[#f2f2f2] transition-all duration-500">
                   Logout
                 </button>
               </div>
@@ -305,11 +310,51 @@ const Navbar = () => {
               </Link>
               <Link
                 to="/register"
-                className="px-2 md:px-4 py-1 font-medium sm:text-lg bg-[#fe4646] w-fit rounded-md text-white flex gap-2 items-center group active:bg-[#d2d2d2] active:text-black md:hover:text-black  md:hover:bg-[#d2d2d2] transition-all duration-500">
+                className="px-2 md:px-4 py-1 font-medium sm:text-lg bg-[#fe4646] w-fit rounded-md text-white flex gap-2 items-center group active:bg-[#f2f2f2] active:text-black md:hover:text-black  md:hover:bg-[#f2f2f2] transition-all duration-500">
                 Register
               </Link>
             </>
           )}
+          {/* <div ref={showLanguageTogglerRef} className="relative group">
+            <button
+              onClick={() => {
+                window.innerWidth < 768 &&
+                  setShowLanguageToggler(!showLanguageToggler);
+              }}
+              className="flex items-center gap-0.5 group hover:text-custom-blue transition-all duration-300 bg-none">
+              <MdLanguage className="text-3xl text-[#999999] group-hover:text-custom-blue transition-all duration-300" />
+              <p className=" font-medium uppercase group-hover:text-custom-blue">
+                <span translate="no">{language}</span>
+              </p>
+            </button>
+            <div
+              className={`absolute w-[200px] top-7 right-0 sm:-right-2 bg-white text-sm p-2 rounded-md shadow-custom-stuff ${
+                showLanguageToggler ? "block" : "hidden md:group-hover:block"
+              }`}>
+              <p className="py-2 px-2 rounded-md">Change Language</p>
+              <hr className="my-1.5" />
+              <button
+                onClick={() => {
+                  toggleLanguage("en");
+                }}
+                className="py-2 px-2 w-full rounded-md text-left flex gap-2 items-center active:bg-[#f2f2f2] active:text-black md:hover:text-black  md:hover:bg-[#f2f2f2] transition-all duration-300">
+                <p>
+                  <span translate="no">English</span>
+                </p>
+              </button>
+              <hr className="my-1.5" />
+              <button
+                onClick={() => {
+                  toggleLanguage("fr");
+                }}
+                className="py-2 px-2 w-full rounded-md text-left flex gap-2 items-center active:bg-[#f2f2f2] active:text-black md:hover:text-black  md:hover:bg-[#f2f2f2] transition-all duration-300">
+                <p>
+                  <span translate="no">French</span>
+                </p>
+              </button>
+            </div>
+          </div> */}
+          <GoogleTranslate />
         </div>
       </div>
     </nav>

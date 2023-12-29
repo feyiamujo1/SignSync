@@ -50,9 +50,8 @@
   display: block !important;
 }
 
-
 @media screen and (max-width: 768px) {
-  video{
+  video {
     aspect-ratio: 1.75/1 !important;
   }
 }
@@ -61,7 +60,113 @@
   html {
     font-family: "Nunito", sans-serif;
   }
-  h1{
+  h1 {
     font-family: "Rowdies", sans-serif;
   }
+}
+
+.VIpgJd-ZVi9od-ORHb,
+.VIpgJd-ZVi9od-l4eHX-hSRGPd {
+  display: none !important;
+}
+.VIpgJd-ZVi9od-ORHb *,
+.VIpgJd-ZVi9od-SmfZ *,
+.VIpgJd-ZVi9od-xl07Ob *,
+.VIpgJd-ZVi9od-vH1Gmf *,
+.VIpgJd-ZVi9od-l9xktf * {
+  display: none !important;
+}
+.skiptranslate span {
+  display: none;
+}
+.skiptranslate:not(:first-child) {
+  display: none;
+}
+select.goog-te-combo {
+  height: 20px !important;
+  cursor: pointer;
+}
+.goog-logo-link {
+  display: none !important;
+}
+.goog-te-gadget {
+  height: 28px !important;
+  overflow: hidden;
+}
+select.goog-te-combo:not(:first-child) {
+  display: none;
+}
+.goog-te-banner-frame.skiptranslate {
+  display: none !important;
+}
+
+body > .skiptranslate {
+  display: none;
+}
+body {
+  top: 0px !important;
+}
+.VIpgJd-yAWNEb-L7lbkb html,
+.VIpgJd-yAWNEb-L7lbkb body,
+.VIpgJd-yAWNEb-L7lbkb div,
+.VIpgJd-yAWNEb-L7lbkb span,
+.VIpgJd-yAWNEb-L7lbkb iframe,
+.VIpgJd-yAWNEb-L7lbkb h1,
+.VIpgJd-yAWNEb-L7lbkb h2,
+.VIpgJd-yAWNEb-L7lbkb h3,
+.VIpgJd-yAWNEb-L7lbkb h4,
+.VIpgJd-yAWNEb-L7lbkb h5,
+.VIpgJd-yAWNEb-L7lbkb h6,
+.VIpgJd-yAWNEb-L7lbkb p,
+.VIpgJd-yAWNEb-L7lbkb a,
+.VIpgJd-yAWNEb-L7lbkb img,
+.VIpgJd-yAWNEb-L7lbkb ol,
+.VIpgJd-yAWNEb-L7lbkb ul,
+.VIpgJd-yAWNEb-L7lbkb li,
+.VIpgJd-yAWNEb-L7lbkb table,
+.VIpgJd-yAWNEb-L7lbkb form,
+.VIpgJd-yAWNEb-L7lbkb tbody,
+.VIpgJd-yAWNEb-L7lbkb tr,
+.VIpgJd-yAWNEb-L7lbkb td {
+  display: none !important;
+}
+.goog-tooltip {
+  display: none !important;
+}
+.goog-tooltip:hover {
+  display: none !important;
+}
+.goog-text-highlight {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+#goog-gt-tt,
+.goog-te-balloon-frame {
+  display: none !important;
+}
+.goog-text-highlight {
+  background: none !important;
+  box-shadow: none !important;
+}
+
+#google_translate_element {
+  display: none;
+}
+.goog-te-balloon-frame {
+  display: none;
+}
+#goog-gt-tt {
+  display: none !important;
+}
+.skiptranslate:hover {
+  background-color: transparent !important;
+}
+.VIpgJd-yAWNEb-VIpgJD-fmcm5-sn54Q {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+.VIpgJd-yAWNEb-VIpgJd-fmcmS-sn54Q {
+  background-color: transparent !important;
+  box-shadow: none !important;
 }
