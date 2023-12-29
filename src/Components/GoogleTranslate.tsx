@@ -95,9 +95,9 @@ const GoogleTranslate = () => {
           window.innerWidth < 768 &&
             setShowLanguageToggler(!showLanguageToggler);
         }}
-        className="flex items-center gap-0.5 group hover:text-custom-blue transition-all duration-300 bg-none">
+        className="flex items-center gap-1 sm:gap-1.5 group hover:text-custom-blue transition-all duration-300 bg-none">
         <MdLanguage className="text-3xl text-[#999999] group-hover:text-custom-blue" />
-        <p className=" font-semibold uppercase group-hover:text-custom-blue">
+        <p className=" font-semibold uppercase group-hover:text-custom-blue hidden md:block">
           <span translate="no">{language}</span>
         </p>
         <MdArrowDropUp

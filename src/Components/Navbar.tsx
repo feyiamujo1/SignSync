@@ -209,13 +209,13 @@ const Navbar = () => {
             </div>
           </Link>
         </div>
-        <div className={`flex gap-3 md:gap-5 items-center font-medium `}>
+        <div className={`flex gap-2 md:gap-5 items-center font-medium `}>
           <div ref={contributionDropDownRef} className="relative group">
             <button
               onClick={() => {
                 window.innerWidth < 768 && setShowDropDown(!showDropDown);
               }}
-              className={`flex items-center gap-1.5 cursor-pointer relative md:hover:text-custom-blue md:group-hover:text-custom-blue sm:text-lg transition-all duration-300 ${
+              className={`flex items-center gap-1 sm:gap-1.5 cursor-pointer relative md:hover:text-custom-blue md:group-hover:text-custom-blue sm:text-lg transition-all duration-300 ${
                 showDropDown && "text-custom-blue"
               }`}>
               <p>Contribute</p>
@@ -254,11 +254,11 @@ const Navbar = () => {
                   window.innerWidth < 768 &&
                     setShowUserDropDown(!showUserDropDown);
                 }}
-                className={`flex items-center gap-1.5 cursor-pointer relative md:hover:text-custom-blue md:group-hover:text-custom-blue  transition-all duration-300 ${
+                className={`flex items-center gap-1 sm:gap-1.5 cursor-pointer relative md:hover:text-custom-blue md:group-hover:text-custom-blue  transition-all duration-300 ${
                   showUserDropDown && "text-custom-blue"
                 }`}>
                 <FaUserCircle className="text-3xl text-[#999999] group-hover:text-custom-blue transition-all duration-200" />
-                <div className="flex items-center ">
+                <div className="flex items-center gap-1 sm:gap-1.5 ">
                   <p className="font-medium sm:text-lg">
                     <span translate="no">{userName}</span>
                   </p>

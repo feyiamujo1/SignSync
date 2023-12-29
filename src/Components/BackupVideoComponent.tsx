@@ -104,7 +104,7 @@ const BackupVideoComponent = ({
       video: {
         width: { min: 640, ideal: 1920, max: 1920 },
         height: { min: 400, ideal: 1080 },
-        // aspectRatio: 1.777777778,
+        aspectRatio: 1.777777778,
         frameRate: 25,
         facingMode: { exact: "user" }
       },

@@ -9,7 +9,7 @@ const Home = () => {
     <div className="relative md:h-screen pt-24 md:py-0">
       <Navbar />
       <div className="w-[90%] mx-auto flex flex-col md:flex-row-reverse ">
-        <div className="w-full md:w-1/2 h-screen flex flex-col md:justify-center lg:justify-end lg:px-4 ">
+        <div className="w-full md:w-1/2 md:h-screen flex flex-col md:justify-center lg:justify-end lg:px-4 ">
           <div className="w-[250px] sm:w-[70%] mx-auto md:w-full h-fit">
             <Lottie className="" animationData={animation} loop={true} />
           </div>
