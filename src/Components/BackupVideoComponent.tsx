@@ -96,7 +96,7 @@ const BackupVideoComponent = ({
   const [generatedVideoFile, setGeneratedVideoFile] = useState<File | null>();
   const [videoPreviewStream, setVideoPreviewStream] =
     useState<MediaStream | null>();
-  const auth = JSON.parse(sessionStorage.getItem("auth") || "");
+  const auth = JSON.parse(sessionStorage.getItem("auth") || "{}");
   const token = auth.token || "";
 
   const { status, startRecording, stopRecording, mediaBlobUrl, clearBlobUrl } =

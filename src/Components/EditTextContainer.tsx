@@ -27,7 +27,7 @@ const EditTextContainer = ({
   setNewSentence: Function;
 }) => {
   const navigate = useNavigate();
-  const auth = JSON.parse(sessionStorage.getItem("auth") || "");
+  const auth = JSON.parse(sessionStorage.getItem("auth") || "{}");
   const token = auth.token || "";
 
   const [isUploading, setIsUploading] = useState(false);

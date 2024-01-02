@@ -27,7 +27,7 @@ const ConfirmDeleteDialog = ({
 }) => {
   const navigate = useNavigate();
   const [isDeleting, setIsDeleting] = useState(false);
-  const auth = JSON.parse(sessionStorage.getItem("auth") || "");
+  const auth = JSON.parse(sessionStorage.getItem("auth") || "{}");
   const token = auth.token || "";
   const deleteSentence = async () => {
     setIsDeleting(true);
