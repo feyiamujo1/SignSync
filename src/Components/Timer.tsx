@@ -16,9 +16,9 @@ const Timer = ({countdown, setCountdown, counterState}: {countdown: number, setC
   return (
     <div className="">
       {countdown > 0 && (
-        <div className="text-center">
+        <div className="text-center space-y-1">
           <p className="text-white font-semibold">Recording will {counterState} in:</p>
-          <p className="text-white text-6xl ">{countdown}</p>
+          <p className="text-white text-4xl md:text-6xl ">{countdown}</p>
         </div>
       )}
     </div>
