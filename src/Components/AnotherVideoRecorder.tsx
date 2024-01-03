@@ -274,22 +274,22 @@ const AnotherVideoRecorder = ({
       setIsUploading(false);
     } else {
       console.log(generatedVideoFile);
-      const url = URL.createObjectURL(generatedVideoFile);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = generatedVideoFile.name;
+    //   const url = URL.createObjectURL(generatedVideoFile);
+    //   const a = document.createElement("a");
+    //   a.href = url;
+    //   a.download = generatedVideoFile.name;
 
-      // Append the anchor to the body
-      document.body.appendChild(a);
+    //   // Append the anchor to the body
+    //   document.body.appendChild(a);
 
-      // Trigger a click on the anchor
-      a.click();
+    //   // Trigger a click on the anchor
+    //   a.click();
 
-      // Remove the anchor from the body
-      document.body.removeChild(a);
+    //   // Remove the anchor from the body
+    //   document.body.removeChild(a);
 
-      // Revoke the URL
-      URL.revokeObjectURL(url);
+    //   // Revoke the URL
+    //   URL.revokeObjectURL(url);
       try {
         console.log(questions);
         console.log(questions[currentQuestionPosition]?._id);
