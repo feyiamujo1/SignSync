@@ -5,7 +5,7 @@ import axios from "axios";
 import TextComponent from "../Components/TextComponent";
 // import VideoComponent from "../Components/VideoComponent";
 import Navbar from "../Components/Navbar";
-// import BackupVideoComponent from "../Components/BackupVideoComponent";
+import BackupVideoComponent from "../Components/BackupVideoComponent";
 import CameraErrorPopUp from "../Components/CameraErrorPopUp";
 import AnotherVideoRecorder from "../Components/AnotherVideoRecorder";
 
@@ -130,38 +130,41 @@ const Video = () => {
                 isUploading={isUploading}
                 questions={questions}
               /> */}
-              {/* <BackupVideoComponent
-                questions={questions}
-                isUploading={isUploading}
-                setIsUploading={setIsUploading}
-                setIsUploadingStatus={setIsUploadingStatus}
-                currentQuestionPosition={currentQuestionPosition}
-                setLoadingNextPage={setLoadingNextPage}
-                setPage={setPage}
-                fetchQuestions={fetchQuestions}
-                setCurrentQuestionPosition={setCurrentQuestionPosition}
-                showCameraError={showCameraError}
-                setShowCameraError={setShowCameraError}
-                setCameraErrorMessage={setCameraErrorMessage}
-                cameraPermission={cameraPermission}
-                setCameraPermission={setCameraPermission}
-              /> */}
-              <AnotherVideoRecorder
-                questions={questions}
-                isUploading={isUploading}
-                setIsUploading={setIsUploading}
-                setIsUploadingStatus={setIsUploadingStatus}
-                currentQuestionPosition={currentQuestionPosition}
-                setLoadingNextPage={setLoadingNextPage}
-                setPage={setPage}
-                fetchQuestions={fetchQuestions}
-                setCurrentQuestionPosition={setCurrentQuestionPosition}
-                showCameraError={showCameraError}
-                setShowCameraError={setShowCameraError}
-                setCameraErrorMessage={setCameraErrorMessage}
-                cameraPermission={cameraPermission}
-                setCameraPermission={setCameraPermission}
-              />
+              {window.innerWidth < 768 ? (
+                <BackupVideoComponent
+                  questions={questions}
+                  isUploading={isUploading}
+                  setIsUploading={setIsUploading}
+                  setIsUploadingStatus={setIsUploadingStatus}
+                  currentQuestionPosition={currentQuestionPosition}
+                  setLoadingNextPage={setLoadingNextPage}
+                  setPage={setPage}
+                  fetchQuestions={fetchQuestions}
+                  setCurrentQuestionPosition={setCurrentQuestionPosition}
+                  showCameraError={showCameraError}
+                  setShowCameraError={setShowCameraError}
+                  setCameraErrorMessage={setCameraErrorMessage}
+                  cameraPermission={cameraPermission}
+                  setCameraPermission={setCameraPermission}
+                />
+              ) : (
+                <AnotherVideoRecorder
+                  questions={questions}
+                  isUploading={isUploading}
+                  setIsUploading={setIsUploading}
+                  setIsUploadingStatus={setIsUploadingStatus}
+                  currentQuestionPosition={currentQuestionPosition}
+                  setLoadingNextPage={setLoadingNextPage}
+                  setPage={setPage}
+                  fetchQuestions={fetchQuestions}
+                  setCurrentQuestionPosition={setCurrentQuestionPosition}
+                  showCameraError={showCameraError}
+                  setShowCameraError={setShowCameraError}
+                  setCameraErrorMessage={setCameraErrorMessage}
+                  cameraPermission={cameraPermission}
+                  setCameraPermission={setCameraPermission}
+                />
+              )}
             </div>
             <div className="absolute bg-[#f5f5ff] flex justify-center items-center gap-1 animate-spin-slow w-[90px] h-[90px] rounded-full right-0 top-14 -z-10 "></div>
           </div>
