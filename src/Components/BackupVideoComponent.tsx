@@ -102,8 +102,8 @@ const BackupVideoComponent = ({
   const { status, startRecording, stopRecording, mediaBlobUrl, clearBlobUrl } =
     useReactMediaRecorder({
       video: {
-        width: { min: 640, ideal: 1920, max: 1920 },
-        height: { min: 400, ideal: 1080 },
+        width: 1920,
+        height: 1080,
         aspectRatio: 1.777777778,
         frameRate: 25,
         facingMode: { exact: "user" }
@@ -291,6 +291,8 @@ const BackupVideoComponent = ({
           ) {
             // Camera not found or not available
             setCameraPermission("Camera Unavailable");
+          }else if (e.name === "NotReadableError"){
+            setCameraPermission("Camera Is In Use By Another Device");
           } else {
             // Other errors
             setCameraPermission("Camera Error");

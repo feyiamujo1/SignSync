@@ -20,7 +20,8 @@ const TextComponent = ({
   isUploading,
   isUploadingStatus,
   setIsUploadingStatus,
-  loadingNextPage
+  loadingNextPage,
+  error
 }: {
   currentQuestionPosition: number;
   setCurrentQuestionPosition: Function;
@@ -29,6 +30,7 @@ const TextComponent = ({
   isUploadingStatus: string;
   setIsUploadingStatus: Function;
   loadingNextPage: boolean;
+  error: string;
 }) => {
   const textSliderRef = useRef<any>(null);
 
@@ -93,10 +95,20 @@ const TextComponent = ({
               textSliderRef.current = swiper;
             }}
             className=" aspect-video shadow-custom-stuff rounded-md box-border">
-            {questions?.length === 0 ? (
+            {questions?.length === 0 && error === "" ? (
               <SwiperSlide className=" bg-white flex justify-center items-center h-full w-full rounded-md">
                 <div className=" w-full h-full flex flex-col items-center justify-center shadow-custom-stuff rounded-md">
-                  <p className="text-[#959595]custom-blue">Thanks for participating</p>
+                  <p className="text-[#959595]custom-blue">
+                    Thanks for participating
+                  </p>
+                </div>
+              </SwiperSlide>
+            ) : questions?.length === 0 && error !== "" ? (
+              <SwiperSlide className=" bg-white flex justify-center items-center h-full w-full rounded-md">
+                <div className=" w-full h-full flex flex-col items-center justify-center shadow-custom-stuff rounded-md">
+                  <p className="text-[#959595]custom-blue">
+                    {error}
+                  </p>
                 </div>
               </SwiperSlide>
             ) : (

@@ -5,8 +5,9 @@ import axios from "axios";
 import TextComponent from "../Components/TextComponent";
 // import VideoComponent from "../Components/VideoComponent";
 import Navbar from "../Components/Navbar";
-import BackupVideoComponent from "../Components/BackupVideoComponent";
+// import BackupVideoComponent from "../Components/BackupVideoComponent";
 import CameraErrorPopUp from "../Components/CameraErrorPopUp";
+import AnotherVideoRecorder from "../Components/AnotherVideoRecorder";
 
 const Video = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -21,6 +22,7 @@ const Video = () => {
   const [showCameraError, setShowCameraError] = useState(false);
   const [CameraErrorMessage, setCameraErrorMessage] = useState("");
   const [cameraPermission, setCameraPermission] = useState("Camera Error");
+  const [error, setError] = useState("");
   // const [recordedChunks, setRecordedChunks] = useState<any[]>([]);
 
   const fetchQuestions = async () => {
@@ -29,14 +31,19 @@ const Video = () => {
         `https://sign-language-gc07.onrender.com/api/main/fetchStrings/user?page=${page}`
       );
       if (response.status === 200) {
+        setError("");
         console.log(response);
         setQuestions(response?.data?.data);
         setIsLoading(false);
         setLoadingNextPage(false);
       }
     } catch (error: any) {
-      console.log(error);
+      // console.log(error);
       setIsLoading(false);
+      if (error.code === "ERR_NETWORK") {
+        console.log("Here");
+        setError("Network error, please check your internet connection!");
+      }
     }
   };
   useEffect(() => {
@@ -93,7 +100,9 @@ const Video = () => {
         <CameraErrorPopUp
           CameraErrorMessage={CameraErrorMessage}
           setShowCameraError={setShowCameraError}
-          cameraPermission={cameraPermission} setCameraPermission={setCameraPermission}
+          cameraPermission={cameraPermission}
+          setCameraPermission={setCameraPermission}
+          setCameraErrorMessage={setCameraErrorMessage}
         />
       )}
       {isLoading ? (
@@ -111,6 +120,7 @@ const Video = () => {
                 isUploadingStatus={isUploadingStatus}
                 setIsUploadingStatus={setIsUploadingStatus}
                 loadingNextPage={loadingNextPage}
+                error={error}
               />
               <div className="border hidden landscape:hidden md:block"></div>
               {/* <VideoComponent
@@ -120,7 +130,23 @@ const Video = () => {
                 isUploading={isUploading}
                 questions={questions}
               /> */}
-              <BackupVideoComponent
+              {/* <BackupVideoComponent
+                questions={questions}
+                isUploading={isUploading}
+                setIsUploading={setIsUploading}
+                setIsUploadingStatus={setIsUploadingStatus}
+                currentQuestionPosition={currentQuestionPosition}
+                setLoadingNextPage={setLoadingNextPage}
+                setPage={setPage}
+                fetchQuestions={fetchQuestions}
+                setCurrentQuestionPosition={setCurrentQuestionPosition}
+                showCameraError={showCameraError}
+                setShowCameraError={setShowCameraError}
+                setCameraErrorMessage={setCameraErrorMessage}
+                cameraPermission={cameraPermission}
+                setCameraPermission={setCameraPermission}
+              /> */}
+              <AnotherVideoRecorder
                 questions={questions}
                 isUploading={isUploading}
                 setIsUploading={setIsUploading}
