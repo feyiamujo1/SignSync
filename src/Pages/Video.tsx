@@ -130,7 +130,7 @@ const Video = () => {
                 isUploading={isUploading}
                 questions={questions}
               /> */}
-              {window.innerWidth < 768 ? (
+              {window.innerWidth < 1024 ? (
                 <BackupVideoComponent
                   questions={questions}
                   isUploading={isUploading}
