@@ -170,3 +170,16 @@ body {
   background-color: transparent !important;
   box-shadow: none !important;
 }
+/* Firefox */
+@media (prefers-color-scheme: dark) {
+  :root {
+      color-scheme: light;
+  }
+}
+
+/* Chrome */
+@media (forced-colors: active) {
+  :root {
+      color-scheme: light;
+  }
+}

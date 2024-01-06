@@ -274,22 +274,22 @@ const AnotherVideoRecorder = ({
       setIsUploading(false);
     } else {
       console.log(generatedVideoFile);
-    //   const url = URL.createObjectURL(generatedVideoFile);
-    //   const a = document.createElement("a");
-    //   a.href = url;
-    //   a.download = generatedVideoFile.name;
+      //   const url = URL.createObjectURL(generatedVideoFile);
+      //   const a = document.createElement("a");
+      //   a.href = url;
+      //   a.download = generatedVideoFile.name;
 
-    //   // Append the anchor to the body
-    //   document.body.appendChild(a);
+      //   // Append the anchor to the body
+      //   document.body.appendChild(a);
 
-    //   // Trigger a click on the anchor
-    //   a.click();
+      //   // Trigger a click on the anchor
+      //   a.click();
 
-    //   // Remove the anchor from the body
-    //   document.body.removeChild(a);
+      //   // Remove the anchor from the body
+      //   document.body.removeChild(a);
 
-    //   // Revoke the URL
-    //   URL.revokeObjectURL(url);
+      //   // Revoke the URL
+      //   URL.revokeObjectURL(url);
       try {
         console.log(questions);
         console.log(questions[currentQuestionPosition]?._id);
@@ -365,8 +365,10 @@ const AnotherVideoRecorder = ({
               disabled={showCountDown || isUploading}
               className="absolute bottom-4 z-50 left-0 right-0 mx-auto rounded-md px-2 py-1.5 bg-[#d30222] w-fit text-white flex items-center gap-2"
               onClick={handleStopCaptureClick}>
-              Stop Recording
-              <BsFillStopFill className="text-custom-blue" />
+              <span>Stop Recording</span>
+              <span>
+                <BsFillStopFill className="text-custom-blue" />
+              </span>
             </button>
           ) : null}
           {recordingStatus === "Camera Idle" ||
@@ -380,8 +382,10 @@ const AnotherVideoRecorder = ({
                   ? handleStartToRetakeRecording()
                   : handleStartRecording();
               }}>
-              {recordedVideo ? "Retake" : "Start"} Recording
-              <BsCameraVideoFill className="text-[#d30222] transition-all duration-500 group-hover:text-white group-disabled:text-white" />
+              <span>{recordedVideo ? "Retake" : "Start"} Recording</span>
+              <span>
+                <BsCameraVideoFill className="text-[#d30222] transition-all duration-500 group-hover:text-white group-disabled:text-white" />
+              </span>
             </button>
           ) : null}
           {!permission && (
@@ -405,9 +409,9 @@ const AnotherVideoRecorder = ({
                 autoPlay
                 loop
                 playsInline></video>
-              <a download href={recordedVideo}>
+              {/* <a download href={recordedVideo}>
                 Download Recording
-              </a>
+              </a> */}
             </div>
           ) : null}
           {/* {!recordedVideo ? ( */}
@@ -429,7 +433,7 @@ const AnotherVideoRecorder = ({
           type="button"
           disabled={isUploading || questions?.length === 0 || showCameraError}
           onClick={uploadVideo}
-          className={`shadow-custom-stuff flex gap-2 items-center justify-center px-3 py-1.5 rounded-md font-semibold text-lg bg-custom-blue text-white active:bg-[#d2d2d2] active:text-black md:hover:text-black  md:hover:bg-[#d2d2d2] transition-all duration-300 w-[109px] h-[40px] disabled:bg-[#d2d2d2]`}>
+          className={`shadow-custom-stuff flex gap-2 items-center justify-center px-3 py-1.5 rounded-md font-semibold text-lg bg-custom-blue text-white active:bg-[#d2d2d2] active:text-black md:hover:text-black  md:hover:bg-[#d2d2d2] transition-all duration-300 w-fit h-[40px] disabled:bg-[#d2d2d2]`}>
           {isUploading ? (
             <MoonLoader color="#000" size={20} />
           ) : (

@@ -312,7 +312,6 @@ const BackupVideoComponent = ({
         "It seems there are problems with your camera. Please inspect your camera settings and refresh the page."
       );
       setShowCameraError(true);
-      console.log("Here instead!");
     }
   };
 
@@ -331,7 +330,7 @@ const BackupVideoComponent = ({
       </p>
       <div className="aspect-video bg-black overflow-hidden relative ">
         {showCountDown && countdown !== 0 && (
-          <div className="absolute bottom-0 top-0 right-0 left-0 w-full h-full flex justify-center items-center z-30  ">
+          <div className="absolute bottom-1 sm:bottom-0 top-0 right-0 left-0 w-full h-full flex justify-center items-center z-30  ">
             <Timer
               countdown={countdown}
               setCountdown={setCountdown}
@@ -345,8 +344,10 @@ const BackupVideoComponent = ({
               disabled={showCountDown || isUploading}
               className="absolute bottom-4 z-50 left-0 right-0 mx-auto rounded-md px-2 py-1.5 bg-[#d30222] w-fit text-white flex items-center gap-2"
               onClick={handleStopCaptureClick}>
-              Stop Recording
-              <BsFillStopFill className="text-custom-blue" />
+              <span>Stop Recording</span>
+              <span>
+                <BsFillStopFill className="text-custom-blue" />
+              </span>
             </button>
           ) : status === "acquiring_media" ? (
             <button
@@ -359,7 +360,8 @@ const BackupVideoComponent = ({
               disabled={showCountDown || isUploading || showCameraError}
               className="absolute bottom-4 z-50 left-0 right-0 mx-auto rounded-md px-2 py-1.5 bg-custom-blue w-fit text-white flex items-center gap-2 transition-all duration-500 hover:backdrop-blur-[5rem] hover:bg-[#202020] group disabled:hover:bg-[#d2d2d2] disabled:hover:!text-white disabled:bg-[#d2d2d2] disabled:!text-white"
               onClick={handeStartRecording}>
-              {mediaBlobUrl ? "Retake" : "Start"} Recording
+              <span>{mediaBlobUrl ? "Retake" : "Start"}</span>{" "}
+              <span>Recording</span>
               <BsCameraVideoFill className="text-[#d30222] transition-all duration-500 group-hover:text-white group-disabled:text-white" />
             </button>
           )}
@@ -380,19 +382,24 @@ const BackupVideoComponent = ({
         </div>
       </div>
       <div className="text-center mt-3">
-        <p className="text-[#959595] capitalize">Status: {status}</p>
+        <p className="text-[#959595] capitalize">
+          <span>Status:</span> <span>{status}</span>
+        </p>
       </div>
       <div className="flex justify-center mt-4">
         <button
           type="button"
           disabled={isUploading || questions?.length === 0 || showCameraError}
           onClick={uploadVideo}
-          className={`shadow-custom-stuff flex gap-2 items-center justify-center px-3 py-1.5 rounded-md font-semibold text-lg bg-custom-blue text-white active:bg-[#d2d2d2] active:text-black md:hover:text-black  md:hover:bg-[#d2d2d2] transition-all duration-300 w-[109px] h-[40px] disabled:bg-[#d2d2d2]`}>
+          className={`shadow-custom-stuff flex gap-2 items-center justify-center px-3 py-1.5 rounded-md font-semibold text-lg bg-custom-blue text-white active:bg-[#d2d2d2] active:text-black md:hover:text-black  md:hover:bg-[#d2d2d2] transition-all duration-300 w-fit h-[40px] disabled:bg-[#d2d2d2]`}>
           {isUploading ? (
             <MoonLoader color="#000" size={20} />
           ) : (
             <>
-              Submit <RiUploadCloudFill />
+              <span>Submit</span>{" "}
+              <span>
+                <RiUploadCloudFill />
+              </span>
             </>
           )}
         </button>

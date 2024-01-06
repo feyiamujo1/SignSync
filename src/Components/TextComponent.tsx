@@ -106,9 +106,7 @@ const TextComponent = ({
             ) : questions?.length === 0 && error !== "" ? (
               <SwiperSlide className=" bg-white flex justify-center items-center h-full w-full rounded-md">
                 <div className=" w-full h-full flex flex-col items-center justify-center shadow-custom-stuff rounded-md">
-                  <p className="text-[#959595]custom-blue">
-                    {error}
-                  </p>
+                  <p className="text-[#959595]custom-blue">{error}</p>
                 </div>
               </SwiperSlide>
             ) : (
@@ -142,7 +140,10 @@ const TextComponent = ({
           className={`shadow-custom-stuff flex gap-2 items-center px-2.5 text-lg py-1.5 rounded-md md:font-semibold md:hover:font-medium bg-[#d2d2d2] active:bg-custom-blue active:text-white md:hover:text-white md:hover:bg-[#4675cf] transition-all duration-300 disabled:bg-[#f3f2f1] disabled:hover:bg-[#f3f2f1] disabled:text-[#adae95] disabled:hover:text-[#adae95]  ${
             isUploading && " pointer-events-none"
           }`}>
-          <TiArrowBack /> Previous
+          <span>
+            <TiArrowBack />
+          </span>{" "}
+          <span>Previous</span>
         </button>
         <button
           disabled={
@@ -154,7 +155,10 @@ const TextComponent = ({
           className={`shadow-custom-stuff flex gap-2 items-center px-6 text-lg py-1.5 rounded-md md:font-semibold md:hover:font-medium bg-[#d2d2d2] active:bg-custom-blue active:text-white md:hover:text-white md:hover:bg-[#4675cf] transition-all duration-300 disabled:bg-[#f3f2f1] disabled:hover:bg-[#f3f2f1] disabled:text-[#adae95] disabled:hover:text-[#adae95] ${
             isUploading && " pointer-events-none"
           }`}>
-          Next <TiArrowForward />
+          <span>Next</span>{" "}
+          <span>
+            <TiArrowForward />
+          </span>
         </button>
       </div>
     </div>

@@ -61,8 +61,6 @@ const Navbar = () => {
     navigate("/login");
   };
 
-  
-
   return (
     <nav className="absolute w-full top-0 right-0 left-0  py-4 shadow-md bg-white z-50">
       <div className="w-[90%] mx-auto flex justify-between items-center">
@@ -218,17 +216,21 @@ const Navbar = () => {
               className={`flex items-center gap-1 sm:gap-1.5 cursor-pointer relative md:hover:text-custom-blue md:group-hover:text-custom-blue sm:text-lg transition-all duration-300 ${
                 showDropDown && "text-custom-blue"
               }`}>
-              <p>Contribute</p>
-              <MdArrowDropUp
-                className={`hidden md:group-hover:block ${
-                  showDropDown && "!block"
-                }`}
-              />
-              <MdArrowDropDown
-                className={`block md:group-hover:hidden ${
-                  showDropDown && "!hidden"
-                }`}
-              />
+              <span>Contribute</span>
+              <span>
+                <MdArrowDropUp
+                  className={`hidden md:group-hover:block ${
+                    showDropDown && "!block"
+                  }`}
+                />
+              </span>
+              <span>
+                <MdArrowDropDown
+                  className={`block md:group-hover:hidden ${
+                    showDropDown && "!hidden"
+                  }`}
+                />
+              </span>
             </button>
             <div
               className={`absolute w-[200px] top-7 left-0 sm:-left-2 bg-white text-sm p-2 rounded-md shadow-custom-stuff ${
@@ -258,10 +260,10 @@ const Navbar = () => {
                   showUserDropDown && "text-custom-blue"
                 }`}>
                 <FaUserCircle className="text-3xl text-[#999999] group-hover:text-custom-blue transition-all duration-200" />
-                <div className="flex items-center gap-1 sm:gap-1.5 ">
-                  <p className="font-medium sm:text-lg">
+                <span className="flex items-center gap-1 sm:gap-1.5 ">
+                  <span className="font-medium sm:text-lg">
                     <span translate="no">{userName}</span>
-                  </p>
+                  </span>
                   <MdArrowDropUp
                     className={`hidden md:group-hover:block ${
                       showUserDropDown && "!block"
@@ -272,7 +274,7 @@ const Navbar = () => {
                       showUserDropDown && "!hidden"
                     }`}
                   />
-                </div>
+                </span>
               </button>
               <div
                 className={`absolute w-[200px] top-7 right-1 sm:right-0 sm:-left-6 bg-white text-sm p-2 rounded-md shadow-custom-stuff ${
