@@ -330,7 +330,7 @@ const BackupVideoComponent = ({
       </p>
       <div className="aspect-video bg-black overflow-hidden relative ">
         {showCountDown && countdown !== 0 && (
-          <div className="absolute bottom-1 sm:bottom-0 top-0 right-0 left-0 w-full h-full flex justify-center items-center z-30  ">
+          <div className="absolute bottom-0 pb-3 sm:bottom-0 top-0 right-0 left-0 w-full h-full flex justify-center items-center z-30  ">
             <Timer
               countdown={countdown}
               setCountdown={setCountdown}
@@ -339,32 +339,36 @@ const BackupVideoComponent = ({
           </div>
         )}
         <div>
-          {status === "recording" ? (
-            <button
-              disabled={showCountDown || isUploading}
-              className="absolute bottom-4 z-50 left-0 right-0 mx-auto rounded-md px-2 py-1.5 bg-[#d30222] w-fit text-white flex items-center gap-2"
-              onClick={handleStopCaptureClick}>
-              <span>Stop Recording</span>
-              <span>
-                <BsFillStopFill className="text-custom-blue" />
-              </span>
-            </button>
-          ) : status === "acquiring_media" ? (
-            <button
-              className="absolute bottom-4 z-50 left-0 right-0 mx-auto rounded-md px-2 py-1.5 bg-custom-blue w-fit text-white flex items-center gap-2 transition-all duration-500 hover:backdrop-blur-[5rem] hover:bg-[#202020] group disabled:hover:bg-[#d2d2d2] disabled:hover:!text-white disabled:bg-[#d2d2d2] disabled:!text-white"
-              onClick={openCamera}>
-              Get Permission
-            </button>
-          ) : (
-            <button
-              disabled={showCountDown || isUploading || showCameraError}
-              className="absolute bottom-4 z-50 left-0 right-0 mx-auto rounded-md px-2 py-1.5 bg-custom-blue w-fit text-white flex items-center gap-2 transition-all duration-500 hover:backdrop-blur-[5rem] hover:bg-[#202020] group disabled:hover:bg-[#d2d2d2] disabled:hover:!text-white disabled:bg-[#d2d2d2] disabled:!text-white"
-              onClick={handeStartRecording}>
-              <span>{mediaBlobUrl ? "Retake" : "Start"}</span>{" "}
-              <span>Recording</span>
-              <BsCameraVideoFill className="text-[#d30222] transition-all duration-500 group-hover:text-white group-disabled:text-white" />
-            </button>
-          )}
+          <button
+            disabled={showCountDown || isUploading}
+            className={`absolute bottom-4 left-0 right-0 mx-auto rounded-md px-2 py-1.5 bg-[#d30222] w-fit text-white flex items-center gap-2 transition-visibility ${
+              status === "recording" ? "visible z-50" : "invisible z-0"
+            }`}
+            onClick={handleStopCaptureClick}>
+            <span>Stop Recording</span>
+            <span>
+              <BsFillStopFill className="text-custom-blue" />
+            </span>
+          </button>
+          <button
+            className={`absolute bottom-4 left-0 right-0 mx-auto rounded-md px-2 py-1.5 bg-custom-blue w-fit text-white flex items-center gap-2 transition-all duration-500 hover:backdrop-blur-[5rem] hover:bg-[#202020] group disabled:hover:bg-[#d2d2d2] disabled:hover:!text-white disabled:bg-[#d2d2d2] disabled:!text-white transition-visibility ${
+              status === "acquiring_media" ? "visible z-50" : "invisible z-0"
+            }`}
+            onClick={openCamera}>
+            Get Permission
+          </button>
+          <button
+            disabled={showCountDown || isUploading || showCameraError}
+            className={`absolute bottom-4 left-0 right-0 mx-auto rounded-md px-2 py-1.5 bg-custom-blue w-fit text-white flex items-center gap-2 transition-all duration-500 hover:backdrop-blur-[5rem] hover:bg-[#202020] group disabled:hover:bg-[#d2d2d2] disabled:hover:!text-white disabled:bg-[#d2d2d2] disabled:!text-white transition-visibility ${
+              status === "stopped" || status === "idle"
+                ? "visible z-50"
+                : "invisible z-0"
+            }`}
+            onClick={handeStartRecording}>
+            <span>{mediaBlobUrl ? "Retake" : "Start"}</span>{" "}
+            <span>Recording</span>
+            <BsCameraVideoFill className="text-[#d30222] transition-all duration-500 group-hover:text-white group-disabled:text-white" />
+          </button>
           {status === "stopped" ? (
             <div className="relative aspect-[1.75/1] md:aspect-video overflow-hidden">
               <video

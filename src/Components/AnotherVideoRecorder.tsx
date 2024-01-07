@@ -88,8 +88,8 @@ const AnotherVideoRecorder = ({
         const videoConstraints = {
           audio: false,
           video: {
-            width: 1920,
-            height: 1080,
+            // width: 1920,
+            // height: 1080,
             aspectRatio: 1.777777778,
             frameRate: 25,
             facingMode: { exact: "user" }
@@ -133,7 +133,10 @@ const AnotherVideoRecorder = ({
               ) {
                 // Camera not found or not available
                 setCameraPermission("Camera Unavailable");
-              } else if (e.name === "NotReadableError" || "Device In Use") {
+              } else if (
+                e.name === "NotReadableError" ||
+                e.name === "Device In Use"
+              ) {
                 setCameraPermission("Camera In Use");
                 setCameraErrorMessage(
                   "It seems another device or application is using your camera. Please inspect your camera and refresh the page."
@@ -144,14 +147,14 @@ const AnotherVideoRecorder = ({
               }
               console.log("error is here");
               setCameraErrorMessage(
-                "It seems there are problems with your camera. Please inspect your camera settings and refresh the page."
+                "It seems there is a problem with your camera. Please inspect your camera settings and refresh the page."
               );
               setShowCameraError(true);
             });
         } else {
           setCameraPermission("Camera Error");
           setCameraErrorMessage(
-            "It seems there are problems with your camera. Please inspect your camera settings and refresh the page."
+            "It seems there is a problem with your camera. Please inspect your camera settings and refresh the page."
           );
           setShowCameraError(true);
           console.log("Here instead!");
@@ -360,41 +363,43 @@ const AnotherVideoRecorder = ({
           </div>
         )}
         <div>
-          {recordingStatus === "Recording" ? (
-            <button
-              disabled={showCountDown || isUploading}
-              className="absolute bottom-4 z-50 left-0 right-0 mx-auto rounded-md px-2 py-1.5 bg-[#d30222] w-fit text-white flex items-center gap-2"
-              onClick={handleStopCaptureClick}>
-              <span>Stop Recording</span>
-              <span>
-                <BsFillStopFill className="text-custom-blue" />
-              </span>
-            </button>
-          ) : null}
-          {recordingStatus === "Camera Idle" ||
-          recordingStatus === "Showing Replay" ||
-          recordedVideo ? (
-            <button
-              disabled={showCountDown || isUploading || showCameraError}
-              className="absolute bottom-4 z-50 left-0 right-0 mx-auto rounded-md px-2 py-1.5 bg-custom-blue w-fit text-white flex items-center gap-2 transition-all duration-500 hover:backdrop-blur-[5rem] hover:bg-[#202020] group disabled:hover:bg-[#d2d2d2] disabled:hover:!text-white disabled:bg-[#d2d2d2] disabled:!text-white"
-              onClick={() => {
-                recordedVideo
-                  ? handleStartToRetakeRecording()
-                  : handleStartRecording();
-              }}>
-              <span>{recordedVideo ? "Retake" : "Start"} Recording</span>
-              <span>
-                <BsCameraVideoFill className="text-[#d30222] transition-all duration-500 group-hover:text-white group-disabled:text-white" />
-              </span>
-            </button>
-          ) : null}
-          {!permission && (
-            <button
-              className="absolute bottom-4 z-50 left-0 right-0 mx-auto rounded-md px-2 py-1.5 bg-custom-blue w-fit text-white flex items-center gap-2 transition-all duration-500 hover:backdrop-blur-[5rem] hover:bg-[#202020] group disabled:hover:bg-[#d2d2d2] disabled:hover:!text-white disabled:bg-[#d2d2d2] disabled:!text-white"
-              onClick={getCameraPermission}>
-              Get Permission
-            </button>
-          )}
+          <button
+            disabled={showCountDown || isUploading}
+            className={`absolute bottom-4 left-0 right-0 mx-auto rounded-md px-2 py-1.5 bg-[#d30222] w-fit text-white flex items-center gap-2 transition-visibility ${
+              recordingStatus === "Recording" ? "visible z-50" : "invisible z-0"
+            } `}
+            onClick={handleStopCaptureClick}>
+            <span>Stop Recording</span>
+            <span>
+              <BsFillStopFill className="text-custom-blue" />
+            </span>
+          </button>
+          <button
+            disabled={showCountDown || isUploading || showCameraError}
+            className={`absolute bottom-4 left-0 right-0 mx-auto rounded-md px-2 py-1.5 bg-custom-blue w-fit text-white flex items-center gap-2 transition-all duration-500 hover:backdrop-blur-[5rem] hover:bg-[#202020] group disabled:hover:bg-[#d2d2d2] disabled:hover:!text-white disabled:bg-[#d2d2d2] disabled:!text-white transition-visibility ${
+              recordingStatus === "Camera Idle" ||
+              recordingStatus === "Showing Replay" ||
+              recordedVideo
+                ? "visible z-50"
+                : "invisible z-0"
+            }`}
+            onClick={() => {
+              recordedVideo
+                ? handleStartToRetakeRecording()
+                : handleStartRecording();
+            }}>
+            <span>{recordedVideo ? "Retake" : "Start"} Recording</span>
+            <span>
+              <BsCameraVideoFill className="text-[#d30222] transition-all duration-500 group-hover:text-white group-disabled:text-white" />
+            </span>
+          </button>
+          <button
+            className={`absolute bottom-4 z-50 left-0 right-0 mx-auto rounded-md px-2 py-1.5 bg-custom-blue w-fit text-white flex items-center gap-2 transition-all duration-500 hover:backdrop-blur-[5rem] hover:bg-[#202020] group disabled:hover:bg-[#d2d2d2] disabled:hover:!text-white disabled:bg-[#d2d2d2] disabled:!text-white transition-visibility ${
+              !permission ? "visible z-50" : "invisible z-0"
+            }`}
+            onClick={getCameraPermission}>
+            Get Permission
+          </button>
         </div>
 
         <div className="relative aspect-[1.75/1] md:aspect-video overflow-hidden">
@@ -426,19 +431,25 @@ const AnotherVideoRecorder = ({
         </div>
       </div>
       <div className="text-center mt-3">
-        <p className="text-[#959595] capitalize">Status: {recordingStatus}</p>
+        <p className="text-[#959595] capitalize">
+          <span>Status: </span>
+          <span>{recordingStatus}</span>
+        </p>
       </div>
       <div className="flex justify-center mt-4">
         <button
           type="button"
           disabled={isUploading || questions?.length === 0 || showCameraError}
           onClick={uploadVideo}
-          className={`shadow-custom-stuff flex gap-2 items-center justify-center px-3 py-1.5 rounded-md font-semibold text-lg bg-custom-blue text-white active:bg-[#d2d2d2] active:text-black md:hover:text-black  md:hover:bg-[#d2d2d2] transition-all duration-300 w-fit h-[40px] disabled:bg-[#d2d2d2]`}>
+          className={`shadow-custom-stuff flex gap-2 items-center justify-center px-3 py-1.5 rounded-md font-semibold text-lg bg-custom-blue text-white active:bg-[#d2d2d2] active:text-black md:hover:text-black  md:hover:bg-[#d2d2d2] transition-all duration-300 w-[136px] h-[40px] disabled:bg-[#d2d2d2]`}>
           {isUploading ? (
             <MoonLoader color="#000" size={20} />
           ) : (
             <>
-              Submit <RiUploadCloudFill />
+              <span>Submit</span>{" "}
+              <span>
+                <RiUploadCloudFill />
+              </span>
             </>
           )}
         </button>

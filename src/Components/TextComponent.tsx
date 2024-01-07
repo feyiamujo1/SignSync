@@ -67,10 +67,36 @@ const TextComponent = ({
         classroom requires sign language translation.
       </p>
       {loadingNextPage ? (
-        <div className=" aspect-video flex flex-col items-center justify-center shadow-custom-stuff rounded-md">
-          <MoonLoader color="#000" size={30} />
-          <p>Loading text ...</p>
-        </div>
+        <Swiper
+          ref={textSliderRef}
+          grabCursor={false}
+          allowTouchMove={false}
+          pagination={{
+            type: "progressbar"
+          }}
+          effect={"creative"}
+          creativeEffect={{
+            prev: {
+              shadow: true,
+              translate: [0, 0, -400]
+            },
+            next: {
+              translate: ["100%", 0, 0]
+            }
+          }}
+          modules={[Pagination, EffectCreative]}
+          onBeforeInit={swiper => {
+            textSliderRef.current = swiper;
+          }}
+          className=" aspect-video shadow-custom-stuff rounded-md box-border">
+          <SwiperSlide className=" bg-white flex justify-center items-center h-full w-full rounded-md">
+            <div className=" w-full h-full flex flex-col items-center justify-center shadow-custom-stuff rounded-md text-center">
+              <MoonLoader color="#000" size={30} />
+              <p>Loading text ...</p>
+            </div>
+            <div className=" aspect-video flex flex-col items-center justify-center shadow-custom-stuff rounded-md"></div>
+          </SwiperSlide>
+        </Swiper>
       ) : (
         <div className=" aspect-video">
           <Swiper
@@ -105,7 +131,7 @@ const TextComponent = ({
               </SwiperSlide>
             ) : questions?.length === 0 && error !== "" ? (
               <SwiperSlide className=" bg-white flex justify-center items-center h-full w-full rounded-md">
-                <div className=" w-full h-full flex flex-col items-center justify-center shadow-custom-stuff rounded-md">
+                <div className=" w-full h-full flex flex-col items-center text-center justify-center shadow-custom-stuff rounded-md">
                   <p className="text-[#959595]custom-blue">{error}</p>
                 </div>
               </SwiperSlide>

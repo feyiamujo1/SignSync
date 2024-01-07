@@ -170,6 +170,12 @@ body {
   background-color: transparent !important;
   box-shadow: none !important;
 }
+.VIpgJd-ZVi9od-aZ2wEe-wOHMyf-ti6hGc{
+  display: none;
+}
+.transition-visibility{
+  transition: visibility 0s !important;
+}
 /* Firefox */
 @media (prefers-color-scheme: dark) {
   :root {

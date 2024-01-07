@@ -22,18 +22,26 @@ const CameraErrorPopUp = ({
   //     facingMode: { exact: "user" }
   //   }
   // };
+  const VidConstraint =
+    window.innerWidth > 1024
+      ? {
+          aspectRatio: 1.777777778,
+          frameRate: 25,
+          facingMode: { exact: "user" }
+        }
+      : {
+          width: 1920,
+          height: 1080,
+          aspectRatio: 1.777777778,
+          frameRate: 25,
+          facingMode: { exact: "user" }
+        };
   const getCameraPermission = async () => {
     if ("MediaRecorder" in window) {
       try {
         const videoConstraints = {
           audio: false,
-          video: {
-            width: 1920,
-            height: 1080,
-            aspectRatio: 1.777777778,
-            frameRate: 25,
-            facingMode: { exact: "user" }
-          }
+          video: VidConstraint
         };
         if (navigator && navigator.mediaDevices) {
           await navigator.mediaDevices
@@ -54,7 +62,10 @@ const CameraErrorPopUp = ({
               ) {
                 // Camera not found or not available
                 setCameraPermission("Camera Unavailable");
-              } else if (e.name === "NotReadableError" || "Device In Use") {
+              } else if (
+                e.name === "NotReadableError" ||
+                e.name === "Device In Use"
+              ) {
                 setCameraPermission("Camera Used By Another App");
                 setCameraErrorMessage(
                   "It seems another device or application is using your camera. Please inspect your camera and refresh the page."
@@ -136,13 +147,16 @@ const CameraErrorPopUp = ({
             </p>
             {/* <p className="text-sm text-[#959595]">Click button bellow to request Permission</p> */}
           </div>
-          {cameraPermission !== "Camera In Use" || "Camera Access Denied" && <div className="flex justify-end items-center font-medium">
-            <button
-              onClick={getCameraPermission}
-              className="px-4 md:px-6 py-2 flex items-center gap-0.5 rounded-md text-white bg-custom-blue md:hover:bg-[#d2d2d2] md:hover:text-black active:bg-[#d2d2d2] active:text-black transition-all duration-300 ">
-              Request
-            </button>
-          </div>}
+          {cameraPermission !== "Camera In Use" ||
+            ("Camera Access Denied" && (
+              <div className="flex justify-end items-center font-medium">
+                <button
+                  onClick={getCameraPermission}
+                  className="px-4 md:px-6 py-2 flex items-center gap-0.5 rounded-md text-white bg-custom-blue md:hover:bg-[#d2d2d2] md:hover:text-black active:bg-[#d2d2d2] active:text-black transition-all duration-300 ">
+                  Request
+                </button>
+              </div>
+            ))}
         </div>
       </div>
       <div>
