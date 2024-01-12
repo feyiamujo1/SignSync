@@ -18,7 +18,7 @@ const CameraErrorPopUp = ({
   //   video: {
   //     width: { min: 640, ideal: 1920, max: 1920 },
   //     height: { min: 400, ideal: 1080 },
-  //     frameRate: 25,
+  //     frameRate: 24,
   //     facingMode: { exact: "user" }
   //   }
   // };
@@ -26,16 +26,10 @@ const CameraErrorPopUp = ({
     window.innerWidth > 1024
       ? {
           aspectRatio: 1.777777778,
-          frameRate: 25,
+          frameRate: 24,
           facingMode: { exact: "user" }
         }
-      : {
-          width: 1920,
-          height: 1080,
-          aspectRatio: 1.777777778,
-          frameRate: 25,
-          facingMode: { exact: "user" }
-        };
+      : true
   const getCameraPermission = async () => {
     if ("MediaRecorder" in window) {
       try {
@@ -90,7 +84,7 @@ const CameraErrorPopUp = ({
         }
       } catch (err: any) {
         alert(err.message);
-        console.log(err.name);
+        console.log(err);
       }
     } else {
       alert("The MediaRecorder API is not supported in your browser.");

@@ -80,6 +80,25 @@ const AnotherVideoRecorder = ({
   const mainTimeoutRef = useRef<number | null>(null);
   const [generatedVideoFile, setGeneratedVideoFile] = useState<File | null>();
 
+  // function mimetypeAssigner() {
+  //   if ((navigator.userAgent.indexOf("Opera") || navigator.userAgent.indexOf('OPR')) != -1) {
+  //     alert('Opera');
+  //   } else if (navigator.userAgent.indexOf("Edg") != -1) {
+  //     alert('Edge');
+  //   } else if (navigator.userAgent.indexOf("Chrome") != -1) {
+  //     alert('Chrome');
+  //   } else if (navigator.userAgent.indexOf("Safari") != -1) {
+  //     alert('Safari');
+  //   } else if (navigator.userAgent.indexOf("Firefox") != -1) {
+  //     alert('Firefox');
+  //   } else if ((navigator.userAgent.indexOf("MSIE") != -1) || (!!document.documentMode == true)) //IF IE > 10
+  //   {
+  //     alert('IE');
+  //   } else {
+  //     alert('unknown');
+  //   }
+  // }
+
   const getCameraPermission = async () => {
     setRecordedVideo(null);
     //get video permission and then stream the result media stream to the videoSrc variable
@@ -87,13 +106,7 @@ const AnotherVideoRecorder = ({
       try {
         const videoConstraints = {
           audio: false,
-          video: {
-            // width: 1920,
-            // height: 1080,
-            aspectRatio: 1.777777778,
-            frameRate: 25,
-            facingMode: { exact: "user" }
-          }
+          video: true
         };
         if (navigator && navigator.mediaDevices) {
           await navigator.mediaDevices
@@ -161,7 +174,7 @@ const AnotherVideoRecorder = ({
         }
       } catch (err: any) {
         alert(err.message);
-        console.log(err.name);
+        console.log(err);
       }
     } else {
       alert("The MediaRecorder API is not supported in your browser.");
