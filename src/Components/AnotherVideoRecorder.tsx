@@ -5,7 +5,7 @@ import { MoonLoader } from "react-spinners";
 import { toast } from "react-toastify";
 import Timer from "./Timer";
 import { BsCameraVideoFill, BsFillStopFill } from "react-icons/bs";
-const mimeType = 'video/webm; codecs="opus,vp8"';
+// const mimeType = 'video/webm; codecs="opus,vp8"';
 
 // Custom styling for error toasts
 const errorToastStyle = {
@@ -79,25 +79,6 @@ const AnotherVideoRecorder = ({
   const miniTimeoutRef = useRef<number | null>(null);
   const mainTimeoutRef = useRef<number | null>(null);
   const [generatedVideoFile, setGeneratedVideoFile] = useState<File | null>();
-
-  // function mimetypeAssigner() {
-  //   if ((navigator.userAgent.indexOf("Opera") || navigator.userAgent.indexOf('OPR')) != -1) {
-  //     alert('Opera');
-  //   } else if (navigator.userAgent.indexOf("Edg") != -1) {
-  //     alert('Edge');
-  //   } else if (navigator.userAgent.indexOf("Chrome") != -1) {
-  //     alert('Chrome');
-  //   } else if (navigator.userAgent.indexOf("Safari") != -1) {
-  //     alert('Safari');
-  //   } else if (navigator.userAgent.indexOf("Firefox") != -1) {
-  //     alert('Firefox');
-  //   } else if ((navigator.userAgent.indexOf("MSIE") != -1) || (!!document.documentMode == true)) //IF IE > 10
-  //   {
-  //     alert('IE');
-  //   } else {
-  //     alert('unknown');
-  //   }
-  // }
 
   const getCameraPermission = async () => {
     setRecordedVideo(null);
@@ -238,7 +219,7 @@ const AnotherVideoRecorder = ({
   };
 
   const startRecording = () => {
-    const media = new MediaRecorder(stream!, { mimeType });
+    const media = new MediaRecorder(stream!);
     mediaRecorder.current = media;
     const localVideoChunks: any[] = [];
 
@@ -249,7 +230,7 @@ const AnotherVideoRecorder = ({
     };
 
     mediaRecorder.current.onstop = () => {
-      const videoBlob = new Blob(localVideoChunks, { type: mimeType });
+      const videoBlob = new Blob(localVideoChunks);
       const videoUrl = URL.createObjectURL(videoBlob);
       setRecordedVideo(videoUrl);
       generateVideoFile(videoUrl);

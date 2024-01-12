@@ -29,7 +29,7 @@ const CameraErrorPopUp = ({
           frameRate: 24,
           facingMode: { exact: "user" }
         }
-      : true
+      : true;
   const getCameraPermission = async () => {
     if ("MediaRecorder" in window) {
       try {
@@ -141,8 +141,8 @@ const CameraErrorPopUp = ({
             </p>
             {/* <p className="text-sm text-[#959595]">Click button bellow to request Permission</p> */}
           </div>
-          {cameraPermission !== "Camera In Use" ||
-            ("Camera Access Denied" && (
+          {cameraPermission !== "Camera Access Denied" &&
+            cameraPermission !== "Camera In Use" && (
               <div className="flex justify-end items-center font-medium">
                 <button
                   onClick={getCameraPermission}
@@ -150,11 +150,8 @@ const CameraErrorPopUp = ({
                   Request
                 </button>
               </div>
-            ))}
+            )}
         </div>
-      </div>
-      <div>
-        <button></button>
       </div>
     </div>
   );
