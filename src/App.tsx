@@ -32,8 +32,7 @@ function App() {
       />
       {/* <div className="relative"> */}
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/translate-text" element={<Video />} />
+        {/* Auth pages  */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -46,6 +45,10 @@ function App() {
           path="/verification-link-expired"
           element={<LinkExpiredPage />}
         />
+
+        {/* User's Pages  */}
+        <Route path="/" element={<Home />} />
+        <Route path="/translate-text" element={<Video />} />
         <Route path="/contribute-text" element={<ContributeText />} />
         <Route element={<ProtectedRoutes />}>
           <Route path="/admin/*" element={<Dashboard />} />

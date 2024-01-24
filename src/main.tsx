@@ -2,8 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import { BrowserRouter } from "react-router-dom";
-import { AuthProvider } from "./context/AuthProvider.tsx";
+import AuthProvider from "react-auth-kit";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { store } from "./utils/store.ts";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -14,12 +15,12 @@ const queryClient = new QueryClient({
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
+    <AuthProvider store={store} >
+      <BrowserRouter>
+        <QueryClientProvider client={queryClient}>
           <App />
-        </AuthProvider>
-      </QueryClientProvider>
-    </BrowserRouter>
+        </QueryClientProvider>
+      </BrowserRouter>
+    </AuthProvider>
   </React.StrictMode>
 );

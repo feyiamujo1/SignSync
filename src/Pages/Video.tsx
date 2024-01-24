@@ -32,7 +32,6 @@ const Video = () => {
       );
       if (response.status === 200) {
         setError("");
-        console.log(response);
         setQuestions(response?.data?.data);
         setIsLoading(false);
         setLoadingNextPage(false);
@@ -49,33 +48,6 @@ const Video = () => {
   useEffect(() => {
     fetchQuestions();
   }, []);
-
-  // useEffect(() => {
-  //   const forceLandscape = () => {
-  //     // if (screen.orientation && screen.orientation.lock) {
-  //     //   // Lock the screen orientation to landscape
-  //     //   screen.orientation.lock('landscape');
-  //     // }
-  //     screen.orientation
-  //       .lock("landscape")
-  //       .then(() => {
-  //         console.log("In landscape");
-  //       })
-  //       .catch((error: any) => {
-  //         console.log(error);
-  //       });
-  //   };
-
-  //   // Call the function to force landscape mode when the component mounts
-  //   forceLandscape();
-
-  //   // Cleanup: Unlock the screen orientation when the component unmounts
-  //   return () => {
-  //     if (screen.orientation && screen.orientation.unlock) {
-  //       screen.orientation.unlock();
-  //     }
-  //   };
-  // }, []);
 
   return (
     <div className="relative w-full overflow-hidden">
@@ -123,13 +95,6 @@ const Video = () => {
                 error={error}
               />
               <div className="border hidden landscape:hidden md:block"></div>
-              {/* <VideoComponent
-                recordedChunks={recordedChunks}
-                setRecordedChunks={setRecordedChunks}
-                uploadVideo={uploadVideo}
-                isUploading={isUploading}
-                questions={questions}
-              /> */}
               {window.innerWidth < 1024 ? (
                 <BackupVideoComponent
                   questions={questions}

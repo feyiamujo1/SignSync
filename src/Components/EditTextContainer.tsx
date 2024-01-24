@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
 import { useNavigate } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
 
@@ -27,8 +28,8 @@ const EditTextContainer = ({
   setNewSentence: Function;
 }) => {
   const navigate = useNavigate();
-  const auth = JSON.parse(sessionStorage.getItem("auth") || "{}");
-  const token = auth.token || "";
+  const authHeader = useAuthHeader();
+  const token = authHeader ? authHeader.slice(7) : ""
 
   const [isUploading, setIsUploading] = useState(false);
 

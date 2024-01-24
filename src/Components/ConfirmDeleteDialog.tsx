@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
 import { useNavigate } from "react-router-dom";
 // import useAuth from "../hooks/UseAuth";
 import { MoonLoader } from "react-spinners";
@@ -27,8 +28,8 @@ const ConfirmDeleteDialog = ({
 }) => {
   const navigate = useNavigate();
   const [isDeleting, setIsDeleting] = useState(false);
-  const auth = JSON.parse(sessionStorage.getItem("auth") || "{}");
-  const token = auth.token || "";
+  const authHeader = useAuthHeader();
+  const token = authHeader ? authHeader.slice(7) : ""
   const deleteSentence = async () => {
     setIsDeleting(true);
     try {

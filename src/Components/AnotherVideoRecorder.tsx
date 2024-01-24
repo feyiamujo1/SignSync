@@ -5,6 +5,7 @@ import { MoonLoader } from "react-spinners";
 import { toast } from "react-toastify";
 import Timer from "./Timer";
 import { BsCameraVideoFill, BsFillStopFill } from "react-icons/bs";
+import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader';
 // const mimeType = 'video/webm; codecs="opus,vp8"';
 
 // Custom styling for error toasts
@@ -58,8 +59,9 @@ const AnotherVideoRecorder = ({
   cameraPermission: string;
   setCameraPermission: Function;
 }) => {
-  const auth = JSON.parse(sessionStorage.getItem("auth") || "{}");
-  const token = auth.token || "";
+
+  const authHeader = useAuthHeader();
+  const token = authHeader ? authHeader.slice(7) : ""
 
   const [permission, setPermission] = useState(false);
 
@@ -359,9 +361,8 @@ const AnotherVideoRecorder = ({
         <div>
           <button
             disabled={showCountDown || isUploading}
-            className={`absolute bottom-4 left-0 right-0 mx-auto rounded-md px-2 py-1.5 bg-[#d30222] w-fit text-white flex items-center gap-2 transition-visibility ${
-              recordingStatus === "Recording" ? "visible z-50" : "invisible z-0"
-            } `}
+            className={`absolute bottom-4 left-0 right-0 mx-auto rounded-md px-2 py-1.5 bg-[#d30222] w-fit text-white flex items-center gap-2 transition-visibility ${recordingStatus === "Recording" ? "visible z-50" : "invisible z-0"
+              } `}
             onClick={handleStopCaptureClick}>
             <span>Stop Recording</span>
             <span>
@@ -370,13 +371,12 @@ const AnotherVideoRecorder = ({
           </button>
           <button
             disabled={showCountDown || isUploading || showCameraError}
-            className={`absolute bottom-4 left-0 right-0 mx-auto rounded-md px-2 py-1.5 bg-custom-blue w-fit text-white flex items-center gap-2 transition-all duration-500 hover:backdrop-blur-[5rem] hover:bg-[#202020] group disabled:hover:bg-[#d2d2d2] disabled:hover:!text-white disabled:bg-[#d2d2d2] disabled:!text-white transition-visibility ${
-              recordingStatus === "Camera Idle" ||
-              recordingStatus === "Showing Replay" ||
-              recordedVideo
+            className={`absolute bottom-4 left-0 right-0 mx-auto rounded-md px-2 py-1.5 bg-custom-blue w-fit text-white flex items-center gap-2 transition-all duration-500 hover:backdrop-blur-[5rem] hover:bg-[#202020] group disabled:hover:bg-[#d2d2d2] disabled:hover:!text-white disabled:bg-[#d2d2d2] disabled:!text-white transition-visibility ${recordingStatus === "Camera Idle" ||
+                recordingStatus === "Showing Replay" ||
+                recordedVideo
                 ? "visible z-50"
                 : "invisible z-0"
-            }`}
+              }`}
             onClick={() => {
               recordedVideo
                 ? handleStartToRetakeRecording()
@@ -388,9 +388,8 @@ const AnotherVideoRecorder = ({
             </span>
           </button>
           <button
-            className={`absolute bottom-4 z-50 left-0 right-0 mx-auto rounded-md px-2 py-1.5 bg-custom-blue w-fit text-white flex items-center gap-2 transition-all duration-500 hover:backdrop-blur-[5rem] hover:bg-[#202020] group disabled:hover:bg-[#d2d2d2] disabled:hover:!text-white disabled:bg-[#d2d2d2] disabled:!text-white transition-visibility ${
-              !permission ? "visible z-50" : "invisible z-0"
-            }`}
+            className={`absolute bottom-4 z-50 left-0 right-0 mx-auto rounded-md px-2 py-1.5 bg-custom-blue w-fit text-white flex items-center gap-2 transition-all duration-500 hover:backdrop-blur-[5rem] hover:bg-[#202020] group disabled:hover:bg-[#d2d2d2] disabled:hover:!text-white disabled:bg-[#d2d2d2] disabled:!text-white transition-visibility ${!permission ? "visible z-50" : "invisible z-0"
+              }`}
             onClick={getCameraPermission}>
             Get Permission
           </button>

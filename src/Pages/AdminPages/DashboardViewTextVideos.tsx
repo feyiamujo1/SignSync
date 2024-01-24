@@ -8,6 +8,7 @@ import VideoContainerComponent from "../../Components/VideoContainerComponent";
 import LoadingPage from "../../Components/LoadingPage";
 import ConfirmDeleteDialog from "../../Components/ConfirmDeleteDialog";
 import VideoPlayerDialog from "../../Components/VideoPlayerDialog";
+import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
 const baseUrl = "https://sign-language-gc07.onrender.com";
 
 // Custom styling for error toasts
@@ -34,9 +35,8 @@ const DashboardViewTextVideos = () => {
   const { sentenceId } = useParams();
   const navigate = useNavigate();
 
-  const authString = sessionStorage.getItem("auth") || "";
-  const auth = authString ? JSON.parse(authString) : null;
-  const token = auth.token || "";
+  const authHeader = useAuthHeader();
+  const token = authHeader ? authHeader.slice(7) : ""
 
   const [textInfo, setTextInfo] = useState<{
     editor: string;

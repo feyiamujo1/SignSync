@@ -19,14 +19,16 @@ import { Input } from "./ui/input";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import useAuth from "../hooks/UseAuth";
+import useSignIn from 'react-auth-kit/hooks/useSignIn';
 
 export default function LoginForm() {
+  const signIn = useSignIn();
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-  const { setAuth } = useAuth();
+  // const { setAuth } = useAuth();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/translate-text";
   const form = useForm<z.infer<typeof LoginFormSchema>>({
@@ -52,16 +54,26 @@ export default function LoginForm() {
 
       if (response?.status === 200) {
         console.log(response.data.detail);
-        const fName = response?.data?.detail?.fName;
-        const role = response?.data?.detail?.role;
-        const token = response?.data?.detail?.token;
+        // const fName = response?.data?.detail?.fName;
+        // const role = response?.data?.detail?.role;
+        // const token = response?.data?.detail?.token;
 
         if (response?.data?.detail?.verified === false) {
           sendVerificationEmail(value.email);
           navigate("/email-verification");
         } else {
-          setAuth({ fName, role, token });
-          sessionStorage.setItem("auth", JSON.stringify({ fName, role, token }));
+          // setAuth({ fName, role, token });
+          // sessionStorage.setItem("auth", JSON.stringify({ fName, role, token }));
+          signIn({
+            auth: {
+              token: response?.data?.detail?.token,
+              type: 'Bearer'
+            },
+            userState: {
+              fName: response?.data?.detail?.fName,
+              role: response?.data?.detail?.role,
+            }
+          })
           navigate("/translate-text");
           navigate(from, { replace: true });
         }

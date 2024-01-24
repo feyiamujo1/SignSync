@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import Timer from "./Timer";
 import { toast } from "react-toastify";
 import axios from "axios";
+import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
 
 // Custom styling for error toasts
 const errorToastStyle = {
@@ -96,8 +97,8 @@ const BackupVideoComponent = ({
   const [generatedVideoFile, setGeneratedVideoFile] = useState<File | null>();
   const [videoPreviewStream, setVideoPreviewStream] =
     useState<MediaStream | null>();
-  const auth = JSON.parse(sessionStorage.getItem("auth") || "{}");
-  const token = auth.token || "";
+  const authHeader = useAuthHeader();
+  const token = authHeader ? authHeader.slice(7) : ""
 
   const { status, startRecording, stopRecording, mediaBlobUrl, clearBlobUrl } =
     useReactMediaRecorder({
@@ -341,9 +342,8 @@ const BackupVideoComponent = ({
         <div>
           <button
             disabled={showCountDown || isUploading}
-            className={`absolute bottom-4 left-0 right-0 mx-auto rounded-md px-2 py-1.5 bg-[#d30222] w-fit text-white flex items-center gap-2 transition-visibility ${
-              status === "recording" ? "visible z-50" : "invisible z-0"
-            }`}
+            className={`absolute bottom-4 left-0 right-0 mx-auto rounded-md px-2 py-1.5 bg-[#d30222] w-fit text-white flex items-center gap-2 transition-visibility ${status === "recording" ? "visible z-50" : "invisible z-0"
+              }`}
             onClick={handleStopCaptureClick}>
             <span>Stop Recording</span>
             <span>
@@ -351,19 +351,17 @@ const BackupVideoComponent = ({
             </span>
           </button>
           <button
-            className={`absolute bottom-4 left-0 right-0 mx-auto rounded-md px-2 py-1.5 bg-custom-blue w-fit text-white flex items-center gap-2 transition-all duration-500 hover:backdrop-blur-[5rem] hover:bg-[#202020] group disabled:hover:bg-[#d2d2d2] disabled:hover:!text-white disabled:bg-[#d2d2d2] disabled:!text-white transition-visibility ${
-              status === "acquiring_media" ? "visible z-50" : "invisible z-0"
-            }`}
+            className={`absolute bottom-4 left-0 right-0 mx-auto rounded-md px-2 py-1.5 bg-custom-blue w-fit text-white flex items-center gap-2 transition-all duration-500 hover:backdrop-blur-[5rem] hover:bg-[#202020] group disabled:hover:bg-[#d2d2d2] disabled:hover:!text-white disabled:bg-[#d2d2d2] disabled:!text-white transition-visibility ${status === "acquiring_media" ? "visible z-50" : "invisible z-0"
+              }`}
             onClick={openCamera}>
             Get Permission
           </button>
           <button
             disabled={showCountDown || isUploading || showCameraError}
-            className={`absolute bottom-4 left-0 right-0 mx-auto rounded-md px-2 py-1.5 bg-custom-blue w-fit text-white flex items-center gap-2 transition-all duration-500 hover:backdrop-blur-[5rem] hover:bg-[#202020] group disabled:hover:bg-[#d2d2d2] disabled:hover:!text-white disabled:bg-[#d2d2d2] disabled:!text-white transition-visibility ${
-              status === "stopped" || status === "idle"
+            className={`absolute bottom-4 left-0 right-0 mx-auto rounded-md px-2 py-1.5 bg-custom-blue w-fit text-white flex items-center gap-2 transition-all duration-500 hover:backdrop-blur-[5rem] hover:bg-[#202020] group disabled:hover:bg-[#d2d2d2] disabled:hover:!text-white disabled:bg-[#d2d2d2] disabled:!text-white transition-visibility ${status === "stopped" || status === "idle"
                 ? "visible z-50"
                 : "invisible z-0"
-            }`}
+              }`}
             onClick={handeStartRecording}>
             <span>{mediaBlobUrl ? "Retake" : "Start"}</span>{" "}
             <span>Recording</span>

@@ -3,11 +3,14 @@ import { MdArrowDropDown, MdArrowDropUp } from "react-icons/md";
 import { useEffect, useRef, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import GoogleTranslate from "./GoogleTranslate";
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
+import useSignOut from 'react-auth-kit/hooks/useSignOut';
+import { authDataType } from "../utils/types";
+
 
 const Navbar = () => {
-  const authString = sessionStorage.getItem("auth") || "";
-  const auth = authString ? JSON.parse(authString) : null;
-
+  const auth = useAuthUser<authDataType>();
+  const signOut = useSignOut()
   const userName = auth?.fName || "";
 
   const navigate = useNavigate();
@@ -57,7 +60,7 @@ const Navbar = () => {
   }, []);
 
   const logout = () => {
-    sessionStorage.setItem("auth", JSON.stringify({}));
+    signOut();
     navigate("/login");
   };
 
