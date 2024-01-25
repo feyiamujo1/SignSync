@@ -19,7 +19,7 @@ import { Input } from "./ui/input";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import useSignIn from 'react-auth-kit/hooks/useSignIn';
+import { useSignIn } from "react-auth-kit";
 
 export default function LoginForm() {
   const signIn = useSignIn();
@@ -30,7 +30,7 @@ export default function LoginForm() {
   const navigate = useNavigate();
   // const { setAuth } = useAuth();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/translate-text";
+  const from = location?.state?.from?.pathname || "/translate-text";
   const form = useForm<z.infer<typeof LoginFormSchema>>({
     resolver: zodResolver(LoginFormSchema)
   });
@@ -65,16 +65,14 @@ export default function LoginForm() {
           // setAuth({ fName, role, token });
           // sessionStorage.setItem("auth", JSON.stringify({ fName, role, token }));
           signIn({
-            auth: {
-              token: response?.data?.detail?.token,
-              type: 'Bearer'
-            },
-            userState: {
+            token: response?.data?.detail?.token,
+            expiresIn: 3600,
+            tokenType: "Bearer",
+            authState: {
               fName: response?.data?.detail?.fName,
               role: response?.data?.detail?.role,
             }
           })
-          navigate("/translate-text");
           navigate(from, { replace: true });
         }
       }

@@ -8,7 +8,7 @@ import VideoContainerComponent from "../../Components/VideoContainerComponent";
 import LoadingPage from "../../Components/LoadingPage";
 import ConfirmDeleteDialog from "../../Components/ConfirmDeleteDialog";
 import VideoPlayerDialog from "../../Components/VideoPlayerDialog";
-import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
+import {useAuthHeader, useSignOut} from "react-auth-kit";
 const baseUrl = "https://sign-language-gc07.onrender.com";
 
 // Custom styling for error toasts
@@ -32,11 +32,13 @@ const successProgressStyle = {
 };
 
 const DashboardViewTextVideos = () => {
+  const signOut = useSignOut();
   const { sentenceId } = useParams();
   const navigate = useNavigate();
 
   const authHeader = useAuthHeader();
-  const token = authHeader ? authHeader.slice(7) : ""
+  const extractedToken = authHeader();
+  const token = extractedToken ? extractedToken.slice(7) : ""
 
   const [textInfo, setTextInfo] = useState<{
     editor: string;
@@ -90,7 +92,7 @@ const DashboardViewTextVideos = () => {
       if (error.response.status === 401) {
         showErrorToast("Session Expired!");
         navigate("/login");
-        sessionStorage.setItem("auth", JSON.stringify({}));
+        signOut();
       } else {
         showErrorToast("Error, Try again later");
       }

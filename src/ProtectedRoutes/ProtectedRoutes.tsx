@@ -1,13 +1,12 @@
-import useAuthUser from "react-auth-kit/hooks/useAuthUser";
+import {useAuthUser} from "react-auth-kit";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { authDataType } from "../utils/types";
-// import useAuth from "../../hooks/UseAuth";
 
 const ProtectedRoutes = () => {
   const location = useLocation();
   // const { auth } = useAuth();
-  const auth = useAuthUser<authDataType>();
-  const role = auth?.role || "";
+  const auth = useAuthUser();
+  const userInfo = auth();
+  const role = userInfo?.role || "";
 
   return role === "admin" ? (
     <Outlet />

@@ -5,7 +5,7 @@ import { MoonLoader } from "react-spinners";
 import { toast } from "react-toastify";
 import Timer from "./Timer";
 import { BsCameraVideoFill, BsFillStopFill } from "react-icons/bs";
-import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader';
+import {useAuthHeader} from 'react-auth-kit';
 // const mimeType = 'video/webm; codecs="opus,vp8"';
 
 // Custom styling for error toasts
@@ -59,7 +59,8 @@ const AnotherVideoRecorder = ({
 }) => {
 
   const authHeader = useAuthHeader();
-  const token = authHeader ? authHeader.slice(7) : ""
+  const extractedToken = authHeader();
+  const token = extractedToken ? extractedToken.slice(7) : ""
 
   const [permission, setPermission] = useState(false);
 

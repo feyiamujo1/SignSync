@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { MoonLoader } from "react-spinners";
 import { RiUploadCloudFill } from "react-icons/ri";
-import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
+import {useAuthHeader} from "react-auth-kit";
 
 // Custom styling for error toasts
 const errorToastStyle = {
@@ -31,7 +31,8 @@ const ContributeText = () => {
   const [isUploading, setIsUploading] = useState(false);
 
   const authHeader = useAuthHeader();
-  const token = authHeader ? authHeader.slice(7) : ""
+  const extractedToken = authHeader();
+  const token = extractedToken ? extractedToken.slice(7) : ""
 
   const handleTextChange = (event: any) => {
     const inputText = event.target.value;

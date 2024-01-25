@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
+import {useAuthHeader, useSignOut} from "react-auth-kit";
 import { useNavigate } from "react-router-dom";
 // import useAuth from "../hooks/UseAuth";
 import { MoonLoader } from "react-spinners";
@@ -26,10 +26,12 @@ const ConfirmDeleteDialog = ({
   toggleRefetchItemsNow: boolean;
   mediaType: string;
 }) => {
+  const signOut = useSignOut();
   const navigate = useNavigate();
   const [isDeleting, setIsDeleting] = useState(false);
   const authHeader = useAuthHeader();
-  const token = authHeader ? authHeader.slice(7) : ""
+  const extractedToken = authHeader();
+  const token = extractedToken ? extractedToken.slice(7) : ""
   const deleteSentence = async () => {
     setIsDeleting(true);
     try {
@@ -56,7 +58,7 @@ const ConfirmDeleteDialog = ({
       setMediaId("");
       if (error.response.status === 401) {
         showErrorToast("Session Expired!");
-        sessionStorage.setItem("auth", JSON.stringify({}));
+        signOut();
         navigate("/login");
       } else {
         showErrorToast("Error, Try again later");
@@ -90,7 +92,7 @@ const ConfirmDeleteDialog = ({
       setMediaId("");
       if (error.response.status === 401) {
         showErrorToast("Session Expired!");
-        sessionStorage.setItem("auth", JSON.stringify({}));
+        signOut();
         navigate("/login");
       } else {
         showErrorToast("Error, Try again later");

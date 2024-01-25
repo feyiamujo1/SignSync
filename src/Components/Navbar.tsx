@@ -3,15 +3,14 @@ import { MdArrowDropDown, MdArrowDropUp } from "react-icons/md";
 import { useEffect, useRef, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import GoogleTranslate from "./GoogleTranslate";
-import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
-import useSignOut from 'react-auth-kit/hooks/useSignOut';
-import { authDataType } from "../utils/types";
+import { useAuthUser, useSignOut } from "react-auth-kit";
 
 
 const Navbar = () => {
-  const auth = useAuthUser<authDataType>();
-  const signOut = useSignOut()
-  const userName = auth?.fName || "";
+  const signOut = useSignOut();
+  const auth = useAuthUser();
+  const userInfo = auth();
+  const userName = userInfo?.fName || "";
 
   const navigate = useNavigate();
 
@@ -283,7 +282,7 @@ const Navbar = () => {
                 className={`absolute w-[200px] top-7 right-1 sm:right-0 sm:-left-6 bg-white text-sm p-2 rounded-md shadow-custom-stuff ${
                   showUserDropDown ? "block" : "hidden md:group-hover:block"
                 }`}>
-                {auth?.role === "admin" && (
+                {userInfo?.role === "admin" && (
                   <>
                     <Link to={"/admin/"}>
                       <p className="py-2 px-2 rounded-md active:bg-[#f2f2f2] active:text-black md:hover:text-black  md:hover:bg-[#f2f2f2] transition-all duration-500">

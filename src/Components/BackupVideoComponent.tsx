@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import Timer from "./Timer";
 import { toast } from "react-toastify";
 import axios from "axios";
-import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
+import {useAuthHeader} from "react-auth-kit";
 
 // Custom styling for error toasts
 const errorToastStyle = {
@@ -95,9 +95,10 @@ const BackupVideoComponent = ({
   const [generatedVideoFile, setGeneratedVideoFile] = useState<File | null>();
   const [videoPreviewStream, setVideoPreviewStream] =
     useState<MediaStream | null>();
-  const authHeader = useAuthHeader();
-  const token = authHeader ? authHeader.slice(7) : ""
-
+    const authHeader = useAuthHeader();
+    const extractedToken = authHeader();
+    const token = extractedToken ? extractedToken.slice(7) : ""
+  
   const { status, startRecording, stopRecording, mediaBlobUrl, clearBlobUrl } =
     useReactMediaRecorder({
       video: {

@@ -8,15 +8,16 @@ import Navbar from "../Components/Navbar";
 import BackupVideoComponent from "../Components/BackupVideoComponent";
 import CameraErrorPopUp from "../Components/CameraErrorPopUp";
 import AnotherVideoRecorder from "../Components/AnotherVideoRecorder";
-import useAuthUser from "react-auth-kit/hooks/useAuthUser";
-import { authDataType } from "../utils/types";
-import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
+import { useAuthHeader, useAuthUser } from "react-auth-kit";
 
 const Video = () => {
-  const auth = useAuthUser<authDataType>();
-  const role = auth?.role || "user";
+  const auth: any = useAuthUser();
+  const userInfo = auth();
+  const role = userInfo?.role || "user";
+
   const authHeader = useAuthHeader();
-  const token = authHeader ? authHeader.slice(7) : ""
+  const extractedToken = authHeader();
+  const token = extractedToken ? extractedToken.slice(7) : ""
 
   const [isLoading, setIsLoading] = useState(true);
   const [loadingNextPage, setLoadingNextPage] = useState(false);

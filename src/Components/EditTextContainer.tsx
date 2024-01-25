@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
+import {useAuthHeader, useSignOut} from "react-auth-kit";
 import { useNavigate } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
 
@@ -27,9 +27,11 @@ const EditTextContainer = ({
   newSentence: string;
   setNewSentence: Function;
 }) => {
+  const signOut = useSignOut();
   const navigate = useNavigate();
   const authHeader = useAuthHeader();
-  const token = authHeader ? authHeader.slice(7) : ""
+  const extractedToken = authHeader();
+  const token = extractedToken ? extractedToken.slice(7) : ""
 
   const [isUploading, setIsUploading] = useState(false);
 
@@ -72,7 +74,7 @@ const EditTextContainer = ({
         if (error.response.status === 401){
           showErrorToast("Session Expired!");
           navigate("/login");
-          sessionStorage.setItem('auth', JSON.stringify({}));
+          signOut();
         }else{
           showErrorToast("Error, Try again later");
         }
@@ -114,7 +116,7 @@ const EditTextContainer = ({
         setIsUploading(false);
         if (error.response.status === 401){
           showErrorToast("Session Expired!");
-          sessionStorage.setItem('auth', JSON.stringify({}));
+          signOut();
           navigate("/login");
         }else{
           showErrorToast("Error, Try again later");
