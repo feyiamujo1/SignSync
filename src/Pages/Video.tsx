@@ -8,8 +8,16 @@ import Navbar from "../Components/Navbar";
 import BackupVideoComponent from "../Components/BackupVideoComponent";
 import CameraErrorPopUp from "../Components/CameraErrorPopUp";
 import AnotherVideoRecorder from "../Components/AnotherVideoRecorder";
+import useAuthUser from "react-auth-kit/hooks/useAuthUser";
+import { authDataType } from "../utils/types";
+import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
 
 const Video = () => {
+  const auth = useAuthUser<authDataType>();
+  const role = auth?.role || "user";
+  const authHeader = useAuthHeader();
+  const token = authHeader ? authHeader.slice(7) : ""
+
   const [isLoading, setIsLoading] = useState(true);
   const [loadingNextPage, setLoadingNextPage] = useState(false);
   const [currentQuestionPosition, setCurrentQuestionPosition] = useState(0);
@@ -26,15 +34,23 @@ const Video = () => {
   // const [recordedChunks, setRecordedChunks] = useState<any[]>([]);
 
   const fetchQuestions = async () => {
+    console.log(page)
     try {
       const response = await axios.get(
-        `https://sign-language-gc07.onrender.com/api/main/fetchStrings/user?page=${page}`
+        `https://sign-language-gc07.onrender.com/api/main/fetchStrings/${role}?page=${page}`,
+        {
+          headers: {
+            Authorization: `${token}`,
+            "Content-Type": "application/json"
+          }
+        }
       );
       if (response.status === 200) {
         setError("");
         setQuestions(response?.data?.data);
         setIsLoading(false);
         setLoadingNextPage(false);
+        setPage((prev: number) => prev + 1);
       }
     } catch (error: any) {
       // console.log(error);
@@ -103,7 +119,6 @@ const Video = () => {
                   setIsUploadingStatus={setIsUploadingStatus}
                   currentQuestionPosition={currentQuestionPosition}
                   setLoadingNextPage={setLoadingNextPage}
-                  setPage={setPage}
                   fetchQuestions={fetchQuestions}
                   setCurrentQuestionPosition={setCurrentQuestionPosition}
                   showCameraError={showCameraError}
@@ -120,7 +135,6 @@ const Video = () => {
                   setIsUploadingStatus={setIsUploadingStatus}
                   currentQuestionPosition={currentQuestionPosition}
                   setLoadingNextPage={setLoadingNextPage}
-                  setPage={setPage}
                   fetchQuestions={fetchQuestions}
                   setCurrentQuestionPosition={setCurrentQuestionPosition}
                   showCameraError={showCameraError}

@@ -65,7 +65,6 @@ const BackupVideoComponent = ({
   setIsUploadingStatus,
   currentQuestionPosition,
   setLoadingNextPage,
-  setPage,
   fetchQuestions,
   setCurrentQuestionPosition,
   showCameraError,
@@ -80,7 +79,6 @@ const BackupVideoComponent = ({
   setIsUploadingStatus: Function;
   currentQuestionPosition: number;
   setLoadingNextPage: Function;
-  setPage: Function;
   fetchQuestions: Function;
   setCurrentQuestionPosition: Function;
   showCameraError: boolean;
@@ -239,7 +237,7 @@ const BackupVideoComponent = ({
           });
           if (currentQuestionPosition === questions.length - 1) {
             setLoadingNextPage(true);
-            setPage((prev: number) => prev + 1);
+            
             fetchQuestions();
             setCurrentQuestionPosition(0);
           }
