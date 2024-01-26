@@ -111,6 +111,7 @@ const EditTextContainer = ({
           setIsUploading(false);
           showSuccessToast("Sentence updated successfully");
           setToggleRefetchItemsNow(!toggleRefetchItemsNow);
+          setShowEditTextDialog(false);
         }
       } catch (error: any) {
         setIsUploading(false);
