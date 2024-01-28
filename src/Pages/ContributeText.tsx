@@ -4,7 +4,8 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { MoonLoader } from "react-spinners";
 import { RiUploadCloudFill } from "react-icons/ri";
-import {useAuthHeader} from "react-auth-kit";
+import { useAuthHeader, useSignOut } from "react-auth-kit";
+import { useNavigate } from "react-router-dom";
 
 // Custom styling for error toasts
 const errorToastStyle = {
@@ -27,12 +28,15 @@ const successProgressStyle = {
 };
 
 const ContributeText = () => {
+  const signOut = useSignOut();
   const [newSentence, setNewSentence] = useState("");
   const [isUploading, setIsUploading] = useState(false);
 
   const authHeader = useAuthHeader();
   const extractedToken = authHeader();
   const token = extractedToken ? extractedToken.slice(7) : ""
+
+  const navigate = useNavigate();
 
   const handleTextChange = (event: any) => {
     const inputText = event.target.value;
@@ -81,15 +85,24 @@ const ContributeText = () => {
           setIsUploading(false);
           setNewSentence("");
         }
-      } catch (error) {
-        toast.error("Error, please try again later", {
-          progressStyle: errorProgressStyle,
-          style: errorToastStyle,
-          position: "top-right",
-          autoClose: 3000
-        });
-        setIsUploading(false);
-        console.error(error);
+      } catch (error: any) {
+        if (error.response.status === 401){
+          toast.error("Session Expired!", {
+            progressStyle: errorProgressStyle,
+            style: errorToastStyle,
+            position: "top-right",
+            autoClose: 3000
+          });
+          signOut();
+          navigate("/login");
+        }else{
+          toast.error("Error, please try again later", {
+            progressStyle: errorProgressStyle,
+            style: errorToastStyle,
+            position: "top-right",
+            autoClose: 3000
+          });
+        }
       }
     }
   };
