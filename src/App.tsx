@@ -32,25 +32,26 @@ function App() {
       />
       {/* <div className="relative"> */}
       <Routes>
-        {/* Auth pages  */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/email-verification" element={<EmailVerification />} />
-        <Route
-          path="/verification-successful"
-          element={<VerificationSuccess />}
-        />
-        <Route
-          path="/verification-link-expired"
-          element={<LinkExpiredPage />}
-        />
-
-        {/* User's Pages  */}
-        <Route path="/" element={<Home />} />
-        <Route path="/translate-text" element={<Video />} />
-        <Route path="/contribute-text" element={<ContributeText />} />
         <Route element={<ProtectedRoutes />}>
+          {/* Auth pages  */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/email-verification" element={<EmailVerification />} />
+          <Route
+            path="/verification-successful"
+            element={<VerificationSuccess />}
+          />
+          <Route
+            path="/verification-link-expired"
+            element={<LinkExpiredPage />}
+          />
+
+          {/* User's Pages  */}
+          <Route path="/" element={<Home />} />
+          <Route path="/translate-text" element={<Video />} />
+          <Route path="/contribute-text" element={<ContributeText />} />
+
           <Route path="/admin/*" element={<Dashboard />} />
         </Route>
       </Routes>

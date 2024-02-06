@@ -150,31 +150,35 @@ const DashboardHome = () => {
             <TextContainerSkeleton key={item} />
           ))}
         {status === "success" &&
-          data?.pages?.map(page =>
-            page.map((datum: any, id: number) =>
-              page.length === id + 1 ? (
-                <TextContainer
-                  ref={lastCollectionRef}
-                  key={id}
-                  datum={datum}
-                  setSentenceId={setSentenceId}
-                  setShowDeleteDialog={setShowDeleteDialog}
-                  setNewSentence={setNewSentence}
-                  setShowEditTextDialog={setShowEditTextDialog}
-                  setApprovedText={setApprovedText}
-                />
-              ) : (
-                <TextContainer
-                  key={id}
-                  datum={datum}
-                  setSentenceId={setSentenceId}
-                  setShowDeleteDialog={setShowDeleteDialog}
-                  setNewSentence={setNewSentence}
-                  setShowEditTextDialog={setShowEditTextDialog}
-                  setApprovedText={setApprovedText}
-                />
+          data?.pages?.map((page, index) =>
+            page.length === 0 && index === 0 ?
+              <div className="w-full h-[200px] col-span-1 sm:col-span-2 md:col-span-3 flex items-center justify-center">
+                <p className="text-[#ff7c7c] ">No new text available !!!</p>
+              </div> :
+              page.map((datum: any, id: number) =>
+                page.length === id + 1 ? (
+                  <TextContainer
+                    ref={lastCollectionRef}
+                    key={id}
+                    datum={datum}
+                    setSentenceId={setSentenceId}
+                    setShowDeleteDialog={setShowDeleteDialog}
+                    setNewSentence={setNewSentence}
+                    setShowEditTextDialog={setShowEditTextDialog}
+                    setApprovedText={setApprovedText}
+                  />
+                ) : (
+                  <TextContainer
+                    key={id}
+                    datum={datum}
+                    setSentenceId={setSentenceId}
+                    setShowDeleteDialog={setShowDeleteDialog}
+                    setNewSentence={setNewSentence}
+                    setShowEditTextDialog={setShowEditTextDialog}
+                    setApprovedText={setApprovedText}
+                  />
+                )
               )
-            )
           )}
       </div>
       {hasNextPage && (

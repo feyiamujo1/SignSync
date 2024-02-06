@@ -62,11 +62,13 @@ export default function LoginForm() {
           sendVerificationEmail(value.email);
           navigate("/email-verification");
         } else {
-          // setAuth({ fName, role, token });
-          // sessionStorage.setItem("auth", JSON.stringify({ fName, role, token }));
+          // Set the expiration time to one hour from the current time and store in local storage
+          const expirationTimeInSeconds = Math.floor(Date.now() / 1000) + 120;
+          localStorage.setItem('expirationTime', expirationTimeInSeconds.toString());
+
           signIn({
             token: response?.data?.detail?.token,
-            expiresIn: 3600,
+            expiresIn: 120,
             tokenType: "Bearer",
             authState: {
               fName: response?.data?.detail?.fName,

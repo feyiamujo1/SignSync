@@ -60,6 +60,7 @@ const Navbar = () => {
 
   const logout = () => {
     signOut();
+    localStorage.removeItem("expirationTime");
     navigate("/login");
   };
 
