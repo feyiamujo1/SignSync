@@ -63,7 +63,7 @@ export default function LoginForm() {
           navigate("/email-verification");
         } else {
           // Set the expiration time to one hour from the current time and store in local storage
-          const expirationTimeInSeconds = Math.floor(Date.now() / 1000) + 120;
+          const expirationTimeInSeconds = Math.floor(Date.now() / 1000) + 10800 ;
           localStorage.setItem('expirationTime', expirationTimeInSeconds.toString());
 
           signIn({
