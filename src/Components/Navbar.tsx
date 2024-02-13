@@ -302,6 +302,12 @@ const Navbar = () => {
                         Verify New Text
                       </p>
                     </Link>
+                    <hr className="my-1.5" />
+                    <Link to={"/admin/review-custom-video"}>
+                      <p className="py-2 px-2 rounded-md active:bg-[#f2f2f2] active:text-black md:hover:text-black  md:hover:bg-[#f2f2f2] transition-all duration-500">
+                        View Custom Uploads
+                      </p>
+                    </Link>
                   </>
                 )}
                 <hr className="my-1.5" />

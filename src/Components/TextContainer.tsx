@@ -68,7 +68,7 @@ const TextContainer = React.forwardRef<
                 Edit Text <AiFillEdit className="text-base mb-0.5" />
               </button>
               <Link
-                to={`/admin/view-video/${datum?._id}/`}
+                to={`/admin/review-new-text/text-submission/${datum?._id}/`}
                 className="p-2 flex items-center gap-0.5 rounded-md text-white bg-custom-blue md:hover:bg-[#d2d2d2] md:hover:text-black active:bg-[#d2d2d2] active:text-black transition-all duration-300 ">
                 View Videos <FaChevronRight className="text-sm" />
               </Link>

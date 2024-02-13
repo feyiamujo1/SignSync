@@ -1,6 +1,6 @@
 import { RiUploadCloudFill } from "react-icons/ri";
 import { MoonLoader } from "react-spinners";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useAuthHeader } from "react-auth-kit";

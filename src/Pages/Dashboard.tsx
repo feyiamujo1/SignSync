@@ -3,6 +3,8 @@ import DashboardHome from "./AdminPages/DashboardHome";
 import DashboardViewTextVideos from "./AdminPages/DashboardViewTextVideos";
 import DashboardReviewText from "./AdminPages/DashboardReviewText";
 import Navbar from "../Components/Navbar";
+import DashboardVideoUpload from "./AdminPages/DashboardVideoUpload";
+import DashboardViewVideoTexts from "./AdminPages/DashboardViewVideoTexts";
 
 const Dashboard = () => {
   return (
@@ -13,12 +15,15 @@ const Dashboard = () => {
           {/* <div className="py-4"> */}
           <div className="w-[90%] mx-auto bg-white pt-24">
             <Routes>
+              {/*  */}
               <Route path="/" element={<DashboardHome />} />
               <Route path="/review-new-text" element={<DashboardReviewText />} />
               <Route
-                path="/view-video/:sentenceId/"
+                path="/review-new-text/text-submission/:sentenceId/"
                 element={<DashboardViewTextVideos />}
               />
+              <Route path="/review-custom-video" element={<DashboardVideoUpload />} />
+              <Route path="/review-custom-video/text-submission/:videoId/" element={<DashboardViewVideoTexts />} />
             </Routes>
           </div>
           {/* </div> */}
