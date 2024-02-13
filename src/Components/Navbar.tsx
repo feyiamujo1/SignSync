@@ -245,6 +245,12 @@ const Navbar = () => {
                 </p>
               </Link>
               <hr className="my-1.5" />
+              <Link to={"/translate-video"}>
+                <p className="py-2 px-2 rounded-md active:bg-[#f2f2f2] active:text-black md:hover:text-black  md:hover:bg-[#f2f2f2] transition-all duration-500">
+                  Translate Video
+                </p>
+              </Link>
+              <hr className="my-1.5" />
               <Link to={"/contribute-text"}>
                 <p className="py-2 px-2 rounded-md active:bg-[#f2f2f2] active:text-black md:hover:text-black  md:hover:bg-[#f2f2f2] transition-all duration-500">
                   Contribute Text

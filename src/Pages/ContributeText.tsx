@@ -150,9 +150,9 @@ const ContributeText = () => {
           <div className="flex justify-center mt-4">
             <button
               type="button"
-              disabled={isUploading}
+              disabled={isUploading || newSentence===""}
               onClick={uploadNewText}
-              className={`shadow-custom-stuff flex gap-2 items-center justify-center px-3 py-1.5 rounded-md font-semibold text-lg bg-custom-blue text-white active:bg-[#d2d2d2] active:text-black md:hover:text-black  md:hover:bg-[#d2d2d2] transition-all duration-300 w-[109px] h-[40px] disabled:bg-[#d2d2d2]`}>
+              className={`shadow-custom-stuff flex gap-2 items-center justify-center px-3 py-1.5 rounded-md font-semibold text-lg bg-custom-blue text-white active:bg-[#d2d2d2] active:text-black md:hover:text-black  md:hover:bg-[#d2d2d2] transition-all duration-300 w-[136px] h-[40px] disabled:bg-[#d2d2d2] disabled:pointer-events-none`}>
               {isUploading ? (
                 <MoonLoader color="#000" size={20} />
               ) : (

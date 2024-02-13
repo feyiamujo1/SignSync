@@ -5,7 +5,7 @@ import { MoonLoader } from "react-spinners";
 import { toast } from "react-toastify";
 import Timer from "./Timer";
 import { BsCameraVideoFill, BsFillStopFill } from "react-icons/bs";
-import {useAuthHeader} from 'react-auth-kit';
+import { useAuthHeader } from 'react-auth-kit';
 // const mimeType = 'video/webm; codecs="opus,vp8"';
 
 // Custom styling for error toasts
@@ -260,9 +260,8 @@ const AnotherVideoRecorder = ({
   const uploadVideo = async () => {
     setIsUploading(true);
     setIsUploadingStatus("");
-    console.log("The generated Video is - ", generatedVideoFile);
-    if (!generatedVideoFile) {
-      toast.error("No video recorded", {
+    console.log("The generated Video is - ", generatedVideoFile); if (token === "") {
+      toast.error("Please login to make contribution", {
         progressStyle: errorProgressStyle,
         style: errorToastStyle,
         position: "top-right",
@@ -271,68 +270,79 @@ const AnotherVideoRecorder = ({
       setIsUploadingStatus("");
       setIsUploading(false);
     } else {
-      console.log(generatedVideoFile);
-      //   const url = URL.createObjectURL(generatedVideoFile);
-      //   const a = document.createElement("a");
-      //   a.href = url;
-      //   a.download = generatedVideoFile.name;
-
-      //   // Append the anchor to the body
-      //   document.body.appendChild(a);
-
-      //   // Trigger a click on the anchor
-      //   a.click();
-
-      //   // Remove the anchor from the body
-      //   document.body.removeChild(a);
-
-      //   // Revoke the URL
-      //   URL.revokeObjectURL(url);
-      try {
-        console.log(questions);
-        console.log(questions[currentQuestionPosition]?._id);
-        const response = await axios.post(
-          `https://sign-language-gc07.onrender.com/api/main/uploadVideo?sentence_id=${questions[currentQuestionPosition]?._id}`,
-          { video_file: generatedVideoFile },
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              Authorization: `${token || ""}`
-            }
-          }
-        );
-        if (response?.status === 200) {
-          // Handle success for each updated number
-          toast.success("Video uploaded Successfully", {
-            position: "top-right",
-            progressStyle: successProgressStyle,
-            style: successToastStyle,
-            autoClose: 3000
-          });
-          if (currentQuestionPosition === questions.length - 1) {
-            setLoadingNextPage(true);
-            fetchQuestions();
-            setCurrentQuestionPosition(0);
-          }
-          console.log("here");
-          // setRecordedChunks([]);
-          setGeneratedVideoFile(null);
-          setIsUploadingStatus("Success");
-          setIsUploading(false);
-          setRecordedVideo(null);
-          setGeneratedVideoFile(null);
-          setRecordingStatus("Camera Idle");
-          //   clearBlobUrl();
-        }
-      } catch (error) {
-        toast.error("Error, please try again later", {
+      if (!generatedVideoFile) {
+        toast.error("No video recorded", {
           progressStyle: errorProgressStyle,
           style: errorToastStyle,
           position: "top-right",
           autoClose: 3000
         });
+        setIsUploadingStatus("");
         setIsUploading(false);
-        console.error(error);
+      } else {
+        console.log(generatedVideoFile);
+        //   const url = URL.createObjectURL(generatedVideoFile);
+        //   const a = document.createElement("a");
+        //   a.href = url;
+        //   a.download = generatedVideoFile.name;
+
+        //   // Append the anchor to the body
+        //   document.body.appendChild(a);
+
+        //   // Trigger a click on the anchor
+        //   a.click();
+
+        //   // Remove the anchor from the body
+        //   document.body.removeChild(a);
+
+        //   // Revoke the URL
+        //   URL.revokeObjectURL(url);
+        try {
+          console.log(questions);
+          console.log(questions[currentQuestionPosition]?._id);
+          const response = await axios.post(
+            `https://sign-language-gc07.onrender.com/api/main/uploadVideo?sentence_id=${questions[currentQuestionPosition]?._id}`,
+            { video_file: generatedVideoFile },
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+                Authorization: `${token || ""}`
+              }
+            }
+          );
+          if (response?.status === 200) {
+            // Handle success for each updated number
+            toast.success("Video uploaded Successfully", {
+              position: "top-right",
+              progressStyle: successProgressStyle,
+              style: successToastStyle,
+              autoClose: 3000
+            });
+            if (currentQuestionPosition === questions.length - 1) {
+              setLoadingNextPage(true);
+              fetchQuestions();
+              setCurrentQuestionPosition(0);
+            }
+            console.log("here");
+            // setRecordedChunks([]);
+            setGeneratedVideoFile(null);
+            setIsUploadingStatus("Success");
+            setIsUploading(false);
+            setRecordedVideo(null);
+            setGeneratedVideoFile(null);
+            setRecordingStatus("Camera Idle");
+            //   clearBlobUrl();
+          }
+        } catch (error) {
+          toast.error("Error, please try again later", {
+            progressStyle: errorProgressStyle,
+            style: errorToastStyle,
+            position: "top-right",
+            autoClose: 3000
+          });
+          setIsUploading(false);
+          console.error(error);
+        }
       }
     }
   };
@@ -370,10 +380,10 @@ const AnotherVideoRecorder = ({
           <button
             disabled={showCountDown || isUploading || showCameraError}
             className={`absolute bottom-4 left-0 right-0 mx-auto rounded-md px-2 py-1.5 bg-custom-blue w-fit text-white flex items-center gap-2 transition-all duration-500 hover:backdrop-blur-[5rem] hover:bg-[#202020] group disabled:hover:bg-[#d2d2d2] disabled:hover:!text-white disabled:bg-[#d2d2d2] disabled:!text-white transition-visibility ${recordingStatus === "Camera Idle" ||
-                recordingStatus === "Showing Replay" ||
-                recordedVideo
-                ? "visible z-50"
-                : "invisible z-0"
+              recordingStatus === "Showing Replay" ||
+              recordedVideo
+              ? "visible z-50"
+              : "invisible z-0"
               }`}
             onClick={() => {
               recordedVideo

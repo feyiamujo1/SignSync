@@ -20,7 +20,7 @@
   fill: white;
 }
 
-.videoRecorder video::-webkit-media-controls {
+/* .videoRecorder video::-webkit-media-controls {
   display: none !important;
 }
 
@@ -48,7 +48,7 @@
 }
 .videoDialog controls {
   display: block !important;
-}
+} */
 
 @media screen and (max-width: 768px) {
   video {

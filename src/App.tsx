@@ -2,7 +2,7 @@ import { ToastContainer } from "react-toastify";
 import "./App.css";
 import Home from "./Pages/Home";
 import { Route, Routes } from "react-router-dom";
-import Video from "./Pages/Video";
+import TranslateText from "./Pages/TranslateText";
 import "react-toastify/dist/ReactToastify.css";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
@@ -13,6 +13,7 @@ import LinkExpiredPage from "./Pages/LinkExpiredPage";
 import ContributeText from "./Pages/ContributeText";
 import ProtectedRoutes from "./ProtectedRoutes/ProtectedRoutes";
 import Dashboard from "./Pages/Dashboard";
+import TranslateVideo from "./Pages/TranslateVideo";
 
 function App() {
   return (
@@ -49,7 +50,8 @@ function App() {
 
           {/* User's Pages  */}
           <Route path="/" element={<Home />} />
-          <Route path="/translate-text" element={<Video />} />
+          <Route path="/translate-text" element={<TranslateText />} />
+          <Route path="/translate-video" element={<TranslateVideo />} />
           <Route path="/contribute-text" element={<ContributeText />} />
 
           <Route path="/admin/*" element={<Dashboard />} />

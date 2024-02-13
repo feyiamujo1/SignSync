@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import Timer from "./Timer";
 import { toast } from "react-toastify";
 import axios from "axios";
-import {useAuthHeader} from "react-auth-kit";
+import { useAuthHeader } from "react-auth-kit";
 
 // Custom styling for error toasts
 const errorToastStyle = {
@@ -95,10 +95,10 @@ const BackupVideoComponent = ({
   const [generatedVideoFile, setGeneratedVideoFile] = useState<File | null>();
   const [videoPreviewStream, setVideoPreviewStream] =
     useState<MediaStream | null>();
-    const authHeader = useAuthHeader();
-    const extractedToken = authHeader();
-    const token = extractedToken ? extractedToken.slice(7) : ""
-  
+  const authHeader = useAuthHeader();
+  const extractedToken = authHeader();
+  const token = extractedToken ? extractedToken.slice(7) : ""
+
   const { status, startRecording, stopRecording, mediaBlobUrl, clearBlobUrl } =
     useReactMediaRecorder({
       video: {
@@ -188,8 +188,8 @@ const BackupVideoComponent = ({
     setIsUploading(true);
     setIsUploadingStatus("");
     console.log("The generated Video is - ", generatedVideoFile);
-    if (!generatedVideoFile) {
-      toast.error("No video recorded", {
+    if (token === "") {
+      toast.error("Please login to make contribution", {
         progressStyle: errorProgressStyle,
         style: errorToastStyle,
         position: "top-right",
@@ -198,66 +198,77 @@ const BackupVideoComponent = ({
       setIsUploadingStatus("");
       setIsUploading(false);
     } else {
-      // console.log(generatedVideoFile);
-      // const url = URL.createObjectURL(generatedVideoFile);
-      // const a = document.createElement("a");
-      // a.href = url;
-      // a.download = generatedVideoFile.name;
-
-      // // Append the anchor to the body
-      // document.body.appendChild(a);
-
-      // // Trigger a click on the anchor
-      // a.click();
-
-      // // Remove the anchor from the body
-      // document.body.removeChild(a);
-
-      // // Revoke the URL
-      // URL.revokeObjectURL(url);
-      try {
-        console.log(questions);
-        console.log(questions[currentQuestionPosition]?._id);
-        const response = await axios.post(
-          `https://sign-language-gc07.onrender.com/api/main/uploadVideo?sentence_id=${questions[currentQuestionPosition]?._id}`,
-          { video_file: generatedVideoFile },
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              Authorization: `${token || ""}`
-            }
-          }
-        );
-        if (response?.status === 200) {
-          // Handle success for each updated number
-          toast.success("Video uploaded Successfully", {
-            position: "top-right",
-            progressStyle: successProgressStyle,
-            style: successToastStyle,
-            autoClose: 3000
-          });
-          if (currentQuestionPosition === questions.length - 1) {
-            setLoadingNextPage(true);
-            
-            fetchQuestions();
-            setCurrentQuestionPosition(0);
-          }
-          console.log("here");
-          // setRecordedChunks([]);
-          setGeneratedVideoFile(null);
-          setIsUploadingStatus("Success");
-          setIsUploading(false);
-          clearBlobUrl();
-        }
-      } catch (error) {
-        toast.error("Error, please try again later", {
+      if (!generatedVideoFile) {
+        toast.error("No video recorded", {
           progressStyle: errorProgressStyle,
           style: errorToastStyle,
           position: "top-right",
           autoClose: 3000
         });
+        setIsUploadingStatus("");
         setIsUploading(false);
-        console.error(error);
+      } else {
+        // console.log(generatedVideoFile);
+        // const url = URL.createObjectURL(generatedVideoFile);
+        // const a = document.createElement("a");
+        // a.href = url;
+        // a.download = generatedVideoFile.name;
+
+        // // Append the anchor to the body
+        // document.body.appendChild(a);
+
+        // // Trigger a click on the anchor
+        // a.click();
+
+        // // Remove the anchor from the body
+        // document.body.removeChild(a);
+
+        // // Revoke the URL
+        // URL.revokeObjectURL(url);
+        try {
+          console.log(questions);
+          console.log(questions[currentQuestionPosition]?._id);
+          const response = await axios.post(
+            `https://sign-language-gc07.onrender.com/api/main/uploadVideo?sentence_id=${questions[currentQuestionPosition]?._id}`,
+            { video_file: generatedVideoFile },
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+                Authorization: `${token || ""}`
+              }
+            }
+          );
+          if (response?.status === 200) {
+            // Handle success for each updated number
+            toast.success("Video uploaded Successfully", {
+              position: "top-right",
+              progressStyle: successProgressStyle,
+              style: successToastStyle,
+              autoClose: 3000
+            });
+            if (currentQuestionPosition === questions.length - 1) {
+              setLoadingNextPage(true);
+
+              fetchQuestions();
+              setCurrentQuestionPosition(0);
+            }
+            console.log("here");
+            // setRecordedChunks([]);
+            setGeneratedVideoFile(null);
+            setIsUploadingStatus("Success");
+            setIsUploading(false);
+            clearBlobUrl();
+          }
+        } catch (error) {
+          toast.error("Error, please try again later", {
+            progressStyle: errorProgressStyle,
+            style: errorToastStyle,
+            position: "top-right",
+            autoClose: 3000
+          });
+          setIsUploading(false);
+          console.error(error);
+        }
       }
     }
   };
@@ -358,8 +369,8 @@ const BackupVideoComponent = ({
           <button
             disabled={showCountDown || isUploading || showCameraError}
             className={`absolute bottom-4 left-0 right-0 mx-auto rounded-md px-2 py-1.5 bg-custom-blue w-fit text-white flex items-center gap-2 transition-all duration-500 hover:backdrop-blur-[5rem] hover:bg-[#202020] group disabled:hover:bg-[#d2d2d2] disabled:hover:!text-white disabled:bg-[#d2d2d2] disabled:!text-white transition-visibility ${status === "stopped" || status === "idle"
-                ? "visible z-50"
-                : "invisible z-0"
+              ? "visible z-50"
+              : "invisible z-0"
               }`}
             onClick={handeStartRecording}>
             <span>{mediaBlobUrl ? "Retake" : "Start"}</span>{" "}
@@ -392,7 +403,7 @@ const BackupVideoComponent = ({
           type="button"
           disabled={isUploading || questions?.length === 0 || showCameraError}
           onClick={uploadVideo}
-          className={`shadow-custom-stuff flex gap-2 items-center justify-center px-3 py-1.5 rounded-md font-semibold text-lg bg-custom-blue text-white active:bg-[#d2d2d2] active:text-black md:hover:text-black  md:hover:bg-[#d2d2d2] transition-all duration-300 w-fit h-[40px] disabled:bg-[#d2d2d2]`}>
+          className={`shadow-custom-stuff flex gap-2 items-center justify-center px-3 py-1.5 rounded-md font-semibold text-lg bg-custom-blue text-white active:bg-[#d2d2d2] active:text-black md:hover:text-black  md:hover:bg-[#d2d2d2] transition-all duration-300 w-[136px] h-[40px] disabled:bg-[#d2d2d2] disabled:pointer-events-none`}>
           {isUploading ? (
             <MoonLoader color="#000" size={20} />
           ) : (

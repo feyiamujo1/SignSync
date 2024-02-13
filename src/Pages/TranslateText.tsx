@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import LoadingPage from "../Components/LoadingPage";
 import axios from "axios";
 
-import TextComponent from "../Components/TextComponent";
+import TextCarouselComponent from "../Components/TextCarouselComponent";
 // import VideoComponent from "../Components/VideoComponent";
 import Navbar from "../Components/Navbar";
 import BackupVideoComponent from "../Components/BackupVideoComponent";
@@ -10,7 +10,7 @@ import CameraErrorPopUp from "../Components/CameraErrorPopUp";
 import AnotherVideoRecorder from "../Components/AnotherVideoRecorder";
 import { useAuthHeader, useAuthUser } from "react-auth-kit";
 
-const Video = () => {
+const TranslateText = () => {
   const auth: any = useAuthUser();
   const userInfo = auth();
   const role = userInfo?.role || "user";
@@ -101,7 +101,7 @@ const Video = () => {
           <Navbar />
           <div className="w-[90%] mx-auto pt-24 pb-20">
             <div className="w-full flex flex-row portrait:flex-col  gap-10">
-              <TextComponent
+              <TextCarouselComponent
                 questions={questions}
                 currentQuestionPosition={currentQuestionPosition}
                 setCurrentQuestionPosition={setCurrentQuestionPosition}
@@ -154,4 +154,4 @@ const Video = () => {
   );
 };
 
-export default Video;
+export default TranslateText;

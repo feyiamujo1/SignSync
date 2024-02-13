@@ -13,7 +13,7 @@ import { useEffect, useRef } from "react";
 import { Pagination, EffectCreative } from "swiper/modules";
 import { MoonLoader } from "react-spinners";
 
-const TextComponent = ({
+const TextCarouselComponent = ({
   questions,
   currentQuestionPosition,
   setCurrentQuestionPosition,
@@ -191,4 +191,4 @@ const TextComponent = ({
   );
 };
 
-export default TextComponent;
+export default TextCarouselComponent;
