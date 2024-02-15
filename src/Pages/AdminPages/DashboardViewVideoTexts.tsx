@@ -64,7 +64,7 @@ const DashboardViewVideoTexts = () => {
 
 
   const fetchVideosText = async (pageParam: number) => {
-    
+
     const pageNumb = pageParam;
     console.log(pageNumb);
     console.log(`${baseUrl}/api/main/videos/fetchTexts?page=${pageNumb}&id=${videoId}`,)
@@ -77,7 +77,7 @@ const DashboardViewVideoTexts = () => {
         }
       }
     );
-    // console.log(response.data?.data);
+    console.log(response.data?.data);
     return response?.data?.data;
   };
 
@@ -112,14 +112,14 @@ const DashboardViewVideoTexts = () => {
     <div>
       {showDeleteDialog && (
         <ConfirmDeleteDialog
-          mediaId={sentenceId}
+          mediaId={`${videoId} ${sentenceId}`}
           setMediaId={setSentenceId}
           setShowDeleteDialog={setShowDeleteDialog}
           showSuccessToast={showSuccessToast}
           showErrorToast={showErrorToast}
           setToggleRefetchItemsNow={setToggleRefetchItemsNow}
           toggleRefetchItemsNow={toggleRefetchItemsNow}
-          mediaType="sentence"
+          mediaType="Custom Video Sentence"
         />
       )}
       {showVideoPlayer && (

@@ -28,7 +28,7 @@ const VideoTextComponent = React.forwardRef<
           <p>{datum?.sentence}</p>
           <button
             onClick={() => {
-              setSentenceId(datum?._id);
+              setSentenceId(datum?.s_id);
               setShowDeleteDialog(true);
             }}
             className="absolute top-2 right-2 bg-white rounded-full p-1.5 md:hover:text-red-500 active:bg-[#d2d2d2] active:text-red-500 transition-all duration-300">

@@ -3,20 +3,21 @@ import { MdTextFields } from "react-icons/md";
 import { Link } from "react-router-dom";
 import React from "react";
 import { FaUserCircle } from "react-icons/fa";
+import { RiDeleteBin6Line } from "react-icons/ri";
 
 const VideoContainer = React.forwardRef<
   HTMLDivElement,
   {
     datum: any;
-    // setVideoId: Function;
-    // setShowDeleteDialog: Function;
+    setVideoId: Function;
+    setShowDeleteDialog: Function;
   }
 >(
   (
     {
       datum,
-    //   setVideoId,
-    //   setShowDeleteDialog,
+      setVideoId,
+      setShowDeleteDialog,
     },
     ref
   ) => {
@@ -26,14 +27,14 @@ const VideoContainer = React.forwardRef<
         className={`rounded-md shadow-custom-stuff p-3.5 relative space-y-4 `}>
         <div className="w-full bg-[#f4f4f4] h-[170px] flex items-center justify-center text-center rounded-sm relative">
           <video className="bg-black w-full h-full " playsInline controls src={datum?.video_url}></video>
-          {/* <button
+          <button
             onClick={() => {
               setVideoId(datum?._id);
-            //   setShowDeleteDialog(true);
+              setShowDeleteDialog(true);
             }}
             className="absolute top-2 right-2 bg-white rounded-full p-1.5 md:hover:text-red-500 active:bg-[#d2d2d2] active:text-red-500 transition-all duration-300">
             <RiDeleteBin6Line className="text-xl" />
-          </button> */}
+          </button>
         </div>
         <hr />
         <div className="space-y-3">

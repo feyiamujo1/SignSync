@@ -9,6 +9,7 @@ import { MoonLoader } from "react-spinners";
 import VideoContainer from "../../Components/VideoContainer";
 import { useAuthHeader } from "react-auth-kit";
 import UploadVideoContainer from "../../Components/UploadVideoContainer";
+import ConfirmDeleteDialog from "../../Components/ConfirmDeleteDialog";
 
 // Custom styling for error toasts
 const errorToastStyle = {
@@ -37,7 +38,7 @@ const DashboardVideoUpload = () => {
 
     // @ts-ignore
   const [videoId, setVideoId] = useState("");
-//   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [showUploadVideoDialog, setShowUploadVideoDialog] = useState(false);
   const [toggleRefetchItemsNow, setToggleRefetchItemsNow] = useState(false);
 
@@ -105,18 +106,18 @@ const DashboardVideoUpload = () => {
 
   return (
     <div className="">
-      {/* {showDeleteDialog && (
+      {showDeleteDialog && (
         <ConfirmDeleteDialog
           mediaId={videoId}
-          setMediaId={setSentenceId}
+          setMediaId={setVideoId}
           setShowDeleteDialog={setShowDeleteDialog}
           showSuccessToast={showSuccessToast}
           showErrorToast={showErrorToast}
           setToggleRefetchItemsNow={setToggleRefetchItemsNow}
           toggleRefetchItemsNow={toggleRefetchItemsNow}
-          mediaType="sentence"
+          mediaType="Custom Video"
         />
-      )} */}
+      )}
       {showUploadVideoDialog && (
         <UploadVideoContainer
           showSuccessToast={showSuccessToast}
@@ -166,16 +167,16 @@ const DashboardVideoUpload = () => {
                     ref={lastCollectionRef}
                     key={id}
                     datum={datum}
-                    // setVideoId={setVideoId}
-                    // setShowDeleteDialog={setShowDeleteDialog}
+                    setVideoId={setVideoId}
+                    setShowDeleteDialog={setShowDeleteDialog}
                     // setNewSentence={setNewSentence}
                   />
                 ) : (
                   <VideoContainer
                     key={id}
                     datum={datum}
-                    // setVideoId={setVideoId}
-                    // setShowDeleteDialog={setShowDeleteDialog}
+                    setVideoId={setVideoId}
+                    setShowDeleteDialog={setShowDeleteDialog}
                     // setNewSentence={setNewSentence}
                   />
                 )

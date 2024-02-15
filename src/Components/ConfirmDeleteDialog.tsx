@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import {useAuthHeader, useSignOut} from "react-auth-kit";
+import { useAuthHeader, useSignOut } from "react-auth-kit";
 import { useNavigate } from "react-router-dom";
 // import useAuth from "../hooks/UseAuth";
 import { MoonLoader } from "react-spinners";
@@ -99,12 +99,82 @@ const ConfirmDeleteDialog = ({
       }
     }
   };
+
+  const deleteCustomVideoSentence = async () => {
+    const [video_id, s_id] = mediaId.split(' ');
+
+    setIsDeleting(true);
+    try {
+      const response = await axios.delete(
+        `${baseUrl}/api/main/videos/deleteVideo?id=${video_id}&s_id=${s_id}`,
+        {
+          headers: {
+            Authorization: `${token}`,
+            "Content-Type": "application/json"
+          }
+        }
+      );
+      if (response.status === 200) {
+        setShowDeleteDialog(false);
+        setIsDeleting(false);
+        setMediaId("");
+        setToggleRefetchItemsNow(!toggleRefetchItemsNow);
+        showSuccessToast("Sentence deleted successfully");
+      }
+    } catch (error: any) {
+      //   setShowDeleteDialog(false);
+      console.log(error);
+      setIsDeleting(false);
+      setMediaId("");
+      if (error.response.status === 401) {
+        showErrorToast("Session Expired!");
+        signOut();
+        navigate("/login");
+      } else {
+        showErrorToast("Error, Try again later");
+      }
+    }
+  };
+
+  const deleteCustomVideo = async () => {
+    setIsDeleting(true);
+    try {
+      const response = await axios.delete(
+        `${baseUrl}/api/main/videos/deleteVideo?id=${mediaId}`,
+        {
+          headers: {
+            Authorization: `${token}`,
+            "Content-Type": "application/json"
+          }
+        }
+      );
+      if (response.status === 200) {
+        setShowDeleteDialog(false);
+        setIsDeleting(false);
+        setMediaId("");
+        setToggleRefetchItemsNow(!toggleRefetchItemsNow);
+        showSuccessToast(`${mediaType} deleted successfully`);
+      }
+    } catch (error: any) {
+      //   setShowDeleteDialog(false);
+      console.log(error);
+      setIsDeleting(false);
+      setMediaId("");
+      if (error.response.status === 401) {
+        showErrorToast("Session Expired!");
+        signOut();
+        navigate("/login");
+      } else {
+        showErrorToast("Error, Try again later");
+      }
+    }
+  };
   return (
     <div className="w-screen h-screen top-0 bottom-0 left-0 right-0 m-auto fixed z-50 bg-transparent-black flex justify-center items-center">
       {!isDeleting ? (
         <div className=" rounded-lg bg-white py-4 w-11/12 sm:w-[400px] space-y-2">
           <div className="flex items-center justify-between px-6">
-            <p className=" font-semibold text-xl">Delete {mediaType}</p>
+            <p className=" font-semibold text-xl">Delete {mediaType === "Custom Video" ? "Video" : mediaType === "Custom Video Sentence" ? "Sentence" : mediaType}</p>
             <button
               onClick={() => {
                 setShowDeleteDialog(false);
@@ -130,7 +200,10 @@ const ConfirmDeleteDialog = ({
               </button>
               <button
                 onClick={() => {
-                  mediaType === "video" ? deleteVideo() : deleteSentence();
+                  mediaType === "video" ? deleteVideo() :
+                    mediaType === "sentence" ? deleteSentence() :
+                      mediaType === "Custom Video" ? deleteCustomVideo() :
+                        mediaType === "Custom Video Sentence" ? deleteCustomVideoSentence() : null
                 }}
                 className="px-4 md:px-6 py-2 flex items-center gap-0.5 rounded-md text-white bg-red-500 md:hover:bg-[#d2d2d2] md:hover:text-black active:bg-[#d2d2d2] active:text-black transition-all duration-300 ">
                 Delete
