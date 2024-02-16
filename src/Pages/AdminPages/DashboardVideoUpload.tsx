@@ -159,7 +159,7 @@ const DashboardVideoUpload = () => {
           data?.pages?.map((page, index) =>
             page.length === 0 && index === 0 ?
               <div className="w-full h-[200px] col-span-1 sm:col-span-2 md:col-span-3 flex items-center justify-center">
-                <p className="text-[#ff7c7c] ">No new videos available !!!</p>
+                <p className="text-[#939393] ">No new videos available !!!</p>
               </div> :
               page.map((datum: any, id: number) =>
                 page.length === id + 1 ? (
