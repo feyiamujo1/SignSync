@@ -10,6 +10,7 @@ import VideoContainer from "../../Components/VideoContainer";
 import { useAuthHeader } from "react-auth-kit";
 import UploadVideoContainer from "../../Components/UploadVideoContainer";
 import ConfirmDeleteDialog from "../../Components/ConfirmDeleteDialog";
+import VideoPlayerDialog from "../../Components/VideoPlayerDialog";
 
 // Custom styling for error toasts
 const errorToastStyle = {
@@ -32,15 +33,17 @@ const successProgressStyle = {
 };
 
 const DashboardVideoUpload = () => {
-    const authHeader = useAuthHeader();
-    const extractedToken = authHeader();
-    const token = extractedToken ? extractedToken.slice(7) : ""
+  const authHeader = useAuthHeader();
+  const extractedToken = authHeader();
+  const token = extractedToken ? extractedToken.slice(7) : "";
 
-    // @ts-ignore
+  // @ts-ignore
   const [videoId, setVideoId] = useState("");
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [showUploadVideoDialog, setShowUploadVideoDialog] = useState(false);
   const [toggleRefetchItemsNow, setToggleRefetchItemsNow] = useState(false);
+  const [videoLink, setVideoLink] = useState("");
+  const [showVideoPlayer, setShowVideoPlayer] = useState(false);
 
   const showSuccessToast = (message: string) => {
     toast.success(message, {
@@ -62,18 +65,18 @@ const DashboardVideoUpload = () => {
 
   const fetchVideos = async (pageParam: number) => {
     const pageNumb = pageParam;
-    console.log(pageNumb)
+    console.log(pageNumb);
     const response = await axios.get(
-        `https://sign-language-gc07.onrender.com/api/main/videos/admin?page=${pageNumb}`,
-        {
-            headers: {
-                Authorization: `${token}`,
-                "Content-Type": "application/json"
-            }
+      `https://sign-language-gc07.onrender.com/api/main/videos/admin?page=${pageNumb}`,
+      {
+        headers: {
+          Authorization: `${token}`,
+          "Content-Type": "application/json"
         }
+      }
     );
-    console.log(response);
-    return response?.data?.detail?.videos;
+    console.log(response?.data?.data?.videos);
+    return response?.data?.data?.videos;
   };
 
   const { fetchNextPage, hasNextPage, isFetchingNextPage, data, status } =
@@ -127,7 +130,13 @@ const DashboardVideoUpload = () => {
           toggleRefetchItemsNow={toggleRefetchItemsNow}
         />
       )}
-
+      {showVideoPlayer && (
+        <VideoPlayerDialog
+          videoLink={videoLink}
+          setVideoLink={setVideoLink}
+          setShowVideoPlayer={setShowVideoPlayer}
+        />
+      )}
       <div className="flex justify-between items-center mb-4 md:mb-6">
         <div>
           <h1 className="font-medium text-2xl font-[Rowdies] ">
@@ -157,10 +166,11 @@ const DashboardVideoUpload = () => {
           ))}
         {status === "success" &&
           data?.pages?.map((page, index) =>
-            page.length === 0 && index === 0 ?
+            page.length === 0 && index === 0 ? (
               <div className="w-full h-[200px] col-span-1 sm:col-span-2 md:col-span-3 flex items-center justify-center">
                 <p className="text-[#939393] ">No new videos available !!!</p>
-              </div> :
+              </div>
+            ) : (
               page.map((datum: any, id: number) =>
                 page.length === id + 1 ? (
                   <VideoContainer
@@ -169,6 +179,8 @@ const DashboardVideoUpload = () => {
                     datum={datum}
                     setVideoId={setVideoId}
                     setShowDeleteDialog={setShowDeleteDialog}
+                    setShowVideoPlayer={setShowVideoPlayer}
+                    setVideoLink={setVideoLink}
                     // setNewSentence={setNewSentence}
                   />
                 ) : (
@@ -177,10 +189,13 @@ const DashboardVideoUpload = () => {
                     datum={datum}
                     setVideoId={setVideoId}
                     setShowDeleteDialog={setShowDeleteDialog}
+                    setShowVideoPlayer={setShowVideoPlayer}
+                    setVideoLink={setVideoLink}
                     // setNewSentence={setNewSentence}
                   />
                 )
               )
+            )
           )}
       </div>
       {hasNextPage && (

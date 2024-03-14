@@ -187,7 +187,7 @@ const ConfirmDeleteDialog = ({
           <hr />
           <div className="px-6 space-y-6">
             <p className="text-[#959595]">
-              Are you sure you want to delete this {mediaType}?
+              Are you sure you want to delete this <span className="lowercase">{mediaType}</span>?
             </p>
             <div className="flex justify-between items-center font-medium">
               <button

@@ -41,7 +41,7 @@ const TranslateVideo = () => {
             );
             if (response.status === 200) {
                 setError("");
-                setVideos(response?.data?.detail?.videos);
+                setVideos(response?.data?.data?.videos);
                 setIsLoading(false);
                 setLoadingNextPage(false);
                 setPage((prev: number) => prev + 1);

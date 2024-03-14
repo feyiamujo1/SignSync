@@ -15,9 +15,9 @@ const ProtectedRoutes = () => {
   const expirationTimeInSeconds = localStorage.getItem('expirationTime');
   const currentTimestampInSeconds = Math.floor(Date.now() / 1000);
 
-  expirationTimeInSeconds && console.log("The token expiration time is - ", new Date(parseInt(expirationTimeInSeconds, 10) * 1000).toLocaleString());
+  // expirationTimeInSeconds && console.log("The token expiration time is - ", new Date(parseInt(expirationTimeInSeconds, 10) * 1000).toLocaleString());
 
-  currentTimestampInSeconds && console.log("The current time stamp is - ", new Date(currentTimestampInSeconds * 1000).toLocaleString());
+  // currentTimestampInSeconds && console.log("The current time stamp is - ", new Date(currentTimestampInSeconds * 1000).toLocaleString());
   if (fName && expirationTimeInSeconds) {
     if (currentTimestampInSeconds > parseInt(expirationTimeInSeconds, 10)) {
       // Token has expired, sign out the user

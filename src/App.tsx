@@ -53,7 +53,7 @@ function App() {
           <Route path="/translate-text" element={<TranslateText />} />
           <Route path="/translate-video" element={<TranslateVideo />} />
           <Route path="/contribute-text" element={<ContributeText />} />
-
+          {/* Admin Pages */}
           <Route path="/admin/*" element={<Dashboard />} />
         </Route>
       </Routes>

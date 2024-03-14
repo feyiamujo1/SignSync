@@ -53,7 +53,7 @@ export default function LoginForm() {
       );
 
       if (response?.status === 200) {
-        console.log(response.data.detail);
+        // console.log(response.data.detail);
         // const fName = response?.data?.detail?.fName;
         // const role = response?.data?.detail?.role;
         // const token = response?.data?.detail?.token;
